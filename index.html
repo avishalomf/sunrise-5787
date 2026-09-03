@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v59 -->
+<!-- גרסת אפליקציה: v60 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -42,7 +42,7 @@ body{
 }
 .greg-date{font-size:11px;color:#998;margin-top:1px;}
 
-/* ── CURRENT CLOCK BOX (מודגש וגדול בצמוד לכותרת) ── */
+/* ── CURRENT CLOCK BOX ── */
 .card-current{
   width:100%;text-align:center;flex-shrink:0;margin:2px 0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -102,28 +102,17 @@ body{
 }
 .attr{font-size:10px;color:#2a2015;position:absolute;bottom:4px;right:12px;}
 
-/* ── CLOCK MODE (Auto-Rotate Fixed View) ── */
+/* ── CLOCK MODE (Full width natural view - No forced rotation bugs) ── */
 .clock-mode{
   display:none;position:fixed;inset:0;
   flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);z-index:100;gap:4px;
-  padding:0;margin:0;
-  width:100vw;height:100dvh;
+  background:var(--bg);z-index:100;gap:8px;
+  width:100vw;height:100dvh;padding:15px;
 }
 .clock-mode.show{display:flex;}
 
-/* כפיית סיבוב חזותי מלא ומושלם על כל רוחב המסך */
-.clock-mode.force-rotate {
-  position: fixed !important;
-  top: 50% !important; left: 50% !important;
-  width: 100dvh !important;
-  height: 100vw !important;
-  transform: translate(-50%, -50%) rotate(90deg) !important;
-  transform-origin: center center !important;
-}
-
-.clock-date{font-size:min(5vw,22px);color:#ccc;margin-top:4px;font-weight:700;text-align:center;}
-.clock-tomorrow{font-size:min(4.5vw,20px);color:#999;margin-top:2px;text-align:center;}
+.clock-date{font-size:min(5vw,24px);color:#ccc;font-weight:700;text-align:center;}
+.clock-tomorrow{font-size:min(4.5vw,22px);color:#999;text-align:center;}
 .clock-tomorrow span{color:var(--gold);}
 
 /* ── BANNER ── */
@@ -174,7 +163,7 @@ body{
   .header,.banner,.color-bar,.dbg{width:100%;}
   .card-current{width:100%;}
   .card-hanetz{width:100%;}
-  .clock-mode{width:100%;}
+  .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(3.5vw,18px);}
   .current-time{font-size:min(8vw,35px);}
   .hanetz-time{font-size:min(7.5vw,38px);}
@@ -188,12 +177,11 @@ body{
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
   
-  <!-- שעה נוכחית מוגדלת בצמוד לכותרת -->
   <div class="card-current" id="cardCurrent">
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v59 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v60 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="banner" id="banner"></div>
@@ -205,13 +193,13 @@ body{
   <div class="attr">לוח צלותיה דאברהם • תשפ״ז</div>
 </div>
 
-<!-- Clock mode -->
+<!-- Clock mode (תצוגת רוחב מלא יציבה ללא בעיות סיבוב) -->
 <div class="clock-mode" id="clockMode">
-  <div id="segCanvas" style="font-size:min(20vw,52vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;padding:0;overflow:hidden;white-space:nowrap;transform:scaleY(1.6);transform-origin:center center;display:block;"></div>
+  <div id="segCanvas" style="font-size:min(18vw,28vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;white-space:nowrap;"></div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="margin-top:6px;opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v59 🔧</div></div>
+  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v60 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -423,7 +411,6 @@ function tick(){
   const tmrMs = tmrStr ? toMsDate(tmrStr, getTomorrow()) : null;
   const oneHrBeforeTmr = tmrMs ? tmrMs - 3600000 : null;
 
-  // תנאי מורחב להצגת שעון ענק במסך מלא תמיד כשעובר חלון הטיימר או בדחק
   const inClockMode = diffSr < MINUS10 && (!oneHrBeforeTmr || t < oneHrBeforeTmr);
 
   document.getElementById('cardCurrent').style.display = inClockMode ? 'none' : '';
@@ -432,11 +419,6 @@ function tick(){
   
   const clockEl = document.getElementById('clockMode');
   clockEl.classList.toggle('show', inClockMode);
-
-  if(inClockMode){
-    const isPortrait = window.innerHeight > window.innerWidth;
-    clockEl.classList.toggle('force-rotate', isPortrait);
-  }
 
   document.getElementById('currentTime').textContent = fmtClock(n);
 

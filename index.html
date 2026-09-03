@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v60 -->
+<!-- גרסת אפליקציה: v61 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -26,29 +26,30 @@ body{
   height:100dvh;overflow:hidden;
   display:flex;flex-direction:column;
   align-items:center;justify-content:space-between;
-  padding:env(safe-area-inset-top,6px) 10px env(safe-area-inset-bottom,6px);
-  gap:4px;
+  padding:2px 10px env(safe-area-inset-bottom,4px);
+  gap:2px;
 }
 
-/* ── HEADER & FULL DATE ── */
+/* ── HEADER & FULL DATE (דחיפה למעלה) ── */
 .header{
   width:100%;text-align:center;
   user-select:none;flex-shrink:0;
+  margin-top:0;
 }
 .heb-date{
-  font-size:min(5vw,20px);font-weight:900;letter-spacing:1px;
+  font-size:min(5vw,19px);font-weight:900;letter-spacing:1px;
   background:linear-gradient(135deg,var(--gold),var(--amber));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.greg-date{font-size:11px;color:#998;margin-top:1px;}
+.greg-date{font-size:10px;color:#998;margin-top:0;}
 
 /* ── CURRENT CLOCK BOX ── */
 .card-current{
-  width:100%;text-align:center;flex-shrink:0;margin:2px 0;
+  width:100%;text-align:center;flex-shrink:0;margin:1px 0;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
 }
 .current-time{
-  font-size:min(11vw,42px);font-weight:900;
+  font-size:min(10vw,38px);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:1px;
   text-shadow:0 0 20px rgba(255,248,232,.15);
@@ -62,10 +63,10 @@ body{
 
 /* ── HANETZ CARD ── */
 .card-hanetz{
-  width:100%;border-radius:18px;
+  width:100%;border-radius:16px;
   background:linear-gradient(145deg,var(--card2),#0e0900);
   border:2px solid var(--border2);
-  padding:10px 14px;flex-grow:1;
+  padding:8px 12px;flex-grow:1;
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   transition:border-color .5s,box-shadow .5s;
@@ -76,19 +77,19 @@ body{
   box-shadow:0 0 50px rgba(255,208,96,.35);
 }
 .hanetz-label{
-  font-size:12px;color:var(--gold);opacity:.85;
-  letter-spacing:2px;margin-bottom:2px;font-weight:800;
+  font-size:11px;color:var(--gold);opacity:.85;
+  letter-spacing:2px;margin-bottom:1px;font-weight:800;
   text-align:center;
 }
 .hanetz-time{
-  font-size:min(16vw,72px);font-weight:900;
+  font-size:min(15vw,66px);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;
   text-shadow:0 0 40px rgba(255,208,96,.5),0 0 12px rgba(255,208,96,.3);
-  margin-bottom:4px;
+  margin-bottom:2px;
 }
 .hanetz-cd{
-  font-size:min(21vw,92px);font-weight:900;
+  font-size:min(20vw,86px);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -100,26 +101,26 @@ body{
   background:linear-gradient(135deg,#ff9090,#ff4040);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.attr{font-size:10px;color:#2a2015;position:absolute;bottom:4px;right:12px;}
+.attr{font-size:9px;color:#2a2015;position:absolute;bottom:2px;right:10px;}
 
-/* ── CLOCK MODE (Full width natural view - No forced rotation bugs) ── */
+/* ── CLOCK MODE (מקסימום גובה ורוחב לספרות השעון בלי חריגה) ── */
 .clock-mode{
   display:none;position:fixed;inset:0;
   flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);z-index:100;gap:8px;
-  width:100vw;height:100dvh;padding:15px;
+  background:var(--bg);z-index:100;gap:2px;
+  width:100vw;height:100dvh;padding:4px 6px;
 }
 .clock-mode.show{display:flex;}
 
-.clock-date{font-size:min(5vw,24px);color:#ccc;font-weight:700;text-align:center;}
-.clock-tomorrow{font-size:min(4.5vw,22px);color:#999;text-align:center;}
+.clock-date{font-size:min(4.5vw,20px);color:#ccc;font-weight:700;text-align:center;}
+.clock-tomorrow{font-size:min(4vw,18px);color:#999;text-align:center;}
 .clock-tomorrow span{color:var(--gold);}
 
 /* ── BANNER ── */
 .banner{
-  display:none;width:100%;border-radius:12px;
-  padding:10px;text-align:center;
-  font-size:16px;font-weight:800;flex-shrink:0;
+  display:none;width:100%;border-radius:10px;
+  padding:8px;text-align:center;
+  font-size:15px;font-weight:800;flex-shrink:0;
 }
 .banner.show{display:block;}
 .banner.red{background:linear-gradient(135deg,#0a0000,#150000);border:2px solid #c03030;color:#ff8080;}
@@ -127,10 +128,10 @@ body{
 /* ── COLOR PICKER ── */
 .color-bar{
   display:flex;gap:8px;justify-content:center;
-  flex-shrink:0;padding:2px 0;
+  flex-shrink:0;padding:1px 0;
 }
 .color-dot{
-  width:20px;height:20px;border-radius:50%;
+  width:18px;height:18px;border-radius:50%;
   cursor:pointer;border:2px solid transparent;
   transition:border-color .2s,transform .2s;
 }
@@ -140,34 +141,34 @@ body{
 .dbg{
   display:none;position:fixed;bottom:0;left:0;right:0;
   background:#0f0a00;border-top:2px solid #aa6600;
-  padding:14px;text-align:center;
+  padding:12px;text-align:center;
   z-index:9999;
 }
 .dbg.open{display:block;}
 .dbg input{
-  font-size:18px;background:#1a1200;color:var(--gold);
+  font-size:16px;background:#1a1200;color:var(--gold);
   border:1px solid #5a4000;border-radius:8px;
-  padding:5px;width:100%;text-align:center;
-  margin-bottom:6px;outline:none;
+  padding:4px;width:100%;text-align:center;
+  margin-bottom:4px;outline:none;
 }
-.dbs{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;}
+.dbs{display:flex;gap:4px;flex-wrap:wrap;justify-content:center;}
 .db{
   background:#1a1000;border:1px solid #5a3800;
   color:#cc9940;border-radius:6px;
-  padding:4px 8px;font-size:11px;cursor:pointer;
+  padding:3px 6px;font-size:10px;cursor:pointer;
 }
 
 /* Landscape */
 @media(orientation:landscape){
-  body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:4px 8px;}
+  body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:2px 6px;}
   .header,.banner,.color-bar,.dbg{width:100%;}
   .card-current{width:100%;}
   .card-hanetz{width:100%;}
   .clock-mode{width:100vw;height:100dvh;}
-  .heb-date{font-size:min(3.5vw,18px);}
-  .current-time{font-size:min(8vw,35px);}
-  .hanetz-time{font-size:min(7.5vw,38px);}
-  .hanetz-cd{font-size:min(9.5vw,50px);}
+  .heb-date{font-size:min(3vw,16px);}
+  .current-time{font-size:min(7vw,32px);}
+  .hanetz-time{font-size:min(7vw,34px);}
+  .hanetz-cd{font-size:min(9vw,46px);}
 }
 </style>
 </head>
@@ -181,7 +182,7 @@ body{
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v60 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v61 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="banner" id="banner"></div>
@@ -193,13 +194,13 @@ body{
   <div class="attr">לוח צלותיה דאברהם • תשפ״ז</div>
 </div>
 
-<!-- Clock mode (תצוגת רוחב מלא יציבה ללא בעיות סיבוב) -->
+<!-- Clock mode (מקסימום גובה ורוחב מותאם) -->
 <div class="clock-mode" id="clockMode">
-  <div id="segCanvas" style="font-size:min(18vw,28vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;white-space:nowrap;"></div>
+  <div id="segCanvas" style="font-size:min(26vw,38vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:0.95;white-space:nowrap;"></div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
-  <div class="color-bar" id="colorBarClock" style="margin-top:6px;opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v60 🔧</div></div>
+  <div class="color-bar" id="colorBarClock" style="margin-top:2px;opacity:0;transition:opacity .3s;"></div>
+  <div style="position:absolute;bottom:4px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v61 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -213,9 +214,9 @@ body{
 </div>
 
 <div class="dbg" id="dbg">
-  <div style="font-size:11px;color:var(--dim);margin-bottom:2px;text-align:right;">בדיקת תאריך (DD/MM/YYYY):</div>
+  <div style="font-size:10px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת תאריך (DD/MM/YYYY):</div>
   <input type="text" id="dtDate" placeholder="DD/MM/YYYY" maxlength="10">
-  <div style="font-size:11px;color:var(--dim);margin-bottom:2px;text-align:right;">בדיקת שעה:</div>
+  <div style="font-size:10px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת שעה:</div>
   <input type="time" id="dtTime" step="1">
   <div class="dbs">
     <button class="db" onclick="sdTime('04:00:00')">04:00</button>

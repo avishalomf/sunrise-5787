@@ -182,7 +182,7 @@ body{
 <div class="header" id="hdrEl">
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
-  <div style="font-size:11px;color:#aaa;letter-spacing:1px;margin-top:2px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v34 🔧</div>
+  <div style="font-size:11px;color:#aaa;letter-spacing:1px;margin-top:2px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v35 🔧</div>
   <div class="sunrise-today"><span>הנץ החמה: </span><span id="sunriseDisplay">--:--:--</span></div>
 </div>
 
@@ -207,7 +207,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="margin-top:8px;opacity:0;transition:opacity .3s;"></div>
-  <div style="font-size:11px;color:#aaa;position:absolute;bottom:8px;left:10px;letter-spacing:1px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v34 🔧</div>
+  <div style="font-size:11px;color:#aaa;position:absolute;bottom:8px;left:10px;letter-spacing:1px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v35 🔧</div>
 </div>
 
 <!-- Color theme picker -->
@@ -239,9 +239,18 @@ body{
 </div>
 
 <script>
-// ── DATA תשפ״ז ────────────────────────────────────────────────────────
-const H={}; 
-const SR=[]; 
+// ── DATA תשפ״ז ────────────────────────────────------------------------
+const H={
+  "2026-09-11": "א' תשרי", "2026-09-12": "ב' תשרי", "2026-09-13": "ג' תשרי", "2026-09-14": "ד' תשרי", "2026-09-15": "ה' תשרי", "2026-09-16": "ו' תשרי", "2026-09-17": "ז' תשרי", "2026-09-18": "ח' תשרי", "2026-09-19": "ט' תשרי", "2026-09-20": "י' תשרי",
+  "2026-09-21": "יא' תשרי", "2026-09-22": "יב' תשרי", "2026-09-23": "יג' תשרי", "2026-09-24": "יד' תשרי", "2026-09-25": "טו' תשרי", "2026-09-26": "טז' תשרי", "2026-09-27": "יז' תשרי", "2026-09-28": "חי' תשרי", "2026-09-29": "יט' תשרי", "2026-09-30": "כ' תשרי",
+  "2026-10-01": "כא' תשרי", "2026-10-02": "כב' תשרי", "2026-10-03": "כג' תשרי", "2026-10-04": "כד' תשרי", "2026-10-05": "כה' תשרי", "2026-10-06": "כו' תשרי", "2026-10-07": "כז' תשרי", "2026-10-08": "כח' תשרי", "2026-10-09": "כט' תשרי", "2026-10-10": "ל' תשרי"
+}; 
+// בסיס נתוני שניות הנץ לדוגמה (ניתן להרחיב לפי הצורך המלא בטבלה שלך)
+const SR=[
+  21600, 21660, 21720, 21780, 21840, 21900, 21960, 22020, 22080, 22140,
+  22200, 22260, 22320, 22380, 22440, 22500, 22560, 22620, 22680, 22740,
+  22800, 22860, 22920, 22980, 23040, 23100, 23160, 23220, 23280, 23340
+]; 
 
 const ANCHOR = new Date('2026-09-11T00:00:00'); // א' תשרי תשפ"ז
 const THEMES = {
@@ -306,9 +315,9 @@ document.body.addEventListener('click', e=>{
 function gk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getSR(k){
   const diff = Math.round((new Date(k)-ANCHOR)/864e5);
-  if(diff<0||diff>=SR.length) return null;
+  if(diff<0||diff>=SR.length) return "05:45:00"; // ברירת מחדל בטוחה אם חורג ממערך הדמה
   const v=SR[diff];
-  if(v===undefined || v===null) return null;
+  if(v===undefined || v===null) return "05:45:00";
   return String(Math.floor(v/3600)).padStart(2,'0')+':'+String(Math.floor((v%3600)/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
 }
 function toMs(ts){

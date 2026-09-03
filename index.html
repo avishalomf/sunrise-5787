@@ -1,3 +1,4 @@
+<!-- גרסת אפליקציה: v40 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -107,12 +108,12 @@ body{
 }
 .clock-mode.show{display:flex;}
 @media(orientation:landscape){
-  .clock-date{font-size:5.2vh!important;}
-  .clock-tomorrow{font-size:4.2vh!important;}
+  .clock-date{font-size:4.5vh!important;}
+  .clock-tomorrow{font-size:4vh!important;}
 }
 
-.clock-date{font-size:min(8.5vw,38px);color:#aaa;margin-top:8px;font-weight:600;}
-.clock-tomorrow{font-size:min(6.8vw,30px);color:#999;margin-top:4px;}
+.clock-date{font-size:min(6vw,26px);color:#ccc;margin-top:6px;font-weight:700;text-align:center;}
+.clock-tomorrow{font-size:min(5.5vw,24px);color:#999;margin-top:2px;text-align:center;}
 .clock-tomorrow span{color:var(--gold);}
 
 /* ── BANNER ── */
@@ -175,7 +176,7 @@ body{
 <div class="header" id="hdrEl">
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
-  <div style="font-size:11px;color:#aaa;letter-spacing:1px;margin-top:2px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v37 🔧</div>
+  <div style="font-size:11px;color:#aaa;letter-spacing:1px;margin-top:2px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v40 🔧</div>
   <div class="sunrise-today"><span>הנץ החמה: </span><span id="sunriseDisplay">--:--:--</span></div>
 </div>
 
@@ -195,11 +196,11 @@ body{
 
 <!-- Clock mode: shown after +10min past sunrise -->
 <div class="clock-mode" id="clockMode">
-  <div id="segCanvas" style="font-size:min(20vw,52vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;padding:0;overflow:hidden;white-space:nowrap;transform:scaleY(1.6);transform-origin:center center;display:block;"></div>
+  <div id="segCanvas" style="font-size:min(18vw,48vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;padding:0;overflow:hidden;white-space:nowrap;transform:scaleY(1.6);transform-origin:center center;display:block;"></div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
-  <div class="color-bar" id="colorBarClock" style="margin-top:8px;opacity:0;transition:opacity .3s;"></div>
-  <div style="font-size:11px;color:#aaa;position:absolute;bottom:8px;left:10px;letter-spacing:1px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v37 🔧</div>
+  <div class="color-bar" id="colorBarClock" style="margin-top:6px;opacity:0;transition:opacity .3s;"></div>
+  <div style="font-size:11px;color:#aaa;position:absolute;bottom:8px;left:10px;letter-spacing:1px;font-family:monospace;cursor:pointer;" onclick="document.getElementById('dbg').classList.toggle('open')">גרסה v40 🔧</div>
 </div>
 
 <!-- Color theme picker -->
@@ -303,6 +304,16 @@ document.body.addEventListener('click', e=>{
   hideTimerMain = setTimeout(()=>{ bar.style.opacity='0'; }, 3000);
 });
 
+let customBaseTime = null;
+
+function now2(){
+  if(customBaseTime !== null){
+    const elapsed = Date.now() - customBaseTime.realWall;
+    return new Date(customBaseTime.simulated + elapsed);
+  }
+  return new Date();
+}
+
 function gk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getSR(k){
   const diff = Math.round((new Date(k+'T00:00:00')-ANCHOR)/864e5);
@@ -336,25 +347,8 @@ function drawSeg(t){
 }
 let lastTime="00:00:00";
 
-let dOff=null;
-let customDate=null;
-
-function now2(){
-  const base = new Date();
-  if(customDate){
-    const d = new Date(customDate + 'T00:00:00');
-    if(dOff!==null){
-      const realNow = new Date();
-      const diffTime = Date.now() - (realNow.setHours(0,0,0,0));
-      d.setTime(d.getTime() + diffTime);
-    }
-    return d;
-  }
-  return dOff!==null?new Date(Date.now()+dOff):new Date();
-}
-
 function initDateInputs(){
-  const n = new Date();
+  const n = now2();
   document.getElementById('dtDate').value = gk(n);
   document.getElementById('dtTime').value = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
 }
@@ -362,7 +356,7 @@ function initDateInputs(){
 function updHeader(){
   const n=now2(), k=gk(n);
   document.getElementById('hebDate').textContent = H[k]||'תשפ״ז';
-  document.getElementById('gregDate').textContent = 'יום '+DAYS[n.getDay()]+' | '+n.getDate()+'.'+(n.getMonth()+1)+'.'+n.getFullYear()+((dOff!==null||customDate!==null)?' 🔧':'');
+  document.getElementById('gregDate').textContent = 'יום '+DAYS[n.getDay()]+' | '+n.getDate()+'.'+(n.getMonth()+1)+'.'+n.getFullYear()+(customBaseTime!==null?' 🔧':'');
   const sr=getSR(k);
   document.getElementById('sunriseDisplay').textContent = sr||'—';
 }
@@ -403,10 +397,14 @@ function tick(){
 
   if(inClockMode){
     lastTime=fmtClock(n); drawSeg(lastTime);
-    document.getElementById('clockDate').textContent = (H[k]||'') + ' | ' + n.getDate()+'.'+(n.getMonth()+1);
+    // תצוגה מלאה גם עברי וגם לועזי במסך השעון הגדול
+    const heb = H[k] || 'תשפ״ז';
+    const greg = 'יום ' + DAYS[n.getDay()] + ' | ' + n.getDate() + '.' + (n.getMonth() + 1) + '.' + n.getFullYear();
+    document.getElementById('clockDate').textContent = heb + ' — ' + greg;
+
     if(tmrStr){
       const remTmr = tmrMs - t;
-      const todayOffset = new Date(now2().getFullYear(), now2().getMonth(), now2().getDate()).getTimezoneOffset();
+      const todayOffset = new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTimezoneOffset();
       const tmrDate = new Date(getTomorrow()+'T12:00:00');
       const tmrOffset = tmrDate.getTimezoneOffset();
       const dstShift = todayOffset - tmrOffset;
@@ -448,7 +446,10 @@ function goFS(){
 document.addEventListener('click',goFS,{once:true});
 
 let pt=null, tapC=0, tapT=null;
-function openDbg(){ document.getElementById('dbg').classList.add('open'); }
+function openDbg(){
+  initDateInputs();
+  document.getElementById('dbg').classList.add('open');
+}
 
 document.addEventListener('touchstart', e=>{
   if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')) return;
@@ -473,14 +474,15 @@ document.addEventListener('click', e=>{
 function applyDebugTimeDate(){
   const dateVal = document.getElementById('dtDate').value;
   const timeVal = document.getElementById('dtTime').value;
-  if(dateVal) customDate = dateVal;
-  if(timeVal){
-    const p=timeVal.split(':').map(Number);
-    const d=new Date((customDate || gk(new Date())) + 'T00:00:00');
-    d.setHours(p[0],p[1],p[2]||0,0);
-    dOff = d.getTime() - Date.now();
-  }
-  updHeader(); tick();
+  if(!dateVal || !timeVal) return;
+  const simDate = new Date(dateVal + 'T' + timeVal);
+  customBaseTime = {
+    simulated: simDate.getTime(),
+    realWall: Date.now()
+  };
+  updHeader(); 
+  tick();
+  wireDbgButtons();
 }
 
 function sdTime(t){
@@ -489,10 +491,11 @@ function sdTime(t){
 }
 
 function resetDebug(){
-  dOff=null;
-  customDate=null;
+  customBaseTime = null;
   initDateInputs();
-  updHeader(); tick();
+  updHeader(); 
+  tick();
+  wireDbgButtons();
 }
 
 document.getElementById('dtDate').addEventListener('change', applyDebugTimeDate);

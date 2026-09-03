@@ -1,3 +1,4 @@
+<!-- גרסת אפליקציה: v59 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -9,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="זריחה">
+<!-- Favicon / Icons -->
 <link rel="icon" type="image/svg+xml" href="iconSun87.svg">
 <link rel="apple-touch-icon" href="iconSun87.svg">
 <style>
@@ -110,14 +112,14 @@ body{
 }
 .clock-mode.show{display:flex;}
 
-/* כפיית סיבוב חזותי אוטומטי במצב שעון ענק */
+/* כפיית סיבוב חזותי מלא ומושלם על כל רוחב המסך */
 .clock-mode.force-rotate {
-  position: fixed;
-  top: 50%; left: 50%;
+  position: fixed !important;
+  top: 50% !important; left: 50% !important;
   width: 100dvh !important;
   height: 100vw !important;
-  transform: translate(-50%, -50%) rotate(90deg);
-  transform-origin: center center;
+  transform: translate(-50%, -50%) rotate(90deg) !important;
+  transform-origin: center center !important;
 }
 
 .clock-date{font-size:min(5vw,22px);color:#ccc;margin-top:4px;font-weight:700;text-align:center;}
@@ -186,11 +188,12 @@ body{
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
   
+  <!-- שעה נוכחית מוגדלת בצמוד לכותרת -->
   <div class="card-current" id="cardCurrent">
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v58 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v59 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="banner" id="banner"></div>
@@ -202,14 +205,16 @@ body{
   <div class="attr">לוח צלותיה דאברהם • תשפ״ז</div>
 </div>
 
+<!-- Clock mode -->
 <div class="clock-mode" id="clockMode">
   <div id="segCanvas" style="font-size:min(20vw,52vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:1;padding:0;overflow:hidden;white-space:nowrap;transform:scaleY(1.6);transform-origin:center center;display:block;"></div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="margin-top:6px;opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v58 🔧</div></div>
+  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v59 🔧</div></div>
 </div>
 
+<!-- Color theme picker -->
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
   <div class="color-dot active" data-theme="gold"    style="background:linear-gradient(135deg,#ffd060,#ff9020)" title="זהב"></div>
   <div class="color-dot"        data-theme="blue"    style="background:linear-gradient(135deg,#60c0ff,#2060ff)" title="כחול"></div>
@@ -418,6 +423,7 @@ function tick(){
   const tmrMs = tmrStr ? toMsDate(tmrStr, getTomorrow()) : null;
   const oneHrBeforeTmr = tmrMs ? tmrMs - 3600000 : null;
 
+  // תנאי מורחב להצגת שעון ענק במסך מלא תמיד כשעובר חלון הטיימר או בדחק
   const inClockMode = diffSr < MINUS10 && (!oneHrBeforeTmr || t < oneHrBeforeTmr);
 
   document.getElementById('cardCurrent').style.display = inClockMode ? 'none' : '';

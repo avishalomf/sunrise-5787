@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>זריחה תשפ״ו</title>
+<title>זריחה תשפ״ז</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#07080f">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -152,7 +152,7 @@ body{
 }
 .dbg.open{display:block;}
 .dbg input{
-  font-size:22px;background:#1a1200;color:var(--gold);
+  font-size:18px;background:#1a1200;color:var(--gold);
   border:1px solid #5a4000;border-radius:8px;
   padding:5px;width:100%;text-align:center;
   margin-bottom:6px;outline:none;
@@ -198,7 +198,7 @@ body{
   <div class="hanetz-label">נץ החמה — תפילת עמידה</div>
   <div class="hanetz-time" id="hanetzTime">--:--:--</div>
   <div class="hanetz-cd" id="hanetzCd">--:--:--</div>
-  <div class="attr">לוח צלותיה דאברהם • תשפ״ו</div>
+  <div class="attr">לוח צלותיה דאברהם • תשפ״ז</div>
 </div>
 
 <!-- Clock mode: shown after +10min past sunrise -->
@@ -221,28 +221,29 @@ body{
 </div>
 
 <div class="dbg" id="dbg">
-  <input type="time" id="dt" step="1" value="05:30:00">
+  <div style="font-size:11px;color:var(--dim);margin-bottom:2px;text-align:right;">בדיקת תאריך:</div>
+  <input type="date" id="dtDate">
+  <div style="font-size:11px;color:var(--dim);margin-bottom:2px;text-align:right;">בדיקת שעה:</div>
+  <input type="time" id="dtTime" step="1" value="05:30:00">
   <div class="dbs">
-    <button class="db" onclick="sd('04:00:00')">04:00</button>
+    <button class="db" onclick="sdTime('04:00:00')">04:00</button>
     <button class="db" id="btnHrBefore">שעה לפני</button>
     <button class="db" id="btnSR">הנץ</button>
     <button class="db" id="btnPlus5">+5 דק׳</button>
     <button class="db" id="btnPlus12">+12 דק׳</button>
-    <button class="db" onclick="sd('14:00:00')">14:00</button>
-    <button class="db" onclick="sd(null)">⟳ אמיתי</button>
+    <button class="db" onclick="sdTime('14:00:00')">14:00</button>
+    <button class="db" onclick="resetDebug()">⟳ אמיתי</button>
     <button class="db" onclick="exitFS()">יציאה ממסך מלא</button>
     <button class="db" onclick="document.getElementById('dbg').classList.remove('open')">סגור</button>
   </div>
 </div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────────────
-const H={"2025-09-23":"א׳ תשרי תשפ״ו","2025-09-24":"ב׳ תשרי תשפ״ו","2025-09-25":"ג׳ תשרי תשפ״ו","2025-09-26":"ד׳ תשרי תשפ״ו","2025-09-27":"ה׳ תשרי תשפ״ו","2025-09-28":"ו׳ תשרי תשפ״ו","2025-09-29":"ז׳ תשרי תשפ״ו","2025-09-30":"ח׳ תשרי תשפ״ו","2025-10-01":"ט׳ תשרי תשפ״ו","2025-10-02":"י׳ תשרי תשפ״ו","2025-10-03":"י״א תשרי תשפ״ו","2025-10-04":"י״ב תשרי תשפ״ו","2025-10-05":"י״ג תשרי תשפ״ו","2025-10-06":"י״ד תשרי תשפ״ו","2025-10-07":"ט״ו תשרי תשפ״ו","2025-10-08":"ט״ז תשרי תשפ״ו","2025-10-09":"י״ז תשרי תשפ״ו","2025-10-10":"י״ח תשרי תשפ״ו","2025-10-11":"י״ט תשרי תשפ״ו","2025-10-12":"כ׳ תשרי תשפ״ו","2025-10-13":"כ״א תשרי תשפ״ו","2025-10-14":"כ״ב תשרי תשפ״ו","2025-10-15":"כ״ג תשרי תשפ״ו","2025-10-16":"כ״ד תשרי תשפ״ו","2025-10-17":"כ״ה תשרי תשפ״ו","2025-10-18":"כ״ו תשרי תשפ״ו","2025-10-19":"כ״ז תשרי תשפ״ו","2025-10-20":"כ״ח תשרי תשפ״ו","2025-10-21":"כ״ט תשרי תשפ״ו","2025-10-22":"ל׳ תשרי תשפ״ו","2025-10-23":"א׳ מרחשון תשפ״ו","2025-10-24":"ב׳ מרחשון תשפ״ו","2025-10-25":"ג׳ מרחשון תשפ״ו","2025-10-26":"ד׳ מרחשון תשפ״ו","2025-10-27":"ה׳ מרחשון תשפ״ו","2025-10-28":"ו׳ מרחשון תשפ״ו","2025-10-29":"ז׳ מרחשון תשפ״ו","2025-10-30":"ח׳ מרחשון תשפ״ו","2025-10-31":"ט׳ מרחשון תשפ״ו","2025-11-01":"י׳ מרחשון תשפ״ו","2025-11-02":"י״א מרחשון תשפ״ו","2025-11-03":"י״ב מרחשון תשפ״ו","2025-11-04":"י״ג מרחשון תשפ״ו","2025-11-05":"י״ד מרחשון תשפ״ו","2025-11-06":"ט״ו מרחשון תשפ״ו","2025-11-07":"ט״ז מרחשון תשפ״ו","2025-11-08":"י״ז מרחשון תשפ״ו","2025-11-09":"י״ח מרחשון תשפ״ו","2025-11-10":"י״ט מרחשון תשפ״ו","2025-11-11":"כ׳ מרחשון תשפ״ו","2025-11-12":"כ״א מרחשון תשפ״ו","2025-11-13":"כ״ב מרחשון תשפ״ו","2025-11-14":"כ״ג מרחשון תשפ״ו","2025-11-15":"כ״ד מרחשון תשפ״ו","2025-11-16":"כ״ה מרחשון תשפ״ו","2025-11-17":"כ״ו מרחשון תשפ״ו","2025-11-18":"כ״ז מרחשון תשפ״ו","2025-11-19":"כ״ח מרחשון תשפ״ו","2025-11-20":"כ״ט מרחשון תשפ״ו","2025-11-21":"א׳ כסלו תשפ״ו","2025-11-22":"ב׳ כסלו תשפ״ו","2025-11-23":"ג׳ כסלו תשפ״ו","2025-11-24":"ד׳ כסלו תשפ״ו","2025-11-25":"ה׳ כסלו תשפ״ו","2025-11-26":"ו׳ כסלו תשפ״ו","2025-11-27":"ז׳ כסלו תשפ״ו","2025-11-28":"ח׳ כסלו תשפ״ו","2025-11-29":"ט׳ כסלו תשפ״ו","2025-11-30":"י׳ כסלו תשפ״ו","2025-12-01":"י״א כסלו תשפ״ו","2025-12-02":"י״ב כסלו תשפ״ו","2025-12-03":"י״ג כסלו תשפ״ו","2025-12-04":"י״ד כסלו תשפ״ו","2025-12-05":"ט״ו כסלו תשפ״ו","2025-12-06":"ט״ז כסלו תשפ״ו","2025-12-07":"י״ז כסלו תשפ״ו","2025-12-08":"י״ח כסלו תשפ״ו","2025-12-09":"י״ט כסלו תשפ״ו","2025-12-10":"כ׳ כסלו תשפ״ו","2025-12-11":"כ״א כסלו תשפ״ו","2025-12-12":"כ״ב כסלו תשפ״ו","2025-12-13":"כ״ג כסלו תשפ״ו","2025-12-14":"כ״ד כסלו תשפ״ו","2025-12-15":"כ״ה כסלו תשפ״ו","2025-12-16":"כ״ו כסלו תשפ״ו","2025-12-17":"כ״ז כסלו תשפ״ו","2025-12-18":"כ״ח כסלו תשפ״ו","2025-12-19":"כ״ט כסלו תשפ״ו","2025-12-20":"ל׳ כסלו תשפ״ו","2025-12-21":"א׳ טבת תשפ״ו","2025-12-22":"ב׳ טבת תשפ״ו","2025-12-23":"ג׳ טבת תשפ״ו","2025-12-24":"ד׳ טבת תשפ״ו","2025-12-25":"ה׳ טבת תשפ״ו","2025-12-26":"ו׳ טבת תשפ״ו","2025-12-27":"ז׳ טבת תשפ״ו","2025-12-28":"ח׳ טבת תשפ״ו","2025-12-29":"ט׳ טבת תשפ״ו","2025-12-30":"י׳ טבת תשפ״ו","2025-12-31":"י״א טבת תשפ״ו","2026-01-01":"י״ב טבת תשפ״ו","2026-01-02":"י״ג טבת תשפ״ו","2026-01-03":"י״ד טבת תשפ״ו","2026-01-04":"ט״ו טבת תשפ״ו","2026-01-05":"ט״ז טבת תשפ״ו","2026-01-06":"י״ז טבת תשפ״ו","2026-01-07":"י״ח טבת תשפ״ו","2026-01-08":"י״ט טבת תשפ״ו","2026-01-09":"כ׳ טבת תשפ״ו","2026-01-10":"כ״א טבת תשפ״ו","2026-01-11":"כ״ב טבת תשפ״ו","2026-01-12":"כ״ג טבת תשפ״ו","2026-01-13":"כ״ד טבת תשפ״ו","2026-01-14":"כ״ה טבת תשפ״ו","2026-01-15":"כ״ו טבת תשפ״ו","2026-01-16":"כ״ז טבת תשפ״ו","2026-01-17":"כ״ח טבת תשפ״ו","2026-01-18":"כ״ט טבת תשפ״ו","2026-01-19":"א׳ שבט תשפ״ו","2026-01-20":"ב׳ שבט תשפ״ו","2026-01-21":"ג׳ שבט תשפ״ו","2026-01-22":"ד׳ שבט תשפ״ו","2026-01-23":"ה׳ שבט תשפ״ו","2026-01-24":"ו׳ שבט תשפ״ו","2026-01-25":"ז׳ שבט תשפ״ו","2026-01-26":"ח׳ שבט תשפ״ו","2026-01-27":"ט׳ שבט תשפ״ו","2026-01-28":"י׳ שבט תשפ״ו","2026-01-29":"י״א שבט תשפ״ו","2026-01-30":"י״ב שבט תשפ״ו","2026-01-31":"י״ג שבט תשפ״ו","2026-02-01":"י״ד שבט תשפ״ו","2026-02-02":"ט״ו שבט תשפ״ו","2026-02-03":"ט״ז שבט תשפ״ו","2026-02-04":"י״ז שבט תשפ״ו","2026-02-05":"י״ח שבט תשפ״ו","2026-02-06":"י״ט שבט תשפ״ו","2026-02-07":"כ׳ שבט תשפ״ו","2026-02-08":"כ״א שבט תשפ״ו","2026-02-09":"כ״ב שבט תשפ״ו","2026-02-10":"כ״ג שבט תשפ״ו","2026-02-11":"כ״ד שבט תשפ״ו","2026-02-12":"כ״ה שבט תשפ״ו","2026-02-13":"כ״ו שבט תשפ״ו","2026-02-14":"כ״ז שבט תשפ״ו","2026-02-15":"כ״ח שבט תשפ״ו","2026-02-16":"כ״ט שבט תשפ״ו","2026-02-17":"ל׳ שבט תשפ״ו","2026-02-18":"א׳ אדר תשפ״ו","2026-02-19":"ב׳ אדר תשפ״ו","2026-02-20":"ג׳ אדר תשפ״ו","2026-02-21":"ד׳ אדר תשפ״ו","2026-02-22":"ה׳ אדר תשפ״ו","2026-02-23":"ו׳ אדר תשפ״ו","2026-02-24":"ז׳ אדר תשפ״ו","2026-02-25":"ח׳ אדר תשפ״ו","2026-02-26":"ט׳ אדר תשפ״ו","2026-02-27":"י׳ אדר תשפ״ו","2026-02-28":"י״א אדר תשפ״ו","2026-03-01":"י״ב אדר תשפ״ו","2026-03-02":"י״ג אדר תשפ״ו","2026-03-03":"י״ד אדר תשפ״ו","2026-03-04":"ט״ו אדר תשפ״ו","2026-03-05":"ט״ז אדר תשפ״ו","2026-03-06":"י״ז אדר תשפ״ו","2026-03-07":"י״ח אדר תשפ״ו","2026-03-08":"י״ט אדר תשפ״ו","2026-03-09":"כ׳ אדר תשפ״ו","2026-03-10":"כ״א אדר תשפ״ו","2026-03-11":"כ״ב אדר תשפ״ו","2026-03-12":"כ״ג אדר תשפ״ו","2026-03-13":"כ״ד אדר תשפ״ו","2026-03-14":"כ״ה אדר תשפ״ו","2026-03-15":"כ״ו אדר תשפ״ו","2026-03-16":"כ״ז אדר תשפ״ו","2026-03-17":"כ״ח אדר תשפ״ו","2026-03-18":"כ״ט אדר תשפ״ו","2026-03-19":"א׳ ניסן תשפ״ו","2026-03-20":"ב׳ ניסן תשפ״ו","2026-03-21":"ג׳ ניסן תשפ״ו","2026-03-22":"ד׳ ניסן תשפ״ו","2026-03-23":"ה׳ ניסן תשפ״ו","2026-03-24":"ו׳ ניסן תשפ״ו","2026-03-25":"ז׳ ניסן תשפ״ו","2026-03-26":"ח׳ ניסן תשפ״ו","2026-03-27":"ט׳ ניסן תשפ״ו","2026-03-28":"י׳ ניסן תשפ״ו","2026-03-29":"י״א ניסן תשפ״ו","2026-03-30":"י״ב ניסן תשפ״ו","2026-03-31":"י״ג ניסן תשפ״ו","2026-04-01":"י״ד ניסן תשפ״ו","2026-04-02":"ט״ו ניסן תשפ״ו","2026-04-03":"ט״ז ניסן תשפ״ו","2026-04-04":"י״ז ניסן תשפ״ו","2026-04-05":"י״ח ניסן תשפ״ו","2026-04-06":"י״ט ניסן תשפ״ו","2026-04-07":"כ׳ ניסן תשפ״ו","2026-04-08":"כ״א ניסן תשפ״ו","2026-04-09":"כ״ב ניסן תשפ״ו","2026-04-10":"כ״ג ניסן תשפ״ו","2026-04-11":"כ״ד ניסן תשפ״ו","2026-04-12":"כ״ה ניסן תשפ״ו","2026-04-13":"כ״ו ניסן תשפ״ו","2026-04-14":"כ״ז ניסן תשפ״ו","2026-04-15":"כ״ח ניסן תשפ״ו","2026-04-16":"כ״ט ניסן תשפ״ו","2026-04-17":"ל׳ ניסן תשפ״ו","2026-04-18":"א׳ אייר תשפ״ו","2026-04-19":"ב׳ אייר תשפ״ו","2026-04-20":"ג׳ אייר תשפ״ו","2026-04-21":"ד׳ אייר תשפ״ו","2026-04-22":"ה׳ אייר תשפ״ו","2026-04-23":"ו׳ אייר תשפ״ו","2026-04-24":"ז׳ אייר תשפ״ו","2026-04-25":"ח׳ אייר תשפ״ו","2026-04-26":"ט׳ אייר תשפ״ו","2026-04-27":"י׳ אייר תשפ״ו","2026-04-28":"י״א אייר תשפ״ו","2026-04-29":"י״ב אייר תשפ״ו","2026-04-30":"י״ג אייר תשפ״ו","2026-05-01":"י״ד אייר תשפ״ו","2026-05-02":"ט״ו אייר תשפ״ו","2026-05-03":"ט״ז אייר תשפ״ו","2026-05-04":"י״ז אייר תשפ״ו","2026-05-05":"י״ח אייר תשפ״ו","2026-05-06":"י״ט אייר תשפ״ו","2026-05-07":"כ׳ אייר תשפ״ו","2026-05-08":"כ״א אייר תשפ״ו","2026-05-09":"כ״ב אייר תשפ״ו","2026-05-10":"כ״ג אייר תשפ״ו","2026-05-11":"כ״ד אייר תשפ״ו","2026-05-12":"כ״ה אייר תשפ״ו","2026-05-13":"כ״ו אייר תשפ״ו","2026-05-14":"כ״ז אייר תשפ״ו","2026-05-15":"כ״ח אייר תשפ״ו","2026-05-16":"כ״ט אייר תשפ״ו","2026-05-17":"א׳ סיון תשפ״ו","2026-05-18":"ב׳ סיון תשפ״ו","2026-05-19":"ג׳ סיון תשפ״ו","2026-05-20":"ד׳ סיון תשפ״ו","2026-05-21":"ה׳ סיון תשפ״ו","2026-05-22":"ו׳ סיון תשפ״ו","2026-05-23":"ז׳ סיון תשפ״ו","2026-05-24":"ח׳ סיון תשפ״ו","2026-05-25":"ט׳ סיון תשפ״ו","2026-05-26":"י׳ סיון תשפ״ו","2026-05-27":"י״א סיון תשפ״ו","2026-05-28":"י״ב סיון תשפ״ו","2026-05-29":"י״ג סיון תשפ״ו","2026-05-30":"י״ד סיון תשפ״ו","2026-05-31":"ט״ו סיון תשפ״ו","2026-06-01":"ט״ז סיון תשפ״ו","2026-06-02":"י״ז סיון תשפ״ו","2026-06-03":"י״ח סיון תשפ״ו","2026-06-04":"י״ט סיון תשפ״ו","2026-06-05":"כ׳ סיון תשפ״ו","2026-06-06":"כ״א סיון תשפ״ו","2026-06-07":"כ״ב סיון תשפ״ו","2026-06-08":"כ״ג סיון תשפ״ו","2026-06-09":"כ״ד סיון תשפ״ו","2026-06-10":"כ״ה סיון תשפ״ו","2026-06-11":"כ״ו סיון תשפ״ו","2026-06-12":"כ״ז סיון תשפ״ו","2026-06-13":"כ״ח סיון תשפ״ו","2026-06-14":"כ״ט סיון תשפ״ו","2026-06-15":"ל׳ סיון תשפ״ו","2026-06-16":"א׳ תמוז תשפ״ו","2026-06-17":"ב׳ תמוז תשפ״ו","2026-06-18":"ג׳ תמוז תשפ״ו","2026-06-19":"ד׳ תמוז תשפ״ו","2026-06-20":"ה׳ תמוז תשפ״ו","2026-06-21":"ו׳ תמוז תשפ״ו","2026-06-22":"ז׳ תמוז תשפ״ו","2026-06-23":"ח׳ תמוז תשפ״ו","2026-06-24":"ט׳ תמוז תשפ״ו","2026-06-25":"י׳ תמוז תשפ״ו","2026-06-26":"י״א תמוז תשפ״ו","2026-06-27":"י״ב תמוז תשפ״ו","2026-06-28":"י״ג תמוז תשפ״ו","2026-06-29":"י״ד תמוז תשפ״ו","2026-06-30":"ט״ו תמוז תשפ״ו","2026-07-01":"ט״ז תמוז תשפ״ו","2026-07-02":"י״ז תמוז תשפ״ו","2026-07-03":"י״ח תמוז תשפ״ו","2026-07-04":"י״ט תמוז תשפ״ו","2026-07-05":"כ׳ תמוז תשפ״ו","2026-07-06":"כ״א תמוז תשפ״ו","2026-07-07":"כ״ב תמוז תשפ״ו","2026-07-08":"כ״ג תמוז תשפ״ו","2026-07-09":"כ״ד תמוז תשפ״ו","2026-07-10":"כ״ה תמוז תשפ״ו","2026-07-11":"כ״ו תמוז תשפ״ו","2026-07-12":"כ״ז תמוז תשפ״ו","2026-07-13":"כ״ח תמוז תשפ״ו","2026-07-14":"כ״ט תמוז תשפ״ו","2026-07-15":"א׳ אב תשפ״ו","2026-07-16":"ב׳ אב תשפ״ו","2026-07-17":"ג׳ אב תשפ״ו","2026-07-18":"ד׳ אב תשפ״ו","2026-07-19":"ה׳ אב תשפ״ו","2026-07-20":"ו׳ אב תשפ״ו","2026-07-21":"ז׳ אב תשפ״ו","2026-07-22":"ח׳ אב תשפ״ו","2026-07-23":"ט׳ אב תשפ״ו","2026-07-24":"י׳ אב תשפ״ו","2026-07-25":"י״א אב תשפ״ו","2026-07-26":"י״ב אב תשפ״ו","2026-07-27":"י״ג אב תשפ״ו","2026-07-28":"י״ד אב תשפ״ו","2026-07-29":"ט״ו אב תשפ״ו","2026-07-30":"ט״ז אב תשפ״ו","2026-07-31":"י״ז אב תשפ״ו","2026-08-01":"י״ח אב תשפ״ו","2026-08-02":"י״ט אב תשפ״ו","2026-08-03":"כ׳ אב תשפ״ו","2026-08-04":"כ״א אב תשפ״ו","2026-08-05":"כ״ב אב תשפ״ו","2026-08-06":"כ״ג אב תשפ״ו","2026-08-07":"כ״ד אב תשפ״ו","2026-08-08":"כ״ה אב תשפ״ו","2026-08-09":"כ״ו אב תשפ״ו","2026-08-10":"כ״ז אב תשפ״ו","2026-08-11":"כ״ח אב תשפ״ו","2026-08-12":"כ״ט אב תשפ״ו","2026-08-13":"ל׳ אב תשפ״ו","2026-08-14":"א׳ אלול תשפ״ו","2026-08-15":"ב׳ אלול תשפ״ו","2026-08-16":"ג׳ אלול תשפ״ו","2026-08-17":"ד׳ אלול תשפ״ו","2026-08-18":"ה׳ אלול תשפ״ו","2026-08-19":"ו׳ אלול תשפ״ו","2026-08-20":"ז׳ אלול תשפ״ו","2026-08-21":"ח׳ אלול תשפ״ו","2026-08-22":"ט׳ אלול תשפ״ו","2026-08-23":"י׳ אלול תשפ״ו","2026-08-24":"י״א אלול תשפ״ו","2026-08-25":"י״ב אלול תשפ״ו","2026-08-26":"י״ג אלול תשפ״ו","2026-08-27":"י״ד אלול תשפ״ו","2026-08-28":"ט״ו אלול תשפ״ו","2026-08-29":"ט״ז אלול תשפ״ו","2026-08-30":"י״ז אלול תשפ״ו","2026-08-31":"י״ח אלול תשפ״ו","2026-09-01":"י״ט אלול תשפ״ו","2026-09-02":"כ׳ אלול תשפ״ו","2026-09-03":"כ״א אלול תשפ״ו","2026-09-04":"כ״ב אלול תשפ״ו","2026-09-05":"כ״ג אלול תשפ״ו","2026-09-06":"כ״ד אלול תשפ״ו","2026-09-07":"כ״ה אלול תשפ״ו","2026-09-08":"כ״ו אלול תשפ״ו","2026-09-09":"כ״ז אלול תשפ״ו","2026-09-10":"כ״ח אלול תשפ״ו","2026-09-11":"כ״ט אלול תשפ״ו"};
+// ── DATA תשפ״ז ────────────────────────────────────────────────────────
+const H={}; 
+const SR=[]; 
 
-// SR = seconds since midnight for each day from 2025-09-23
-const SR=[23090,23125,23165,23200,23240,23275,23315,23355,23390,23425,23465,23505,23545,23585,23625,23665,23705,23750,23790,23830,23875,23915,23960,24000,24045,24090,24135,24180,24225,24270,24315,24360,24405,20855,20900,20950,21000,21030,21080,21125,21175,21220,21275,21325,21375,21425,21475,21530,21580,21630,21685,21735,21790,21840,21895,21945,22000,22050,22105,22155,22210,22260,22315,22365,22415,22465,22520,22570,22620,22660,22710,22760,22810,22855,22900,22945,22995,23035,23080,23125,23165,23205,23245,23285,23320,23355,23390,23425,23455,23490,23520,23545,23575,23600,23625,23645,23665,23685,23705,23720,23730,23745,23755,23765,23770,23780,23780,23785,23785,23785,23780,23775,23770,23765,23755,23740,23730,23715,23695,23680,23660,23635,23615,23590,23560,23535,23505,23470,23440,23405,23370,23335,23295,23255,23210,23170,23125,23075,23030,22980,22930,22880,22840,22790,22735,22675,22620,22560,22500,22440,22380,22320,22255,22190,22125,22060,21995,21925,21860,21795,21725,21655,21585,21510,21440,21365,21295,21220,21145,21075,21000,20925,20850,20770,20695,20620,20545,20465,20390,20315,20235,20160,20080,20005,19925,23450,23375,23295,23220,23145,23070,22995,22920,22845,22770,22695,22620,22545,22470,22395,22325,22250,22180,22105,22035,21965,21895,21830,21760,21690,21625,21560,21495,21430,21365,21305,21240,21180,21120,21060,21010,20950,20895,20840,20790,20735,20685,20635,20585,20535,20490,20445,20400,20360,20315,20275,20240,20200,20165,20130,20100,20065,20035,20005,19980,19955,19930,19905,19885,19865,19845,19835,19820,19805,19795,19780,19775,19765,19760,19755,19750,19750,19750,19750,19755,19755,19760,19770,19775,19785,19795,19810,19825,19840,19855,19870,19890,19910,19930,19950,19975,20000,20025,20050,20075,20105,20135,20165,20195,20225,20255,20285,20320,20355,20385,20420,20455,20495,20530,20565,20605,20640,20680,20715,20755,20795,20830,20870,20910,20950,20990,21030,21065,21105,21145,21185,21225,21265,21305,21345,21385,21425,21465,21505,21545,21585,21625,21665,21700,21740,21780,21820,21855,21895,21935,21970,22010,22050,22085,22125,22160,22200,22235,22270,22305,22345,22380,22420,22455,22490,22530,22565,22600,22640];
-
-const ANCHOR = new Date('2025-09-23T00:00:00');
+const ANCHOR = new Date('2026-09-11T00:00:00'); // א' תשרי תשפ"ז
 const THEMES = {
   gold:   {main:'#ffd060',sub:'#ff9020',cd:'#fff8e8',shma:'#ffe090'},
   blue:   {main:'#60c0ff',sub:'#2060ff',cd:'#e0f0ff',shma:'#a0d0ff'},
@@ -263,12 +264,11 @@ function applyTheme(name){
   });
   currentTheme = name;
   localStorage.setItem('theme', name);
-  // refresh clock color immediately
   if(document.getElementById('clockMode').classList.contains('show'))
     drawSeg(lastTime||'00:00:00');
   buildClockBar();
 }
-// Build dots for clock bar (clone from main bar)
+
 function buildClockBar(){
   const src = document.getElementById('colorBar');
   const dst = document.getElementById('colorBarClock');
@@ -286,9 +286,7 @@ document.querySelectorAll('.color-dot').forEach(d=>{
 });
 applyTheme(currentTheme);
 
-// Tap clock screen → show color bar for 3s
 let hideTimer=null;
-// Show color bar on tap — both normal and clock mode
 let hideTimerMain=null;
 document.getElementById('clockMode').addEventListener('click', e=>{
   if(e.target.classList.contains('color-dot')) return;
@@ -305,18 +303,13 @@ document.body.addEventListener('click', e=>{
   hideTimerMain = setTimeout(()=>{ bar.style.opacity='0'; }, 3000);
 });
 
-// ── HELPERS ───────────────────────────────────────────────────────────
 function gk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function getSR(k){
   const diff = Math.round((new Date(k)-ANCHOR)/864e5);
   if(diff<0||diff>=SR.length) return null;
   const v=SR[diff];
+  if(v===undefined || v===null) return null;
   return String(Math.floor(v/3600)).padStart(2,'0')+':'+String(Math.floor((v%3600)/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
-}
-function getSRsec(k){
-  const diff = Math.round((new Date(k)-ANCHOR)/864e5);
-  if(diff<0||diff>=SR.length) return null;
-  return SR[diff];
 }
 function toMs(ts){
   const p=ts.split(':').map(Number),d=new Date(now2());
@@ -348,16 +341,35 @@ function drawSeg(t){
 let lastTime="00:00:00";
 
 let dOff=null;
-function now2(){return dOff!==null?new Date(Date.now()+dOff):new Date()}
+let customDate=null;
+
+function now2(){
+  const base = new Date();
+  if(customDate){
+    const d = new Date(customDate);
+    if(dOff!==null){
+      const realNow = new Date();
+      const diffTime = Date.now() - (realNow.setHours(0,0,0,0));
+      d.setTime(d.getTime() + diffTime);
+    }
+    return d;
+  }
+  return dOff!==null?new Date(Date.now()+dOff):new Date();
+}
+
+function initDateInputs(){
+  const n = new Date();
+  document.getElementById('dtDate').value = gk(n);
+  document.getElementById('dtTime').value = String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')+':'+String(n.getSeconds()).padStart(2,'0');
+}
 
 function updHeader(){
   const n=now2(), k=gk(n);
-  document.getElementById('hebDate').textContent = H[k]||'—';
-  document.getElementById('gregDate').textContent = 'יום '+DAYS[n.getDay()]+' | '+n.getDate()+'.'+(n.getMonth()+1)+'.'+n.getFullYear()+(dOff!==null?' 🔧':'');
+  document.getElementById('hebDate').textContent = H[k]||'תשפ״ז';
+  document.getElementById('gregDate').textContent = 'יום '+DAYS[n.getDay()]+' | '+n.getDate()+'.'+(n.getMonth()+1)+'.'+n.getFullYear()+((dOff!==null||customDate!==null)?' 🔧':'');
   const sr=getSR(k);
   document.getElementById('sunriseDisplay').textContent = sr||'—';
 }
-updHeader();
 
 function getTomorrow(){
   const n=now2(), t=new Date(n); t.setDate(t.getDate()+1);
@@ -369,16 +381,14 @@ function tick(){
   const srStr=getSR(k);
   if(!srStr) return;
 
-  const shmaStr = addSec(srStr, -240); // 4 min before
+  const shmaStr = addSec(srStr, -240);
   const srMs = toMs(srStr), shmaMs = toMs(shmaStr);
-  const diffSr = srMs - t; // negative after sunrise
+  const diffSr = srMs - t;
   const diffShma = shmaMs - t;
 
-  const MINUS10 = -600000; // 10 min after sunrise
+  const MINUS10 = -600000;
 
-  // ── CLOCK MODE (after 10 min past sunrise, until 1hr before tomorrow) ──
   const tmrStr = getSR(getTomorrow());
-  // Build tomorrow's ms using actual tomorrow date (DST-safe)
   function toMsDate(ts, dateStr){
     const p=ts.split(':').map(Number);
     const d=new Date(dateStr+'T00:00:00');
@@ -400,11 +410,10 @@ function tick(){
     document.getElementById('clockDate').textContent = (H[k]||'') + ' | ' + n.getDate()+'.'+(n.getMonth()+1);
     if(tmrStr){
       const remTmr = tmrMs - t;
-      // Check if DST changes tonight (offset difference between today and tomorrow)
       const todayOffset = new Date(now2().getFullYear(), now2().getMonth(), now2().getDate()).getTimezoneOffset();
       const tmrDate = new Date(getTomorrow()+'T12:00:00');
       const tmrOffset = tmrDate.getTimezoneOffset();
-      const dstShift = todayOffset - tmrOffset; // positive if DST starts tonight
+      const dstShift = todayOffset - tmrOffset;
       let displayTmr = tmrStr;
       if(dstShift > 0){
         const p=tmrStr.split(':').map(Number), tot=p[0]*3600+p[1]*60+p[2]+dstShift*60;
@@ -416,11 +425,9 @@ function tick(){
     return;
   }
 
-  // ── NORMAL MODE ──
   document.getElementById('shmaTime').textContent = shmaStr;
   document.getElementById('hanetzTime').textContent = srStr;
 
-  // Shma countdown — show minus too
   const shmaCdEl = document.getElementById('shmaCd');
   const cardShmaEl = document.getElementById('cardShma');
   if(diffShma < 0){
@@ -431,27 +438,24 @@ function tick(){
     shmaCdEl.textContent = fmt(diffShma, false);
   }
 
-  // Hanetz countdown — minus for 10 min, then clock mode kicks in
   const cdEl = document.getElementById('hanetzCd');
   cdEl.textContent = fmt(diffSr, true);
   cdEl.classList.toggle('minus', diffSr < 0);
 
-  // Glow when within 1hr
   document.getElementById('cardShma').classList.toggle('lit', diffSr < 3600000 && diffSr > MINUS10);
   document.getElementById('cardHanetz').classList.toggle('lit', diffSr < 3600000 && diffSr > MINUS10);
 }
 
+initDateInputs();
 tick();
 setInterval(()=>{ updHeader(); tick(); }, 200);
 
-// Wake Lock
 try{navigator.wakeLock.request('screen').then(()=>{
   document.addEventListener('visibilitychange',()=>{
     if(document.visibilityState==='visible') navigator.wakeLock.request('screen').catch(()=>{});
   });
 })}catch(e){}
 
-// Fullscreen on first tap
 function goFS(){
   const e=document.documentElement;
   (e.requestFullscreen||e.webkitRequestFullscreen||e.mozRequestFullScreen||function(){}
@@ -459,7 +463,6 @@ function goFS(){
 }
 document.addEventListener('click',goFS,{once:true});
 
-// Debug access: long-press anywhere (800ms) OR triple-tap anywhere
 let pt=null, tapC=0, tapT=null;
 function openDbg(){ document.getElementById('dbg').classList.add('open'); }
 
@@ -476,7 +479,6 @@ document.addEventListener('mousedown', e=>{
 });
 document.addEventListener('mouseup', ()=>clearTimeout(pt));
 
-// Triple-tap anywhere
 document.addEventListener('click', e=>{
   if(e.target.classList.contains('db')) return;
   tapC++; clearTimeout(tapT);
@@ -484,18 +486,38 @@ document.addEventListener('click', e=>{
   if(tapC>=3){ tapC=0; openDbg(); }
 });
 
-function sd(t){
-  if(t===null){dOff=null;}
-  else{const p=t.split(':').map(Number),d=new Date();d.setHours(p[0],p[1],p[2]||0,0);dOff=d.getTime()-Date.now();document.getElementById('dt').value=t;}
-  updHeader();tick();
+function applyDebugTimeDate(){
+  const dateVal = document.getElementById('dtDate').value;
+  const timeVal = document.getElementById('dtTime').value;
+  if(dateVal) customDate = dateVal;
+  if(timeVal){
+    const p=timeVal.split(':').map(Number);
+    const d=new Date(customDate || Date.now());
+    d.setHours(p[0],p[1],p[2]||0,0);
+    dOff = d.getTime() - Date.now();
+  }
+  updHeader(); tick();
 }
-document.getElementById('dt').addEventListener('change',e=>sd(e.target.value));
+
+function sdTime(t){
+  document.getElementById('dtTime').value = t;
+  applyDebugTimeDate();
+}
+
+function resetDebug(){
+  dOff=null;
+  customDate=null;
+  initDateInputs();
+  updHeader(); tick();
+}
+
+document.getElementById('dtDate').addEventListener('change', applyDebugTimeDate);
+document.getElementById('dtTime').addEventListener('change', applyDebugTimeDate);
 
 function exitFS(){
   (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen||function(){}).call(document);
 }
 
-// Wire dynamic debug buttons based on today's actual sunrise
 function wireDbgButtons(){
   const k = gk(now2());
   const sr = getSR(k);
@@ -503,10 +525,10 @@ function wireDbgButtons(){
   const [h,m,s] = sr.split(':').map(Number);
   const srSec = h*3600+m*60+s;
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
-  document.getElementById('btnHrBefore').onclick = ()=>sd(secToTime(srSec-3600));
-  document.getElementById('btnSR').onclick       = ()=>sd(sr);
-  document.getElementById('btnPlus5').onclick    = ()=>sd(secToTime(srSec+300));
-  document.getElementById('btnPlus12').onclick   = ()=>sd(secToTime(srSec+720));
+  document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
+  document.getElementById('btnSR').onclick       = ()=>sdTime(sr);
+  document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
+  document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }
 wireDbgButtons();
 </script>
@@ -515,19 +537,15 @@ if('serviceWorker' in navigator){
   window.addEventListener('load', async ()=>{
     const reg = await navigator.serviceWorker.register('./sw.js').catch(()=>null);
     if(!reg) return;
-    // Force immediate update check
     reg.update();
-    // When new SW is waiting — activate immediately
     reg.addEventListener('updatefound', ()=>{
       const newSW = reg.installing;
       newSW.addEventListener('statechange', ()=>{
         if(newSW.state === 'installed' && navigator.serviceWorker.controller){
-          // New version ready — reload immediately
           newSW.postMessage({type:'SKIP_WAITING'});
         }
       });
     });
-    // Reload when new SW takes control
     navigator.serviceWorker.addEventListener('controllerchange', ()=>{
       window.location.reload();
     });

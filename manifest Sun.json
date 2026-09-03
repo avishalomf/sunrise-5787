@@ -1,0 +1,16 @@
+{
+  "name": "זריחה תשפ״ו",
+  "short_name": "זריחה",
+  "description": "לוח זמני זריחה תשפ״ו — צלותיה דאברהם",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "background_color": "#07080f",
+  "theme_color": "#07080f",
+  "orientation": "any",
+  "lang": "he",
+  "dir": "rtl",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

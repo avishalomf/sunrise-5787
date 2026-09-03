@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v51 -->
+<!-- גרסת אפליקציה: v52 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -180,7 +180,7 @@ body{
 <div class="header" id="hdrEl">
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v51 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v52 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="banner" id="banner"></div>
@@ -203,7 +203,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="margin-top:6px;opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v51 🔧</div></div>
+  <div style="position:absolute;bottom:8px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v52 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -360,7 +360,7 @@ function updateDebugInputsFromCurrent(){
 
 function updHeader(){
   const n=now2(), k=gk(n);
-  document.getElementById('hebDate').textContent = H[k]||'תשפ״ז';
+  document.getElementById('hebDate').textContent = (H[k] ? H[k] + ' תשפ״ז' : 'תשפ״ז');
   
   // פורמט תאריך ישראלי: DD/MM/YYYY
   const dd = String(n.getDate()).padStart(2,'0');
@@ -407,7 +407,7 @@ function tick(){
 
   if(inClockMode){
     lastTime=fmtClock(n); drawSeg(lastTime);
-    const heb = H[k] || 'תשפ״ז';
+    const heb = (H[k] ? H[k] + ' תשפ״ז' : 'תשפ״ז');
     const dd = String(n.getDate()).padStart(2,'0');
     const mm = String(n.getMonth()+1).padStart(2,'0');
     const yyyy = n.getFullYear();

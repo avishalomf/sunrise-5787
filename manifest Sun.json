@@ -1,7 +1,7 @@
 {
-  "name": "זריחה תשפ״ו",
+  "name": "זריחה תשפ״ז",
   "short_name": "זריחה",
-  "description": "לוח זמני זריחה תשפ״ו — צלותיה דאברהם",
+  "description": "לוח זמני זריחה תשפ״ז — צלותיה דאברהם",
   "start_url": "./index.html",
   "scope": "./",
   "display": "fullscreen",

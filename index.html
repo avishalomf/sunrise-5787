@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v70 -->
+<!-- גרסת אפליקציה: v71 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -112,9 +112,9 @@ body{
 .clock-mode.show{display:flex;}
 
 .clock-live-time{
-  font-size:min(26vw,38vh);font-weight:900;font-variant-numeric:tabular-nums;
-  letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;
-  text-align:center;width:100%;line-height:0.9;white-space:nowrap;
+  font-size:min(22vw, 32vh);font-weight:900;font-variant-numeric:tabular-nums;
+  letter-spacing:2px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
+  text-align:center;width:100%;line-height:1;
   text-shadow:0 0 30px rgba(255,208,96,0.3);
 }
 .clock-date{font-size:min(4.5vw,18px);color:#ccc;font-weight:700;text-align:center;}
@@ -197,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v70 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v71 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -215,7 +215,7 @@ window.addEventListener('DOMContentLoaded', () => {
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v70 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v71 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -486,7 +486,9 @@ function goFS(){
   const e=document.documentElement;
   (e.requestFullscreen||e.webkitRequestFullscreen||e.mozRequestFullScreen||function(){}
   ).call(e);
-  if(screen.orientation && screen.orientation.lock){
+  if(screen.orientation && screen.orientation.unlock){
+    screen.orientation.unlock();
+  } else if(screen.orientation && screen.orientation.lock){
     screen.orientation.lock('any').catch(()=>{});
   }
 }
@@ -587,7 +589,7 @@ wireDbgButtons();
 <script>
 if('serviceWorker' in navigator){
   const swCode = `
-    const CACHE_NAME = 'hanetz-cache-v70';
+    const CACHE_NAME = 'hanetz-cache-v71';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(

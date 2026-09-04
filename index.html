@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v68 -->
+<!-- גרסת אפליקציה: v70 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -8,8 +8,8 @@
 <!-- Dynamic Android Manifest -->
 <link rel="manifest" id="dynamicManifest">
 <meta name="theme-color" content="#07080f">
-<!-- Favicon / Android Icons (Inline SVG) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23ffd060'/%3E%3Cpath d='M50 10v12M50 78v12M10 50h12M78 50h12M22 22l8 8M70 70l8 8M22 78l8-8M70 30l8-8' stroke='%23ffd060' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<!-- Favicon / Android Icons (Inline SVG with Year) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -102,15 +102,21 @@ body{
 }
 .attr{font-size:9px;color:#3a2815;position:absolute;bottom:2px;right:10px;}
 
-/* ── CLOCK MODE ── */
+/* ── CLOCK MODE (MAX SCREEN) ── */
 .clock-mode{
   display:none;position:fixed;inset:0;
   flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);z-index:100;gap:4px;
-  width:100vw;height:100dvh;padding:4px;
+  background:var(--bg);z-index:100;gap:2px;
+  width:100vw;height:100dvh;padding:2px 4px;
 }
 .clock-mode.show{display:flex;}
 
+.clock-live-time{
+  font-size:min(26vw,38vh);font-weight:900;font-variant-numeric:tabular-nums;
+  letter-spacing:-1px;color:var(--gold);font-family:'Courier New',monospace;
+  text-align:center;width:100%;line-height:0.9;white-space:nowrap;
+  text-shadow:0 0 30px rgba(255,208,96,0.3);
+}
 .clock-date{font-size:min(4.5vw,18px);color:#ccc;font-weight:700;text-align:center;}
 .clock-tomorrow{font-size:min(4vw,16px);color:#999;text-align:center;}
 .clock-tomorrow span{color:var(--gold);}
@@ -131,8 +137,8 @@ body{
 .dbg{
   display:none;position:fixed;bottom:0;left:0;right:0;
   background:#0f0a00;border-top:2px solid #aa6600;
-  padding:10px;text-align:center;
-  z-index:9999;
+  padding:8px 10px;text-align:center;
+  z-index:9999;max-height:90dvh;overflow-y:auto;
 }
 .dbg.open{display:block;}
 .dbg input{
@@ -164,12 +170,13 @@ body{
 </style>
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-  const svgIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ccircle cx='50' cy='50' r='22' fill='%23ffd060'/%3E%3Cpath d='M50 10v12M50 78v12M10 50h12M78 50h12M22 22l8 8M70 70l8 8M22 78l8-8M70 30l8-8' stroke='%23ffd060' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E";
+  const svgIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E";
   const manifestData = {
     "name": "זריחה תשפ״ז",
-    "short_name": "זריחה",
+    "short_name": "זריחה תשפ״ז",
     "start_url": ".",
     "display": "standalone",
+    "orientation": "any",
     "background_color": "#07080f",
     "theme_color": "#07080f",
     "icons": [{"src": svgIcon, "sizes": "192x192 512x512", "type": "image/svg+xml"}]
@@ -190,7 +197,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v68 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v70 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -202,13 +209,13 @@ window.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-<!-- Clock mode -->
+<!-- Clock mode (Max Screen) -->
 <div class="clock-mode" id="clockMode">
-  <div id="segCanvas" style="font-size:min(32vw,48vh);font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:-2px;color:var(--gold);font-family:'Courier New',monospace;text-align:center;width:100%;line-height:0.9;white-space:nowrap;"></div>
+  <div class="clock-live-time" id="segCanvas">--:--:--</div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
-  <div class="color-bar" id="colorBarClock" style="margin-top:4px;opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:6px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v68 🔧</div></div>
+  <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v70 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -241,7 +248,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 <script>
 const H={
-  "2026-09-01": "יח' אלול תשפ״و", "2026-09-02": "יט' אלול תשפ״ו", "2026-09-03": "כ' אלול תשפ״ו", "2026-09-04": "כא' אלול תשפ״ו", "2026-09-05": "כב' אלול תשפ״ו", "2026-09-06": "כג' אלול תשפ״ו", "2026-09-07": "כד' אלול תשפ״ו", "2026-09-08": "כה' אלול תשפ״ו", "2026-09-09": "כו' אלול תשפ״ו", "2026-09-10": "כז' אלול תשפ״ו",
+  "2026-09-01": "יח' אלול תשפ״ו", "2026-09-02": "יט' אלול תשפ״ו", "2026-09-03": "כ' אלול תשפ״ו", "2026-09-04": "כא' אלול תשפ״ו", "2026-09-05": "כב' אלול תשפ״ו", "2026-09-06": "כג' אלול תשפ״ו", "2026-09-07": "כד' אלול תשפ״ו", "2026-09-08": "כה' אלול תשפ״ו", "2026-09-09": "כו' אלול תשפ״ו", "2026-09-10": "כז' אלול תשפ״ו",
   "2026-09-11": "א' תשרי תשפ״ז", "2026-09-12": "ב' תשרי תשפ״ז", "2026-09-13": "ג' תשרי תשפ״ז", "2026-09-14": "ד' תשרי תשפ״ז", "2026-09-15": "ה' תשרי תשפ״ז", "2026-09-16": "ו' תשרי תשפ״ז", "2026-09-17": "ז' תשרי תשפ״ז", "2026-09-18": "ח' תשרי תשפ״ז", "2026-09-19": "ט' תשרי תשפ״ז", "2026-09-20": "י' תשרי תשפ״ז",
   "2026-09-21": "יא' תשרי תשפ״ז", "2026-09-22": "יב' תשרי תשפ״ז", "2026-09-23": "יג' תשרי תשפ״ז", "2026-09-24": "יד' תשרי תשפ״ז", "2026-09-25": "טו' תשרי תשפ״ז", "2026-09-26": "טז' תשרי תשפ״ז", "2026-09-27": "יז' תשרי תשפ״ז", "2026-09-28": "חי' תשרי תשפ״ז", "2026-09-29": "יט' תשרי תשפ״ז", "2026-09-30": "כ' תשרי תשפ״ז",
   "2026-10-01": "כא' תשרי תשפ״ז", "2026-10-02": "כב' תשרי תשפ״ז", "2026-10-03": "כג' תשרי תשפ״ז", "2026-10-04": "כד' תשרי תשפ״ז", "2026-10-05": "כה' תשרי תשפ״ז", "2026-10-06": "כו' תשרי תשפ״ז", "2026-10-07": "כז' תשרי תשפ״ז", "2026-10-08": "כח' תשרי תשפ״ז", "2026-10-09": "כט' תשרי תשפ״ז", "2026-10-10": "ל' תשרי תשפ״ז",
@@ -479,6 +486,9 @@ function goFS(){
   const e=document.documentElement;
   (e.requestFullscreen||e.webkitRequestFullscreen||e.mozRequestFullScreen||function(){}
   ).call(e);
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock('any').catch(()=>{});
+  }
 }
 document.addEventListener('click',goFS,{once:true});
 
@@ -577,7 +587,7 @@ wireDbgButtons();
 <script>
 if('serviceWorker' in navigator){
   const swCode = `
-    const CACHE_NAME = 'hanetz-cache-v68';
+    const CACHE_NAME = 'hanetz-cache-v70';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(

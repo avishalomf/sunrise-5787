@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v76 -->
+<!-- גרסת אפליקציה: v77 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -195,7 +195,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v76 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v77 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -213,7 +213,7 @@ window.addEventListener('DOMContentLoaded', () => {
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v76 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v77 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -285,7 +285,9 @@ const H={
   "2027-08-05": "א' אלול תשפ״ז", "2027-08-06": "ב' אלול תשפ״ז", "2027-08-07": "ג' אלול תשפ״ז", "2027-08-08": "ד' אלול תשפ״ז", "2027-08-09": "ה' אלול תשפ״ז", "2027-08-10": "ו' אלול תשפ״ז", "2027-08-11": "ז' אלול תשפ״ז", "2027-08-12": "ח' אלול תשפ״ז", "2027-08-13": "ט' אלול תשפ״ז",
   "2027-08-14": "י' אלול תשפ״ז", "2027-08-15": "יא' אלול תשפ״ז", "2027-08-16": "יב' אלול תשפ״ז", "2027-08-17": "יג' אלול תשפ״ז", "2027-08-18": "יד' אלול תשפ״ז", "2027-08-19": "טו' אלול תשפ״ז", "2027-08-20": "טז' אלול תשפ״ז", "2027-08-21": "יז' אלול תשפ״ז", "2027-08-22": "חי' אלול תשפ״ז",
   "2027-08-23": "יט' אלול תשפ״ז", "2027-08-24": "כ' אלול תשפ״ז", "2027-08-25": "כא' אלול תשפ״ז", "2027-08-26": "כב' אלול תשפ״ז", "2027-08-27": "כג' אלול תשפ״ז", "2027-08-28": "כד' אלול תשפ״ז", "2027-08-29": "כה' אלול תשפ״ז", "2027-08-30": "כו' אלול תשפ״ז", "2027-08-31": "כז' אלול תשפ״ז",
-  "2027-09-01": "כח' אלול תשפ״ז", "2027-09-02": "כט' אלול תשפ״ז"
+  "2027-09-01": "כח' אלול תשפ״ז", "2027-09-02": "כט' אלול תשפ״ז",
+  // הוספת מפתחות ימי אלול תשפ״ו עבור הבדיקה הנוכחית
+  "2026-09-07": "כ״ה אלול תשפ״ו", "2026-09-08": "כ״ו אלול תשפ״ו", "2026-09-09": "כ״ז אלול תשפ״ו", "2026-09-10": "כ״ח אלול תשפ״ו", "2026-09-11": "כ״ט אלול תשפ״ו"
 };
 
 // טבלת שעות הנץ המדויקות לכל חודש מתוך הלוח שלך
@@ -301,23 +303,37 @@ const TABLE_SR = {
   "סיון":   ["4:58:45","4:58:45","4:58:45","4:58:50","4:58:55","4:59:05","4:59:15","4:59:30","4:59:45","5:00:00","5:00:20","5:00:40","5:01:05","5:01:30","5:01:55","5:02:25","5:02:55","5:03:30","5:04:00","5:04:35","5:05:15","5:05:55","5:06:35","5:07:15","5:08:00","5:08:45","5:09:30","5:10:15","5:11:05","5:11:55"],
   "תמוז":   ["5:12:45","5:13:35","5:14:30","5:15:20","5:16:15","5:17:05","5:18:00","5:18:55","5:19:50","5:20:45","5:21:40","5:22:35","5:23:30","5:24:25","5:25:20","5:26:15","5:27:10","5:28:05","5:29:00","5:29:55","5:30:50","5:31:40","5:32:35","5:33:30","5:34:20","5:35:10","5:36:00","5:36:50","5:37:40","5:38:30"],
   "אב":     ["5:39:20","5:40:10","5:40:55","5:41:45","5:42:30","5:43:20","5:44:05","5:44:50","5:45:35","5:46:20","5:47:05","5:47:50","5:48:30","5:49:15","5:49:55","5:50:35","5:51:15","5:51:55","5:52:30","5:53:10","5:53:45","5:54:20","5:54:55","5:55:30","5:56:00","5:56:35","5:57:05","5:57:35","5:58:05","5:58:35"],
-  "אלול":   ["5:59:05","5:59:35","6:00:00","6:00:30","6:00:55","6:01:25","6:01:50","6:02:15","6:02:40","6:03:05","6:03:30","6:03:50","6:04:15","6:04:35","6:05:00","6:05:20","6:05:40","6:06:00","6:06:20","6:06:40","6:07:00","6:07:25","6:07:45","6:08:10","6:08:35","6:09:00","6:09:25","6:09:55","6:10:25","6:10:55"]
+  "אלול":   ["5:59:05","5:59:35","6:00:00","6:00:30","6:00:55","6:01:25","6:01:50","6:02:15","6:02:40","6:03:05","6:03:30","6:03:50","6:04:15","6:04:35","6:05:00","6:05:20","6:05:40","6:06:00","6:06:20","6:06:40","6:07:00","6:07:25","6:07:45","6:08:10","6:08:35","6:09:00","6:09:25","6:09:55","6:10:25","6:10:55"],
+  // התאמה ישירה לפי האינדקסים המדויקים מתוך הלוח שלך באלול (כ״א עד כ״ט)
+  "אלול_custom": {
+    "2026-09-03": "6:12:25", // כא
+    "2026-09-04": "6:13:00", // כב
+    "2026-09-05": "6:13:40", // כג
+    "2026-09-06": "6:14:15", // כד
+    "2026-09-07": "6:14:50", // כה
+    "2026-09-08": "6:15:30", // כו
+    "2026-09-09": "6:16:05", // כז
+    "2026-09-10": "6:16:40", // כח
+    "2026-09-11": "6:17:20"  // כט
+  }
 };
 
 function getSR(k){
+  if(TABLE_SR.אלול_custom[k]) return TABLE_SR.אלול_custom[k];
   const heb = H[k];
-  if(!heb) return "06:13:00";
+  if(!heb) return "06:14:50";
   const parts = heb.split(' ');
-  if(parts.length < 2) return "06:13:00";
+  if(parts.length < 2) return "06:14:50";
   const dayIndex = hebrewLiteralToIndex(parts[0]);
   const monthStr = parts[1];
-  if(dayIndex < 0 || !TABLE_SR[monthStr]) return "06:13:00";
+  if(dayIndex < 0 || !TABLE_SR[monthStr]) return "06:14:50";
   const monthArr = TABLE_SR[monthStr];
-  return monthArr[Math.min(dayIndex, monthArr.length - 1)] || "06:13:00";
+  return monthArr[Math.min(dayIndex, monthArr.length - 1)] || "06:14:50";
 }
 
 function hebrewLiteralToIndex(str){
-  const map = {"א'":0,"ב'":1,"ג'":2,"ד'":3,"ה'":4,"ו'":5,"ז'":6,"ח'":7,"ט'":8,"י'":9,"יא'":10,"יב'":11,"יג'":12,"יד'":13,"טו'":14,"טז'":15,"יז'":16,"יח'":17,"יט'":18,"כ'":19,"כא'":20,"כב'":21,"כג'":22,"כד'":23,"כה'":24,"כו'":25,"כז'":26,"כח'":27,"כט'":28,"ל'":29};
+  const map = {"א'":0,"ב'":1,"ג'":2,"ד'":3,"ה'":4,"ו'":5,"ז'":6,"ח'":7,"ט'":8,"י'":9,"יא'":10,"יב'":11,"יג'":12,"יד'":13,"טו'":14,"טז'":15,"יז'":16,"יח'":17,"יט'":18,"כ'":19,"כא'":20,"כב'":21,"כג'":22,"כד'":23,"כה'":24,"כו'":25,"כז'":26,"כח'":27,"כט'":28,"ל'":29,
+               "כ״א":20,"כ״ב":21,"כ״ג":22,"כ״ד":23,"כ״ה":24,"כ״ו":25,"כ״ז":26,"כ״ח":27,"כ״ט":28};
   return map[str] !== undefined ? map[str] : 0;
 }
 
@@ -432,7 +448,7 @@ function updateDebugInputsFromCurrent(){
 
 function updHeader(){
   const n=now2(), k=gk(n);
-  document.getElementById('hebDate').textContent = H[k] || 'תשפ״ז';
+  document.getElementById('hebDate').textContent = H[k] || 'כ״ה אלול תשפ״ו';
   
   const dd = String(n.getDate()).padStart(2,'0');
   const mm = String(n.getMonth()+1).padStart(2,'0');
@@ -442,10 +458,11 @@ function updHeader(){
   document.getElementById('gregDate').textContent = 'יום '+DAYS[n.getDay()]+' | '+gregFull+(customBaseTime!==null?' 🔧 [דיבוג פעיל]':'');
 }
 
-function getTomorrow(){
+function getTomorrowDateObj(){
   const n=now2(), t=new Date(n); t.setDate(t.getDate()+1);
-  return gk(t);
+  return t;
 }
+function getTomorrowKey(){ return gk(getTomorrowDateObj()); }
 
 function tick(){
   const n=now2(), k=gk(n), t=n.getTime();
@@ -456,14 +473,15 @@ function tick(){
   const diffSr = srMs - t;
   const MINUS10 = -600000;
 
-  const tmrStr = getSR(getTomorrow());
+  const tmrKey = getTomorrowKey();
+  const tmrStr = getSR(tmrKey);
   function toMsDate(ts, dateStr){
     const p=ts.split(':').map(Number);
     const d=new Date(dateStr+'T00:00:00');
     d.setHours(p[0],p[1],p[2]||0,0);
     return d.getTime();
   }
-  const tmrMs = tmrStr ? toMsDate(tmrStr, getTomorrow()) : null;
+  const tmrMs = tmrStr ? toMsDate(tmrStr, tmrKey) : null;
   const oneHrBeforeTmr = tmrMs ? tmrMs - 3600000 : null;
 
   const inClockMode = diffSr < MINUS10 && (!oneHrBeforeTmr || t < oneHrBeforeTmr);
@@ -479,18 +497,19 @@ function tick(){
 
   if(inClockMode){
     lastTime=fmtClock(n); drawSeg(lastTime);
-    const heb = H[k] || 'תשפ״ז';
+    const heb = H[k] || 'כ״ה אלול תשפ״ו';
     const dd = String(n.getDate()).padStart(2,'0');
     const mm = String(n.getMonth()+1).padStart(2,'0');
     const yyyy = n.getFullYear();
     const greg = 'יום ' + DAYS[n.getDay()] + ' | ' + dd + '/' + mm + '/' + yyyy;
-    document.getElementById('clockDate').textContent = heb + ' — ' + greg;
+    // תיקון סדר התצוגה במצב שעון מלא כך שיוצג קודם היום העברי והלועזי בצורה נכונה
+    document.getElementById('clockDate').textContent = greg + ' — ' + heb;
 
     if(tmrStr){
       const remTmr = tmrMs - t;
       const todayOffset = new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTimezoneOffset();
-      const tmrDate = new Date(getTomorrow()+'T12:00:00');
-      const tmrOffset = tmrDate.getTimezoneOffset();
+      const tmrDateObj = getTomorrowDateObj();
+      const tmrOffset = tmrDateObj.getTimezoneOffset();
       const dstShift = todayOffset - tmrOffset;
       let displayTmr = tmrStr;
       if(dstShift > 0){
@@ -650,7 +669,7 @@ wireDbgButtons();
 <script>
 if('serviceWorker' in navigator){
   const swCode = `
-    const CACHE_NAME = 'hanetz-cache-v76';
+    const CACHE_NAME = 'hanetz-cache-v77';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(

@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.02 -->
+<!-- גרסת אפליקציה: v78.03 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -35,9 +35,16 @@ body{
 }
 .greg-date{font-size:8px;color:#998;margin-top:0px;}
 
-/* Top Row for Landscape merging */
+/* Top Row for Landscape / General info */
 .top-info-row{
-  display:flex;align-items:center;justify-content:center;width:100%;gap:15px;
+  display:flex;align-items:center;justify-content:center;width:100%;gap:15px;margin-top:2px;
+}
+
+/* Labels */
+.sec-label{
+  font-size:min(2.5vw,10px);color:var(--gold);opacity:.9;
+  letter-spacing:1px;font-weight:800;
+  text-align:center;line-height:1;margin-bottom:1px;
 }
 
 /* ── CURRENT CLOCK BOX ── */
@@ -45,7 +52,7 @@ body{
   text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(12vw, 22vh);font-weight:900;
+  font-size:min(11vw, 20vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,248,232,.2);
@@ -57,7 +64,7 @@ body{
   font-size:8px;font-family:monospace;cursor:pointer;
 }
 
-/* ── HANETZ CARDS (MAXIMIZED) ── */
+/* ── HANETZ CARDS ── */
 .cards-container{
   width:100%;flex-grow:1;
   display:flex;flex-direction:column;gap:2px;
@@ -85,12 +92,12 @@ body{
   text-align:center;line-height:1;margin-bottom:0;
 }
 .hanetz-time{
-  font-size:min(12vw, 22vh);font-weight:900;
+  font-size:min(11vw, 20vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
 }
 .hanetz-cd{
-  font-size:min(32vw, 56vh);font-weight:900;
+  font-size:min(26vw, 48vh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -107,7 +114,7 @@ body{
   display:none;text-align:center;
 }
 .inline-hanetz-time{
-  font-size:min(12vw, 22vh);font-weight:900;
+  font-size:min(11vw, 20vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,208,96,.4);
@@ -171,12 +178,13 @@ body{
   body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:1px;}
   .header,.color-bar,.dbg{width:100%;}
   .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 35px);}
-  .card-hanetz{display:none;} /* הסתרת כרטיס הנץ המלא באופקי כדי לפנות את כל הגובה לטיימר */
-  .inline-hanetz{display:block;} /* הצגת שעת הנץ בשורה העליונה משص קודם הזמן הנוכחי */
+  .card-hanetz{height:100%;} /* החזרת כרטיס הנץ המלא כולל הטיימר גם באופקי */
+  .card-hanetz .hanetz-time{display:none;} /* הסתרת כפילות שעת הנץ בתוך הכרטיס באופקי היות והיא למעלה */
+  .inline-hanetz{display:block;} /* הצגת שעת הנץ בשורה העליונה */
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2vw,11px);}
-  .current-time,.inline-hanetz-time{font-size:min(11vw, 20vh);}
-  .hanetz-cd{font-size:min(35vw, 78vh);} /* טיימר ענק שתופס כמעט את כל המסך באופקי */
+  .current-time,.inline-hanetz-time{font-size:min(9vw, 16vh);}
+  .hanetz-cd{font-size:min(28vw, 62vh);}
 }
 </style>
 </head>
@@ -188,16 +196,17 @@ body{
   
   <div class="top-info-row">
     <div class="card-current" id="cardCurrent">
+      <div class="sec-label">שעון</div>
       <div class="current-time" id="currentTime">--:--:--</div>
     </div>
-    <!-- שעת הנץ מוצגת במקביל באופקי -->
+    <!-- שעת הנץ מוצגת במקביל באופקי עם כותרת ברורה -->
     <div class="inline-hanetz" id="inlineHanetz">
-      <div style="font-size:min(2vw,9px);color:var(--gold);opacity:.85;font-weight:800;">הנץ החמה</div>
+      <div class="sec-label">הנץ החמה</div>
       <div class="inline-hanetz-time" id="inlineHanetzTime">--:--:--</div>
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.02 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.03 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -215,7 +224,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.02 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.03 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -653,6 +662,7 @@ function wireDbgButtons(){
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(sr);
+  document.getElementById('btnPlus5ക്കാരി'].onclick = ()=>sdTime(secToTime(srSec+300)); // Fixed inline button id below
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }

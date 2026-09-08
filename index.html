@@ -670,7 +670,12 @@ wireDbgButtons();
 </script>
 <script>
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('./swSun.js',{scope:'./'}).catch(()=>{}));
+  // ניקוי וביטול ה-Service Worker בזמן פיתוח כדי למנוע שמירת מטמון ישנה
+  navigator.serviceWorker.getRegistrations().then(function(registrations) {
+    for(let registration of registrations) {
+      registration.unregister();
+    }
+  });
 }
 </script>
 </body>

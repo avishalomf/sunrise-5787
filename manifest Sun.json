@@ -11,6 +11,6 @@
   "lang": "he",
   "dir": "rtl",
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "iconSun87.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }

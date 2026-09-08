@@ -44,11 +44,12 @@ body{
   text-align:center;line-height:1;margin-bottom:1px;
 }
 
+/* ── CURRENT CLOCK BOX ── */
 .card-current{
-  text-align:center;flex-shrink:0;margin:0;
+  width:100%;text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(11vw, 20vh);font-weight:900;
+  font-size:min(18vw, 16vh);font-weight:900; /* התאמת גודל בטוחה למצב אנכי כך שלא תיחתך */
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,248,232,.2);
@@ -87,12 +88,12 @@ body{
   text-align:center;line-height:1;margin-bottom:0;
 }
 .hanetz-time{
-  font-size:min(11vw, 20vh);font-weight:900;
+  font-size:min(16vw, 15vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
 }
 .hanetz-cd{
-  font-size:min(26vw, 48vh);font-weight:900;
+  font-size:min(24vw, 38vh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;

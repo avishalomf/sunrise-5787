@@ -645,10 +645,11 @@ function wireDbgButtons(){
   const sr = getSR(k);
   if(!sr) return;
   const [h,m,s] = sr.split(':').map(Number);
-  const srSec = h*3600+m*60+s;
+  const srSec = h*3600+m*60+(s||0);
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
+  
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
-  document.getElementById('btnSR').onclick        = ()=>sdTime(sr);
+  document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec)); // תיקון כאן שישתמש בפורמט תקין עם אפס מוביל
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }

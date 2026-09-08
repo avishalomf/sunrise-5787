@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.00 -->
+<!-- גרסת אפליקציה: v78.01 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -29,21 +29,21 @@ body{
   user-select:none;flex-shrink:0;
 }
 .heb-date{
-  font-size:min(4.2vw,15px);font-weight:900;letter-spacing:1px;
+  font-size:min(3.5vw,13px);font-weight:900;letter-spacing:1px;
   background:linear-gradient(135deg,var(--gold),var(--amber));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
 }
-.greg-date{font-size:9px;color:#998;margin-top:0px;}
+.greg-date{font-size:8px;color:#998;margin-top:0px;}
 
 /* ── CURRENT CLOCK BOX ── */
 .card-current{
   width:100%;text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(22vw, 44vh);font-weight:900;
+  font-size:min(14vw, 24vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
-  text-shadow:0 0 25px rgba(255,248,232,.2);
+  text-shadow:0 0 20px rgba(255,248,232,.2);
 }
 
 .version-badge{
@@ -75,22 +75,21 @@ body{
   box-shadow:0 0 30px rgba(255,208,96,.3);
 }
 .hanetz-label{
-  font-size:min(3vw,11px);color:var(--gold);opacity:.85;
+  font-size:min(2.5vw,10px);color:var(--gold);opacity:.85;
   letter-spacing:1px;font-weight:800;
   text-align:center;line-height:1;margin-bottom:0;
 }
 .hanetz-time{
-  font-size:min(18vw, 34vh);font-weight:900;
+  font-size:min(12vw, 22vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
-  text-shadow:0 0 20px rgba(255,208,96,.4);
 }
 .hanetz-cd{
-  font-size:min(24vw, 48vh);font-weight:900;
+  font-size:min(32vw, 56vh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  line-height:1;letter-spacing:-2px;
+  line-height:0.9;letter-spacing:-2px;
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -156,20 +155,18 @@ body{
   body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:1px;}
   .header,.color-bar,.dbg{width:100%;}
   .card-current{width:100%;}
-  .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 35px);}
+  .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 30px);}
   .card-hanetz{height:100%;}
   .clock-mode{width:100vw;height:100dvh;}
-  .heb-date{font-size:min(2.5vw,13px);}
-  .current-time{font-size:min(24vw, 58vh);}
+  .heb-date{font-size:min(2vw,11px);}
+  .current-time{font-size:min(10vw, 18vh);}
   .clock-live-time{font-size:min(22.4vw, 40.6vh);}
   .clock-date{font-size:min(5.6vw,21px);}
   .clock-tomorrow{font-size:min(4.9vw,19.6px);}
-  .hanetz-time{font-size:min(18vw, 45vh);}
-  .hanetz-cd{font-size:min(24vw, 62vh);}
+  .hanetz-time{font-size:min(12vw, 30vh);}
+  .hanetz-cd{font-size:min(28vw, 70vh);}
 }
 </style>
-
-<meta name="NetsparkQuiltingResult" total-length="42700" removed="0" rules-found="w3390,w6223,w6224,w2655,w10679,w1696,w2577,w9641,w3012,w30244,w73,w30581,w30580,w2952,w6565" />
 </head>
 <body>
 
@@ -181,7 +178,7 @@ body{
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.00 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.01 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -199,7 +196,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.00 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.01 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -271,11 +268,9 @@ const H={
   "2027-08-14": "י' אלול תשפ״ז", "2027-08-15": "יא' אלול תשפ״ז", "2027-08-16": "יב' אלול תשפ״ז", "2027-08-17": "יג' אלול תשפ״ז", "2027-08-18": "יד' אלול תשפ״ז", "2027-08-19": "טו' אלול תשפ״ז", "2027-08-20": "טז' אלול תשפ״ז", "2027-08-21": "יז' אלול תשפ״ז", "2027-08-22": "חי' אלול תשפ״ז",
   "2027-08-23": "יט' אלול תשפ״ז", "2027-08-24": "כ' אלול תשפ״ז", "2027-08-25": "כא' אלול תשפ״ז", "2027-08-26": "כב' אלול תשפ״ז", "2027-08-27": "כג' אלול תשפ״ז", "2027-08-28": "כד' אלול תשפ״ז", "2027-08-29": "כה' אלול תשפ״ז", "2027-08-30": "כו' אלול תשפ״ז", "2027-08-31": "כז' אלול תשפ״ז",
   "2027-09-01": "כח' אלול תשפ״ז", "2027-09-02": "כט' אלול תשפ״ז",
-  // הוספת מפתחות ימי אלול תשפ״ו עבור הבדיקה הנוכחית
   "2026-09-07": "כ״ה אלול תשפ״ו", "2026-09-08": "כ״ו אלול תשפ״ו", "2026-09-09": "כ״ז אלול תשפ״ו", "2026-09-10": "כ״ח אלול תשפ״ו", "2026-09-11": "כ״ט אלול תשפ״ו"
 };
 
-// טבלת שעות הנץ המדויקות לכל חודש מתוך הלוח שלך
 const TABLE_SR = {
   "תשרי":   ["6:17:55","6:18:35","6:19:10","6:19:45","6:20:20","6:21:00","6:21:35","6:22:15","6:22:50","6:23:25","6:24:05","6:24:40","6:25:20","6:25:55","6:26:35","6:27:10","6:27:50","6:28:25","6:29:05","6:29:40","6:30:15","6:30:55","6:31:35","6:32:15","6:32:55","6:33:35","6:34:15","6:34:55","6:35:40","6:36:20"],
   "חשון":   ["6:37:00","6:37:45","6:38:25","6:39:10","6:39:50","6:40:35","6:41:20","6:42:05","6:42:45","6:43:30","6:44:15","6:45:05","6:45:50","5:46:35","5:47:25","5:48:10","5:49:00","5:49:45","5:50:20","5:51:10","5:51:50","5:52:40","5:53:30","5:54:20","5:55:10","5:56:00","5:56:50","5:57:45","5:58:35","5:59:25"],
@@ -289,17 +284,16 @@ const TABLE_SR = {
   "תמוז":   ["5:12:45","5:13:35","5:14:30","5:15:20","5:16:15","5:17:05","5:18:00","5:18:55","5:19:50","5:20:45","5:21:40","5:22:35","5:23:30","5:24:25","5:25:20","5:26:15","5:27:10","5:28:05","5:29:00","5:29:55","5:30:50","5:31:40","5:32:35","5:33:30","5:34:20","5:35:10","5:36:00","5:36:50","5:37:40","5:38:30"],
   "אב":     ["5:39:20","5:40:10","5:40:55","5:41:45","5:42:30","5:43:20","5:44:05","5:44:50","5:45:35","5:46:20","5:47:05","5:47:50","5:48:30","5:49:15","5:49:55","5:50:35","5:51:15","5:51:55","5:52:30","5:53:10","5:53:45","5:54:20","5:54:55","5:55:30","5:56:00","5:56:35","5:57:05","5:57:35","5:58:05","5:58:35"],
   "אלול":   ["5:59:05","5:59:35","6:00:00","6:00:30","6:00:55","6:01:25","6:01:50","6:02:15","6:02:40","6:03:05","6:03:30","6:03:50","6:04:15","6:04:35","6:05:00","6:05:20","6:05:40","6:06:00","6:06:20","6:06:40","6:07:00","6:07:25","6:07:45","6:08:10","6:08:35","6:09:00","6:09:25","6:09:55","6:10:25","6:10:55"],
-  // התאמה ישירה לפי האינדקסים המדויקים מתוך הלוח שלך באלול (כ״א עד כ״ט)
   "אלול_custom": {
-    "2026-09-03": "6:12:25", // כא
-    "2026-09-04": "6:13:00", // כב
-    "2026-09-05": "6:13:40", // כג
-    "2026-09-06": "6:14:15", // כד
-    "2026-09-07": "6:14:50", // כה
-    "2026-09-08": "6:15:30", // כו
-    "2026-09-09": "6:16:05", // כז
-    "2026-09-10": "6:16:40", // כח
-    "2026-09-11": "6:17:20"  // כט
+    "2026-09-03": "6:12:25",
+    "2026-09-04": "6:13:00",
+    "2026-09-05": "6:13:40",
+    "2026-09-06": "6:14:15",
+    "2026-09-07": "6:14:50",
+    "2026-09-08": "6:15:30",
+    "2026-09-09": "6:16:05",
+    "2026-09-10": "6:16:40",
+    "2026-09-11": "6:17:20"
   }
 };
 
@@ -507,7 +501,6 @@ updateDebugInputsFromCurrent();
 tick();
 setInterval(()=>{ updHeader(); tick(); }, 1000);
 
-// מניעת כיבוי מסך (Wake Lock)
 let wakeLock = null;
 async function requestWakeLock() {
   if ('wakeLock' in navigator) {
@@ -645,5 +638,5 @@ if('serviceWorker' in navigator){
   window.addEventListener('load',()=>navigator.serviceWorker.register('./swSun.js',{scope:'./'}).catch(()=>{}));
 }
 </script>
-<input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-15&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000746c8210b8f08e9262900bd9%26fn%3Dindex.html%26cd%3Dattachment%26ts%3D496911%26p%3Dfs%26cid%3D1%26sig%3D4272119cc8f14bc48034d1dbc6d35d828e56d39630c3f339a17db909dc7eb2ac%26v%3D0&user_id=556562&sigid=1e42dd8876b202d028740e7f08ac0fa852cb076fe2d506dd638a10487afedb42&startm=202201&keyword=&referer=https%3A%2F%2Fchatgpt.com%2Fc%2F6aa02501-2ef8-83ed-8f8f-9954b9b5dd61&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-15'/><input type='hidden' name='ntsp_user_level' value='-15'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body>
+</body>
 </html>

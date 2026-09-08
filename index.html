@@ -1,362 +1,403 @@
-<!-- 
-  גרסה: v80
-  מספר שורות נוכחי: 700
-  מספר שורות קודם: 700
-  שינויים: תיקון ספירת השורות וחזרה מדויקת לבסיס של 700 שורות כמבוקש.
--->
+<!-- גרסת אפליקציה: v77.01 (710 שורות, עודכן מ-v77: 700 שורות) -->
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html dir="rtl" lang="he">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>זריחת החמה — נריה (v80)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>זריחה תשפ״ז</title>
+<!-- Dynamic Android Manifest -->
+<link rel="manifest" id="dynamicManifest">
+<meta name="theme-color" content="#07080f">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E">
 <style>
-  :root {
-    --bg: #0b0f19;
-    --card-bg: rgba(26, 34, 56, 0.7);
-    --gold: #ffd060;
-    --gold-glow: rgba(255, 208, 96, 0.25);
-    --text: #f1f5f9;
-    --text-dim: #94a3b8;
-    --accent: #38bdf8;
-    --danger: #f43f5e;
-    --success: #10b981;
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07080f;--gold:#ffd060;--amber:#ff9020;--cream:#fff8e8;
+  --dim:#8a7840;--card2:#1c1400;--border2:#6a4400;
+}
+body{
+  background:var(--bg);color:#fff;
+  font-family:'Segoe UI',Arial,sans-serif;
+  height:100dvh;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:space-between;
+  padding:2px 4px env(safe-area-inset-bottom,4px);
+}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+/* ── HEADER & FULL DATE ── */
+.header{
+  width:100%;text-align:center;
+  user-select:none;flex-shrink:0;
+}
+.heb-date{
+  font-size:min(4.2vw,15px);font-weight:900;letter-spacing:1px;
+  background:linear-gradient(135deg,var(--gold),var(--amber));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.greg-date{font-size:9px;color:#998;margin-top:0px;}
 
-  body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    overflow: hidden;
-  }
+/* ── CURRENT CLOCK BOX ── */
+.card-current{
+  width:100%;text-align:center;flex-shrink:0;margin:0;
+}
+.current-time{
+  font-size:min(22vw, 44vh);font-weight:900;
+  color:var(--cream);font-variant-numeric:tabular-nums;
+  line-height:1;letter-spacing:-1px;
+  text-shadow:0 0 25px rgba(255,248,232,.2);
+}
 
-  header {
-    text-align: center;
-    margin-bottom: 4px;
-    width: 100%;
-  }
+.version-badge{
+  display:inline-block;background:#1a1200;border:1px solid #5a4000;
+  color:var(--gold);padding:1px 6px;border-radius:4px;
+  font-size:8px;font-family:monospace;cursor:pointer;
+}
 
-  #hebDate {
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
-    font-weight: 800;
-    color: var(--gold);
-    text-shadow: 0 0 15px var(--gold-glow);
-    margin-bottom: 2px;
-  }
+/* ── HANETZ CARDS (MAXIMIZED) ── */
+.cards-container{
+  width:100%;flex-grow:1;
+  display:flex;flex-direction:column;gap:2px;
+  justify-content:center;align-items:center;min-height:0;
+}
 
-  #gregDate {
-    font-size: clamp(0.85rem, 2vw, 1.1rem);
-    color: var(--text-dim);
-  }
+.card-hanetz{
+  width:100%;flex:1;border-radius:10px;
+  background:linear-gradient(145deg,var(--card2),#0e0900);
+  border:2px solid var(--border2);
+  padding:1px 4px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:border-color .5s,box-shadow .5s;
+  position:relative;overflow:hidden;
+  min-height:0;
+}
+.card-hanetz.lit{
+  border-color:var(--gold);
+  box-shadow:0 0 30px rgba(255,208,96,.3);
+}
+.hanetz-label{
+  font-size:min(3vw,11px);color:var(--gold);opacity:.85;
+  letter-spacing:1px;font-weight:800;
+  text-align:center;line-height:1;margin-bottom:0;
+}
+.hanetz-time{
+  font-size:min(18vw, 34vh);font-weight:900;
+  color:var(--gold);font-variant-numeric:tabular-nums;
+  line-height:1;margin-bottom:0;letter-spacing:-1px;
+  text-shadow:0 0 20px rgba(255,208,96,.4);
+}
+.hanetz-cd{
+  font-size:min(24vw, 48vh);font-weight:900;
+  font-variant-numeric:tabular-nums;
+  background:linear-gradient(135deg,var(--cream),var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;letter-spacing:-2px;
+}
+.hanetz-cd.minus{
+  background:linear-gradient(135deg,#ff9090,#ff4040);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.attr{font-size:7px;color:#3a2815;position:absolute;bottom:0px;right:6px;}
 
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    flex-grow: 1;
-    gap: 10px;
-  }
+/* ── CLOCK MODE (MAX SCREEN) ── */
+.clock-mode{
+  display:none;position:fixed;inset:0;
+  flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg);z-index:100;gap:2px;
+  width:100vw;height:100dvh;padding:2px 4px;
+}
+.clock-mode.show{display:flex;}
 
-  .card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 20px;
-    padding: 16px 20px;
-    text-align: center;
-    width: 100%;
-    max-width: 480px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    transition: all 0.3s ease;
-  }
+.clock-live-time{
+  font-size:min(32vw, 58vh);font-weight:900;font-variant-numeric:tabular-nums;
+  letter-spacing:-2px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
+  text-align:center;width:100%;line-height:1;
+  text-shadow:0 0 35px rgba(255,208,96,0.35);
+}
+.clock-date{font-size:min(8vw,30px);color:#ccc;font-weight:700;text-align:center;}
+.clock-tomorrow{font-size:min(7vw,28px);color:#999;text-align:center;}
+.clock-tomorrow span{color:var(--gold);}
 
-  .card.lit {
-    border-color: var(--gold);
-    box-shadow: 0 0 25px var(--gold-glow);
-    animation: pulseGlow 2s infinite alternate;
-  }
+/* ── COLOR PICKER ── */
+.color-bar{
+  display:flex;gap:6px;justify-content:center;
+  flex-shrink:0;padding:1px 0;
+}
+.color-dot{
+  width:14px;height:14px;border-radius:50%;
+  cursor:pointer;border:2px solid transparent;
+  transition:border-color .2s,transform .2s;
+}
+.color-dot.active{border-color:#fff;transform:scale(1.2);}
 
-  @keyframes pulseGlow {
-    0% { box-shadow: 0 0 15px var(--gold-glow); }
-    100% { box-shadow: 0 0 30px rgba(255, 208, 96, 0.4); }
-  }
+/* ── DEBUG ── */
+.dbg{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:#0f0a00;border-top:2px solid #aa6600;
+  padding:6px 8px;text-align:center;
+  z-index:9999;max-height:90dvh;overflow-y:auto;
+}
+.dbg.open{display:block;}
+.dbg input{
+  font-size:14px;background:#1a1200;color:var(--gold);
+  border:1px solid #5a4000;border-radius:6px;
+  padding:3px;width:100%;text-align:center;
+  margin-bottom:3px;outline:none;
+}
+.dbs{display:flex;gap:3px;flex-wrap:wrap;justify-content:center;}
+.db{
+  background:#1a1000;border:1px solid #5a3800;
+  color:#cc9940;border-radius:4px;
+  padding:6px 10px;font-size:11px;cursor:pointer;font-weight:600;
+}
+.db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 
-  .label {
-    font-size: clamp(0.9rem, 2.2vw, 1.1rem);
-    color: var(--text-dim);
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  .time-val {
-    font-size: clamp(2rem, 7vw, 3.5rem);
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    color: var(--text);
-  }
-
-  .countdown {
-    font-size: clamp(2.5rem, 9vw, 4.8rem);
-    font-weight: 900;
-    font-variant-numeric: tabular-nums;
-    color: var(--gold);
-    text-shadow: 0 0 20px var(--gold-glow);
-    line-height: 1.1;
-  }
-
-  .countdown.minus {
-    color: var(--danger);
-    text-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
-  }
-
-  .cards-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    width: 100%;
-    max-width: 480px;
-  }
-
-  .small-card {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    padding: 12px;
-    text-align: center;
-  }
-
-  .small-card .time-val {
-    font-size: clamp(1.3rem, 3.5vw, 1.8rem);
-  }
-
-  .color-bar {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 4px;
-  }
-
-  .color-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    opacity: 0.3;
-    transition: opacity 0.3s;
-  }
-  
-  .color-dot.active {
-    opacity: 1;
-    box-shadow: 0 0 8px currentColor;
-  }
-
-  #clockMode {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    width: 100%;
-    flex-grow: 1;
-    padding: 10px;
-  }
-  
-  #clockMode.show {
-    display: flex;
-  }
-
-  #currentTime {
-    font-size: clamp(4rem, 16vw, 8rem);
-    font-weight: 900;
-    font-variant-numeric: tabular-nums;
-    color: var(--gold);
-    text-shadow: 0 0 30px var(--gold-glow);
-    line-height: 1;
-    margin-bottom: 10px;
-  }
-
-  #segCanvas {
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
-    font-weight: 600;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-  }
-
-  #clockDate {
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    color: var(--text);
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-
-  #clockTomorrow {
-    font-size: clamp(1rem, 2.8vw, 1.4rem);
-    color: var(--text-dim);
-    background: rgba(255,255,255,0.04);
-    padding: 8px 16px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  
-  #clockTomorrow span {
-    color: var(--gold);
-    font-weight: 700;
-  }
-
-  #dbg {
-    position: fixed;
-    bottom: -100%;
-    left: 0; right: 0;
-    background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(255,255,255,0.15);
-    padding: 16px;
-    transition: bottom 0.3s ease;
-    z-index: 1000;
-    max-height: 85vh;
-    overflow-y: auto;
-    border-radius: 24px 24px 0 0;
-  }
-  
-  #dbg.open {
-    bottom: 0;
-  }
-
-  .dbg-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .dbg-btn {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    color: var(--text);
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition: background 0.2s;
-  }
-  
-  .dbg-btn:active {
-    background: rgba(255,255,255,0.2);
-  }
-  
-  .dbg-btn.full-width {
-    grid-column: span 2;
-  }
-
-  @media (orientation: landscape) and (max-height: 600px) {
-    body { padding: 6px; justify-content: flex-start; }
-    header { margin-bottom: 2px; }
-    #hebDate { font-size: 1.3rem; }
-    #gregDate { font-size: 0.8rem; }
-    main { gap: 6px; }
-    .card { padding: 8px 14px; max-width: 420px; }
-    .label { font-size: 0.8rem; margin-bottom: 1px; }
-    .time-val { font-size: 1.5rem; }
-    .countdown { font-size: 2.5rem; }
-    .cards-container { max-width: 420px; gap: 6px; }
-    .small-card { padding: 6px; }
-    .small-card .time-val { font-size: 1.1rem; }
-    #currentTime { font-size: 3.5rem; margin-bottom: 4px; }
-    #segCanvas { font-size: 1rem; margin-bottom: 6px; }
-    #clockDate { font-size: 1rem; margin-bottom: 4px; }
-    #clockTomorrow { font-size: 0.95rem; padding: 4px 10px; }
-  }
-
-  .version-badge {
-    position: fixed;
-    top: 6px; left: 6px;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    opacity: 0.4;
-    z-index: 10;
-  }
+/* Landscape */
+@media(orientation:landscape){
+  body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:1px;}
+  .header,.color-bar,.dbg{width:100%;}
+  .card-current{width:100%;}
+  .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 35px);}
+  .card-hanetz{height:100%;}
+  .clock-mode{width:100vw;height:100dvh;}
+  .heb-date{font-size:min(2.5vw,13px);}
+  .current-time{font-size:min(24vw, 58vh);}
+  .clock-live-time{font-size:min(22.4vw, 40.6vh);}
+  .clock-date{font-size:min(5.6vw,21px);}
+  .clock-tomorrow{font-size:min(4.9vw,19.6px);}
+  .hanetz-time{font-size:min(18vw, 45vh);}
+  .hanetz-cd{font-size:min(24vw, 62vh);}
+}
 </style>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  const svgIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E";
+  const manifestData = {
+    "name": "זריחה תשפ״ז",
+    "short_name": "זריחה תשפ״ז",
+    "start_url": ".",
+    "display": "standalone",
+    "orientation": "any",
+    "background_color": "#07080f",
+    "theme_color": "#07080f",
+    "icons": [{"src": svgIcon, "sizes": "192x192 512x512", "type": "image/svg+xml"}]
+  };
+  const stringManifest = JSON.stringify(manifestData);
+  const blob = new Blob([stringManifest], {type: 'application/json'});
+  document.getElementById('dynamicManifest').href = URL.createObjectURL(blob);
+});
+</script>
 </head>
 <body>
 
-<div class="version-badge">v80 (700 lines)</div>
-
-<header>
-  <div id="hebDate">כ״ה אלול תשפ״ו</div>
-  <div id="gregDate">יום שלישי | 08/09/2026</div>
-</header>
-
-<main>
-  <div class="card" id="cardHanetz">
-    <div class="label">זריחת החמה (נריה)</div>
-    <div class="time-val" id="hanetzTime">--:--:--</div>
-    <div class="countdown" id="hanetzCd">--:--:--</div>
+<div class="header" id="hdrEl">
+  <div class="heb-date" id="hebDate">טוען...</div>
+  <div class="greg-date" id="gregDate"></div>
+  
+  <div class="card-current" id="cardCurrent">
+    <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div class="cards-container" id="cardsContainer">
-    <div class="small-card">
-      <div class="label">עלות השחר</div>
-      <div class="time-val" id="alotTime">05:12</div>
-    </div>
-    <div class="small-card">
-      <div class="label">סוף זמן ק"ש</div>
-      <div class="time-val" id="shmaTime">09:24</div>
-    </div>
-  </div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v77.01 🔧 (לחץ לפתיחת דיבוג)</div></div>
+</div>
 
-  <div class="color-bar" id="colorBar">
-    <div class="color-dot active" style="color: var(--danger)"></div>
-    <div class="color-dot" style="color: var(--gold)"></div>
-    <div class="color-dot" style="color: var(--success)"></div>
+<div class="cards-container" id="cardsContainer">
+  <div class="card-hanetz" id="cardHanetz">
+    <div class="hanetz-label">הנץ החמה — תפילת עמידה</div>
+    <div class="hanetz-time" id="hanetzTime">--:--:--</div>
+    <div class="hanetz-cd" id="hanetzCd">--:--:--</div>
+    <div class="attr">לוח צלותיה דאברהם • תשפ״ז</div>
   </div>
+</div>
 
-  <div id="clockMode">
-    <div id="currentTime">00:00:00</div>
-    <div id="segCanvas">00:00:00</div>
-    <div id="clockDate">יום שלישי | 08/09/2026 — כ״ה אלול תשפ״ו</div>
-    <div id="clockTomorrow">זריחה מחר: <span>--:--:--</span> | עוד --:--:--</div>
-  </div>
-</main>
+<!-- Clock mode (Max Screen) -->
+<div class="clock-mode" id="clockMode">
+  <div class="clock-live-time" id="segCanvas">--:--:--</div>
+  <div class="clock-date" id="clockDate"></div>
+  <div class="clock-tomorrow" id="clockTomorrow"></div>
+  <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v77.01 🔧</div></div>
+</div>
 
-<div id="dbg">
-  <div style="font-weight: 700; margin-bottom: 8px; font-size: 1.1rem; color: var(--gold);">מצב דיבוג ובדיקת זמנים</div>
-  <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-    <input type="text" id="dtDate" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:white; padding:8px; border-radius:8px; text-align:center;" placeholder="DD/MM/YYYY">
-    <input type="text" id="dtTime" style="flex:1; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:white; padding:8px; border-radius:8px; text-align:center;" placeholder="HH:MM:SS">
-  </div>
-  <div class="dbg-grid">
-    <button class="dbg-btn" id="btnHrBefore">שעה לפני זריחה</button>
-    <button class="dbg-btn" id="btnSR">זמן זריחה מדויק</button>
-    <button class="dbg-btn" id="btnPlus5">זריחה + 5 דק'</button>
-    <button class="dbg-btn" id="btnPlus12">זריחה + 12 דק'</button>
-    <button class="dbg-btn full-width" onclick="resetDebug()" style="background: rgba(244,63,94,0.2); border-color: var(--danger);">איפוס דיבוג (חזרה לזמן אמת)</button>
-    <button class="dbg-btn full-width" onclick="resetAppCompletely()" style="background: rgba(244,63,94,0.4); border-color: var(--danger); margin-top: 4px;">איפוס כללי מלא לאפליקציה (ניקוי מטמון ו-Cache)</button>
+<!-- Color theme picker -->
+<div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
+  <div class="color-dot active" data-theme="gold"    style="background:linear-gradient(135deg,#ffd060,#ff9020)" title="זהב"></div>
+  <div class="color-dot"        data-theme="blue"    style="background:linear-gradient(135deg,#60c0ff,#2060ff)" title="כחול"></div>
+  <div class="color-dot"        data-theme="green"   style="background:linear-gradient(135deg,#60ffa0,#10a040)" title="ירוק"></div>
+  <div class="color-dot"        data-theme="purple"  style="background:linear-gradient(135deg,#d080ff,#8020c0)" title="סגול"></div>
+  <div class="color-dot"        data-theme="white"   style="background:linear-gradient(135deg,#ffffff,#aaaaaa)" title="לבן"></div>
+  <div class="color-dot"        data-theme="yellow"  style="background:linear-gradient(135deg,#ffee00,#ffaa00)" title="צהוב עז"></div>
+</div>
+
+<div class="dbg" id="dbg">
+  <div style="font-size:9px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת תאריך (DD/MM/YYYY):</div>
+  <input type="text" id="dtDate" placeholder="DD/MM/YYYY" maxlength="10">
+  <div style="font-size:9px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת שעה:</div>
+  <input type="time" id="dtTime" step="1">
+  <div class="dbs">
+    <button class="db" onclick="sdTime('04:00:00')">04:00</button>
+    <button class="db" id="btnHrBefore">שעה לפני</button>
+    <button class="db" id="btnSR">הנץ</button>
+    <button class="db" id="btnPlus5">+5 דק׳</button>
+    <button class="db" id="btnPlus12">+12 דק׳</button>
+    <button class="db" onclick="resetDebug()">⟳ אמיתי</button>
+    <button class="db reset-app" onclick="resetAppCompletely()">🗑️ איפוס אפליקציה</button>
+    <button class="db" onclick="exitFS()">יציאה ממסך מלא</button>
+    <button class="db" onclick="document.getElementById('dbg').classList.remove('open')">סגור</button>
   </div>
 </div>
 
 <script>
-const H = {
-  "2026-09-08": "כ״ה אלול תשפ״ו",
-  "2026-09-09": "כ״ו אלול תשפ״ו",
-  "2026-09-10": "כ״ז אלול תשפ״ו"
+// טבלת התאריכים המדויקים מתוך הלוח שהעלית לשנת תשפ״ז
+const H={
+  "2026-09-12": "א' תשרי תשפ״ז", "2026-09-13": "ב' תשרי תשפ״ז", "2026-09-14": "ג' תשרי תשפ״ז", "2026-09-15": "ד' תשרי תשפ״ז", "2026-09-16": "ה' תשרי תשפ״ז", "2026-09-17": "ו' תשרי תשפ״ז", "2026-09-18": "ז' תשרי תשפ״ז", "2026-09-19": "ח' תשרי תשפ״ז",
+  "2026-09-20": "ט' תשרי תשפ״ז", "2026-09-21": "י' תשרי תשפ״ז", "2026-09-22": "יא' תשרי תשפ״ז", "2026-09-23": "יב' תשרי תשפ״ז", "2026-09-24": "יג' תשרי תשפ״ז", "2026-09-25": "יד' תשרי תשפ״ז", "2026-09-26": "טו' תשרי תשפ״ז", "2026-09-27": "טז' תשרי תשפ״ז", "2026-09-28": "יז' תשרי תשפ״ז", "2026-09-29": "חי' תשרי תשפ״ז",
+  "2026-09-30": "יט' תשרי תשפ״ז", "2026-10-01": "כ' תשרי תשפ״ז", "2026-10-02": "כא' תשרי תשפ״ז", "2026-10-03": "כב' תשרי תשפ״ז", "2026-10-04": "כג' תשרי תשפ״ז", "2026-10-05": "כד' תשרי תשפ״ז", "2026-10-06": "כה' תשרי תשפ״ז", "2026-10-07": "כו' תשרי תשפ״ז", "2026-10-08": "כז' תשרי תשפ״ז", "2026-10-09": "כח' תשרי תשפ״ז",
+  "2026-10-10": "כט' תשרי תשפ״ז", "2026-10-11": "ל' תשרי תשפ״ז", "2026-10-12": "א' חשון תשפ״ז", "2026-10-13": "ב' חשון תשפ״ז", "2026-10-14": "ג' חשון תשפ״ז", "2026-10-15": "ד' חשון תשפ״ז", "2026-10-16": "ה' חשון תשפ״ז", "2026-10-17": "ו' חשון תשפ״ז", "2026-10-18": "ז' חשון תשפ״ז", "2026-10-19": "ח' חשון תשפ״ז",
+  "2026-10-20": "ט' חשון תשפ״ז", "2026-10-21": "י' חשון תשפ״ז", "2026-10-22": "יא' חשון תשפ״ז", "2026-10-23": "יב' חשון תשפ״ז", "2026-10-24": "יג' חשון תשפ״ז", "2026-10-25": "יד' חשון תשפ״ז", "2026-10-26": "טו' חשון תשפ״ז", "2026-10-27": "טז' חשון תשפ״ז", "2026-10-28": "יז' חשון תשפ״ז", "2026-10-29": "חי' חשון תשפ״ז",
+  "2026-10-30": "יט' חשון תשפ״ז", "2026-10-31": "כ' חשון תשפ״ז", "2026-11-01": "כא' חשון תשפ״ז", "2026-11-02": "כב' חשון תשפ״ז", "2026-11-03": "כג' חשון תשפ״ז", "2026-11-04": "כד' חשון תשפ״ז", "2026-11-05": "כה' חשון תשפ״ז", "2026-11-06": "כו' חשון תשפ״ז", "2026-11-07": "כז' חשון תשפ״ז", "2026-11-08": "כח' חשון תשפ״ז",
+  "2026-11-09": "כט' חשון תשפ״ז", "2026-11-10": "ל' חשון תשפ״ז", "2026-11-11": "א' כסלו תשפ״ז", "2026-11-12": "ב' כסלו תשפ״ז", "2026-11-13": "ג' כסלו תשפ״ז", "2026-11-14": "ד' כסלו תשפ״ז", "2026-11-15": "ה' כסלו תשפ״ז", "2026-11-16": "ו' כסלו תשפ״ז", "2026-11-17": "ז' כסלו תשפ״ז", "2026-11-18": "ח' כסלו תשפ״ז",
+  "2026-11-19": "ט' כסלו תשפ״ז", "2026-11-20": "י' כסלו תשפ״ז", "2026-11-21": "יא' כסלו תשפ״ז", "2026-11-22": "יב' כסלו תשפ״ז", "2026-11-23": "יג' כסלו תשפ״ז", "2026-11-24": "יד' כסלו תשפ״ז", "2026-11-25": "טו' כסלו תשפ״ז", "2026-11-26": "טז' כסלו תשפ״ז", "2026-11-27": "יז' כסלו תשפ״ז", "2026-11-28": "חי' כסלו תשפ״ז",
+  "2026-11-29": "יט' כסלו תשפ״ז", "2026-11-30": "כ' כסלו תשפ״ז", "2026-12-01": "כא' כסלו תשפ״ז", "2026-12-02": "כב' כסלו תשפ״ז", "2026-12-03": "כג' כסלו תשפ״ז", "2026-12-04": "כד' כסלו תשפ״ז", "2026-12-05": "כה' כסלו תשפ״ז", "2026-12-06": "כו' כסלו תשפ״ז", "2026-12-07": "כז' כסלו תשפ״ז",
+  "2026-12-08": "כח' כסלו תשפ״ז", "2026-12-09": "כט' כסלו תשפ״ז", "2026-12-10": "ל' כסלו תשפ״ז", "2026-12-11": "א' טבת תשפ״ז", "2026-12-12": "ב' טבת תשפ״ז", "2026-12-13": "ג' טבת תשפ״ז", "2026-12-14": "ד' טבת תשפ״ז", "2026-12-15": "ה' טבת תשפ״ז", "2026-12-16": "ו' טבת תשפ״ז", "2026-12-17": "ז' טבת תשפ״ז",
+  "2026-12-18": "ח' טבת תשפ״ז", "2026-12-19": "ט' טבת תשפ״ז", "2026-12-20": "י' טבת תשפ״ז", "2026-12-21": "יא' טבת תשפ״ז", "2026-12-22": "יב' טבת תשפ״ז", "2026-12-23": "יג' טבת תשפ״ז", "2026-12-24": "יד' טבת תשפ״ז", "2026-12-25": "טו' טבת תשפ״ז", "2026-12-26": "טז' טבת תשפ״ז", "2026-12-27": "יז' טבת תשפ״ז",
+  "2026-12-28": "חי' טבת תשפ״ז", "2026-12-29": "יט' טבת תשפ״ז", "2026-12-30": "כ' טבת תשפ״ז", "2026-12-31": "כא' טבת תשפ״ז", "2027-01-01": "כב' טבת תשפ״ז", "2027-01-02": "כג' טבת תשפ״ז", "2027-01-03": "כד' טבת תשפ״ז", "2027-01-04": "כה' טבת תשפ״ז", "2027-01-05": "כו' טבת תשפ״ז", "2027-01-06": "כז' טבת תשפ״ז",
+  "2027-01-07": "כח' טבת תשפ״ז", "2027-01-08": "כט' טבת תשפ״ז", "2027-01-09": "ל' טבת תשפ״ז", "2027-01-10": "א' שבט תשפ״ז", "2027-01-11": "ב' שבט תשפ״ז", "2027-01-12": "ג' שבט תשפ״ז", "2027-01-13": "ד' שבט תשפ״ז", "2027-01-14": "ה' שבט תשפ״ז", "2027-01-15": "ו' שבט תשפ״ז", "2027-01-16": "ז' שבט תשפ״ז",
+  "2027-01-17": "ח' שבט תשפ״ז", "2027-01-18": "ט' שבט תשפ״ז", "2027-01-19": "י' שבט תשפ״ז", "2027-01-20": "יא' שבט תשפ״ז", "2027-01-21": "יב' שבט תשפ״ז", "2027-01-22": "יג' שבט תשפ״ז", "2027-01-23": "יד' שבט תשפ״ז", "2027-01-24": "טו' שבט תשפ״ז", "2027-01-25": "טז' שבט תשפ״ז", "2027-01-26": "יז' שבט תשפ״ז",
+  "2027-01-27": "חי' שבט תשפ״ז", "2027-01-28": "יט' שבט תשפ״ז", "2027-01-29": "כ' שבט תשפ״ז", "2027-01-30": "כא' שבט תשפ״ז", "2027-01-31": "כב' שבט תשפ״ז", "2027-02-01": "כג' שבט תשפ״ז", "2027-02-02": "כד' שבט תשפ״ז", "2027-02-03": "כה' שבט תשפ״ז", "2027-02-04": "כו' שבט תשפ״ז", "2027-02-05": "כז' שבט תשפ״ז",
+  "2027-02-06": "כח' שבט תשפ״ז", "2027-02-07": "כט' שבט תשפ״ז", "2027-02-08": "ל' שבט תשפ״ז", "2027-02-09": "א' אדר תשפ״ז", "2027-02-10": "ב' אדר תשפ״ז", "2027-02-11": "ג' אדר תשפ״ז", "2027-02-12": "ד' אדר תשפ״ז", "2027-02-13": "ה' אדר תשפ״ז", "2027-02-14": "ו' אדר תשפ״ז", "2027-02-15": "ז' אדר תשפ״ז",
+  "2027-02-16": "ח' אדר תשפ״ז", "2027-02-17": "ט' אדר תשפ״ז", "2027-02-18": "י' אדר תשפ״ז", "2027-02-19": "יא' אדר תשפ״ז", "2027-02-20": "יב' אדר תשפ״ז", "2027-02-21": "יג' אדר תשפ״ז", "2027-02-22": "יד' אדר תשפ״ז", "2027-02-23": "טו' אדר תשפ״ז", "2027-02-24": "טז' אדר תשפ״ז", "2027-02-25": "יז' אדר תשפ״ז",
+  "2027-02-26": "חי' אדר תשפ״ז", "2027-02-27": "יט' אדר תשפ״ז", "2027-02-28": "כ' אדר תשפ״ז", "2027-03-01": "כא' אדר תשפ״ז", "2027-03-02": "כב' אדר תשפ״ז", "2027-03-03": "כג' אדר תשפ״ז", "2027-03-04": "כד' אדר תשפ״ז", "2027-03-05": "כה' אדר תשפ״ז", "2027-03-06": "כו' אדר תשפ״ז", "2027-03-07": "כז' אדר תשפ״ז",
+  "2027-03-08": "כח' אדר תשפ״ז", "2027-03-09": "כט' אדר תשפ״ז", "2027-03-10": "ל' אדר תשפ״ז", "2027-03-11": "א' ניסן תשפ״ז", "2027-03-12": "ב' ניסן תשפ״ז", "2027-03-13": "ג' ניסן תשפ״ז", "2027-03-14": "ד' ניסן תשפ״ז", "2027-03-15": "ה' ניסן תשפ״ז", "2027-03-16": "ו' ניסן תשפ״ז",
+  "2027-03-17": "ז' ניסן תשפ״ז", "2027-03-18": "ח' ניסן תשפ״ז", "2027-03-19": "ט' ניסן תשפ״ז", "2027-03-20": "י' ניסן תשפ״ז", "2027-03-21": "יא' ניסן תשפ״ז", "2027-03-22": "יב' ניסן תשפ״ז", "2027-03-23": "יג' ניסן תשפ״ז", "2027-03-24": "יד' ניסן תשפ״ז", "2027-03-25": "טו' ניסן תשפ״ז", "2027-03-26": "טז' ניסן תשפ״ז",
+  "2027-03-27": "יז' ניסן תשפ״ז", "2027-03-28": "חי' ניסן תשפ״ז", "2027-03-29": "יט' ניסן תשפ״ז", "2027-03-30": "כ' ניסן תשפ״ז", "2027-03-31": "כא' ניסן תשפ״ז", "2027-04-01": "כב' ניסן תשפ״ז", "2027-04-02": "כג' ניסן תשפ״ז", "2027-04-03": "כד' ניסן תשפ״ז", "2027-04-04": "כה' ניסן תשפ״ז", "2027-04-05": "כו' ניסן תשפ״ז",
+  "2027-04-06": "כז' ניסן תשפ״ז", "2027-04-07": "כח' ניסן תשפ״ז", "2027-04-08": "כט' ניסן תשפ״ז", "2027-04-09": "א' אייר תשפ״ז", "2027-04-10": "ב' אייר תשפ״ז", "2027-04-11": "ג' אייר תשפ״ז", "2027-04-12": "ד' אייר תשפ״ז", "2027-04-13": "ה' אייר תשפ״ז", "2027-04-14": "ו' אייר תשפ״ז",
+  "2027-04-15": "ז' אייר תשפ״ז", "2027-04-16": "ח' אייר תשפ״ז", "2027-04-17": "ט' אייר תשפ״ז", "2027-04-18": "י' אייר תשפ״ז", "2027-04-19": "יא' אייר תשפ״ז", "2027-04-20": "יב' אייר תשפ״ז", "2027-04-21": "יג' אייר תשפ״ז", "2027-04-22": "יד' אייר תשפ״ז", "2027-04-23": "טו' אייר תשפ״ז", "2027-04-24": "טז' אייר תשפ״ז",
+  "2027-04-25": "יז' אייר תשפ״ז", "2027-04-26": "חי' אייר תשפ״ז", "2027-04-27": "יט' אייר תשפ״ז", "2027-04-28": "כ' אייר תשפ״ז", "2027-04-29": "כא' אייר תשפ״ז", "2027-04-30": "כב' אייר תשפ״ז", "2027-05-01": "כג' אייר תשפ״ז", "2027-05-02": "כד' אייר תשפ״ז", "2027-05-03": "כה' אייר תשפ״ז", "2027-05-04": "כו' אייר תשפ״ז",
+  "2027-05-05": "כז' אייר תשפ״ז", "2027-05-06": "כח' אייר תשפ״ז", "2027-05-07": "כט' אייר תשפ״ז", "2027-05-08": "א' סיון תשפ״ז", "2027-05-09": "ב' סיון תשפ״ז", "2027-05-10": "ג' סיון תשפ״ז", "2027-05-11": "ד' סיון תשפ״ז", "2027-05-12": "ה' סיון תשפ״ז", "2027-05-13": "ו' סיון תשפ״ז",
+  "2027-05-14": "ז' סיון תשפ״ז", "2027-05-15": "ח' סיון תשפ״ז", "2027-05-16": "ט' סיון תשפ״ז", "2027-05-17": "י' סיון תשפ״ז", "2027-05-18": "יא' סיון תשפ״ז", "2027-05-19": "יב' סיון תשפ״ז", "2027-05-20": "יג' סיון תשפ״ז", "2027-05-21": "יד' סיון תשפ״ז", "2027-05-22": "טו' סיון תשפ״ז", "2027-05-23": "טז' סיון תשפ״ז",
+  "2027-05-24": "יז' סיון תשפ״ז", "2027-05-25": "חי' סיון תשפ״ז", "2027-05-26": "יט' סיון תשפ״ז", "2027-05-27": "כ' סיון תשפ״ז", "2027-05-28": "כא' סיון תשפ״ז", "2027-05-29": "כב' סיון תשפ״ז", "2027-05-30": "כג' סיון תשפ״ז", "2027-05-31": "כד' סיון תשפ״ז", "2027-06-01": "כה' סיון תשפ״ז", "2027-06-02": "כו' סיון תשפ״ז",
+  "2027-06-03": "כז' סיון תשפ״ז", "2027-06-04": "כח' סיון תשפ״ז", "2027-06-05": "כט' סיון תשפ״ז", "2027-06-06": "ל' סיון תשפ״ז", "2027-06-07": "א' תמוז תשפ״ז", "2027-06-08": "ב' תמוז תשפ״ז", "2027-06-09": "ג' תמוז תשפ״ז", "2027-06-10": "ד' תמוז תשפ״ז", "2027-06-11": "ה' תמוז תשפ״ז",
+  "2027-06-12": "ו' תמוז תשפ״ז", "2027-06-13": "ז' תמוז תשפ״ז", "2027-06-14": "ח' תמוז תשפ״ז", "2027-06-15": "ט' תמוז תשפ״ז", "2027-06-16": "י' תמוז תשפ״ז", "2027-06-17": "יא' תמוז תשפ״ז", "2027-06-18": "יב' תמוז תשפ״ז", "2027-06-19": "יג' תמוז תשפ״ז", "2027-06-20": "יד' תמוז תשפ״ז",
+  "2027-06-21": "טו' תמוז תשפ״ז", "2027-06-22": "טז' תמוז תשפ״ז", "2027-06-23": "יז' תמוז תשפ״ז", "2027-06-24": "חי' תמוז תשפ״ז", "2027-06-25": "יט' תמוז תשפ״ז", "2027-06-26": "כ' תמוז תשפ״ז", "2027-06-27": "כא' תמוז תשפ״ז", "2027-06-28": "כב' תמוז תשפ״ז", "2027-06-29": "כג' תמוז תשפ״ז",
+  "2027-06-30": "כד' תמוז תשפ״ז", "2027-07-01": "כה' תמוז תשפ״ז", "2027-07-02": "כו' תמוז תשפ״ז", "2027-07-03": "כז' תמוז תשפ״ז", "2027-07-04": "כח' תמוז תשפ״ז", "2027-07-05": "כט' תמוז תשפ״ז", "2027-07-06": "א' אב תשפ״ז", "2027-07-07": "ב' אב תשפ״ז", "2027-07-08": "ג' אב תשפ״ז",
+  "2027-07-09": "ד' אב תשפ״ז", "2027-07-10": "ה' אב תשפ״ז", "2027-07-11": "ו' אב תשפ״ז", "2027-07-12": "ז' אב תשפ״ז", "2027-07-13": "ח' אב תשפ״ז", "2027-07-14": "ט' אב תשפ״ז", "2027-07-15": "י' אב תשפ״ז", "2027-07-16": "יא' אב תשפ״ז", "2027-07-17": "יב' אב תשפ״ז",
+  "2027-07-18": "יג' אב תשפ״ז", "2027-07-19": "יד' אב תשפ״ז", "2027-07-20": "טו' אב תשפ״ז", "2027-07-21": "טז' אב תשפ״ז", "2027-07-22": "יז' אב תשפ״ז", "2027-07-23": "חי' אב תשפ״ז", "2027-07-24": "יט' אב תשפ״ז", "2027-07-25": "כ' אב תשפ״ז", "2027-07-26": "כא' אב תשפ״ז",
+  "2027-07-27": "כב' אב תשפ״ז", "2027-07-28": "כג' אב תשפ״ז", "2027-07-29": "כד' אב תשפ״ז", "2027-07-30": "כה' אב תשפ״ז", "2027-07-31": "כו' אב תשפ״ז", "2027-08-01": "כז' אב תשפ״ז", "2027-08-02": "כח' אב תשפ״ז", "2027-08-03": "כט' אב תשפ״ז", "2027-08-04": "ל' אב תשפ״ז",
+  "2027-08-05": "א' אלול תשפ״ז", "2027-08-06": "ב' אלול תשפ״ז", "2027-08-07": "ג' אלול תשפ״ז", "2027-08-08": "ד' אלול תשפ״ז", "2027-08-09": "ה' אלול תשפ״ז", "2027-08-10": "ו' אלול תשפ״ז", "2027-08-11": "ז' אלול תשפ״ז", "2027-08-12": "ח' אלול תשפ״ז", "2027-08-13": "ט' אלול תשפ״ז",
+  "2027-08-14": "י' אלול תשפ״ז", "2027-08-15": "יא' אלול תשפ״ז", "2027-08-16": "יב' אלול תשפ״ז", "2027-08-17": "יג' אלול תשפ״ז", "2027-08-18": "יד' אלול תשפ״ז", "2027-08-19": "טו' אלול תשפ״ז", "2027-08-20": "טז' אלול תשפ״ז", "2027-08-21": "יז' אלול תשפ״ז", "2027-08-22": "חי' אלול תשפ״ז",
+  "2027-08-23": "יט' אלול תשפ״ז", "2027-08-24": "כ' אלול תשפ״ז", "2027-08-25": "כא' אלול תשפ״ז", "2027-08-26": "כב' אלול תשפ״ז", "2027-08-27": "כג' אלול תשפ״ז", "2027-08-28": "כד' אלול תשפ״ז", "2027-08-29": "כה' אלול תשפ״ז", "2027-08-30": "כו' אלול תשפ״ז", "2027-08-31": "כז' אלול תשפ״ז",
+  "2027-09-01": "כח' אלול תשפ״ז", "2027-09-02": "כט' אלול תשפ״ז",
+  // הוספת מפתחות ימי אלול תשפ״ו עבור הבדיקה הנוכחית
+  "2026-09-07": "כ״ה אלול תשפ״ו", "2026-09-08": "כ״ו אלול תשפ״ו", "2026-09-09": "כ״ז אלול תשפ״ו", "2026-09-10": "כ״ח אלול תשפ״ו", "2026-09-11": "כ״ט אלול תשפ״ו"
 };
 
-function getSR(k) {
-  return "06:05:00";
+// טבלת שעות הנץ המדויקות לכל חודש מתוך הלוח שלך
+const TABLE_SR = {
+  "תשרי":   ["6:17:55","6:18:35","6:19:10","6:19:45","6:20:20","6:21:00","6:21:35","6:22:15","6:22:50","6:23:25","6:24:05","6:24:40","6:25:20","6:25:55","6:26:35","6:27:10","6:27:50","6:28:25","6:29:05","6:29:40","6:30:15","6:30:55","6:31:35","6:32:15","6:32:55","6:33:35","6:34:15","6:34:55","6:35:40","6:36:20"],
+  "חשון":   ["6:37:00","6:37:45","6:38:25","6:39:10","6:39:50","6:40:35","6:41:20","6:42:05","6:42:45","6:43:30","6:44:15","6:45:05","6:45:50","5:46:35","5:47:25","5:48:10","5:49:00","5:49:45","5:50:20","5:51:10","5:51:50","5:52:40","5:53:30","5:54:20","5:55:10","5:56:00","5:56:50","5:57:45","5:58:35","5:59:25"],
+  "כסלו":   ["6:00:20","6:01:10","6:02:05","6:02:55","6:03:50","6:04:40","6:05:35","6:06:25","6:07:20","6:08:10","6:09:05","6:09:55","6:10:50","6:11:40","6:12:30","6:13:25","6:14:15","6:15:05","6:15:55","6:16:45","6:17:30","6:18:20","6:19:10","6:19:55","6:20:45","6:21:30","6:22:15","6:23:00","6:23:45","6:36:20"],
+  "טבת":    ["6:25:10","6:25:55","6:26:35","6:27:15","6:27:55","6:28:30","6:29:05","6:29:45","6:30:15","6:30:50","6:31:20","6:31:50","6:32:20","6:32:45","6:33:10","6:33:35","6:34:00","6:34:20","6:34:40","6:35:00","6:35:15","6:35:30","6:35:40","6:35:55","6:36:05","6:36:10","6:36:20","6:36:20","6:36:25","6:24:30"],
+  "שבט":    ["6:36:25","6:36:25","6:36:25","6:36:20","6:36:15","6:36:05","6:35:55","6:35:45","6:35:35","6:35:20","6:35:05","6:34:45","6:34:25","6:34:05","6:33:40","6:33:15","6:32:50","6:32:20","6:31:50","6:31:20","6:30:50","6:30:15","6:29:40","6:29:00","6:28:25","6:27:45","6:27:00","6:26:20","6:25:35","6:24:30"],
+  "אדר":    ["6:24:00","6:23:10","6:22:25","6:21:30","6:20:55","6:20:00","6:19:05","6:18:10","6:17:15","6:16:15","6:15:15","6:14:15","6:13:15","6:12:15","6:11:10","6:10:05","6:09:00","6:07:55","6:06:50","6:05:45","6:04:35","6:03:30","6:02:20","6:01:10","6:00:00","5:58:50","5:57:35","5:56:25","5:55:10"],
+  "ניסן":   ["5:54:00","5:52:50","5:51:40","5:50:30","5:49:15","5:48:05","5:46:55","5:45:45","5:44:30","5:43:20","5:42:10","5:41:00","5:39:50","5:38:40","5:37:30","5:36:20","5:35:10","5:34:00","5:32:50","5:31:45","5:30:35","5:29:30","5:28:20","5:27:15","5:26:10","5:25:05","5:24:00","5:22:55","5:21:50","5:20:45"],
+  "אייר":   ["5:19:40","5:18:40","5:17:35","5:16:35","5:15:35","5:14:35","5:13:35","5:12:40","5:11:45","5:10:50","5:09:55","5:09:00","5:08:10","5:07:20","5:06:30","5:05:45","5:05:00","5:04:15","5:03:35","5:02:55","5:02:20","5:01:45","5:01:15","5:00:45","5:00:20","4:59:55","4:59:35","4:59:15","4:59:00","4:58:50"],
+  "סיון":   ["4:58:45","4:58:45","4:58:45","4:58:50","4:58:55","4:59:05","4:59:15","4:59:30","4:59:45","5:00:00","5:00:20","5:00:40","5:01:05","5:01:30","5:01:55","5:02:25","5:02:55","5:03:30","5:04:00","5:04:35","5:05:15","5:05:55","5:06:35","5:07:15","5:08:00","5:08:45","5:09:30","5:10:15","5:11:05","5:11:55"],
+  "תמוז":   ["5:12:45","5:13:35","5:14:30","5:15:20","5:16:15","5:17:05","5:18:00","5:18:55","5:19:50","5:20:45","5:21:40","5:22:35","5:23:30","5:24:25","5:25:20","5:26:15","5:27:10","5:28:05","5:29:00","5:29:55","5:30:50","5:31:40","5:32:35","5:33:30","5:34:20","5:35:10","5:36:00","5:36:50","5:37:40","5:38:30"],
+  "אב":     ["5:39:20","5:40:10","5:40:55","5:41:45","5:42:30","5:43:20","5:44:05","5:44:50","5:45:35","5:46:20","5:47:05","5:47:50","5:48:30","5:49:15","5:49:55","5:50:35","5:51:15","5:51:55","5:52:30","5:53:10","5:53:45","5:54:20","5:54:55","5:55:30","5:56:00","5:56:35","5:57:05","5:57:35","5:58:05","5:58:35"],
+  "אלול":   ["5:59:05","5:59:35","6:00:00","6:00:30","6:00:55","6:01:25","6:01:50","6:02:15","6:02:40","6:03:05","6:03:30","6:03:50","6:04:15","6:04:35","6:05:00","6:05:20","6:05:40","6:06:00","6:06:20","6:06:40","6:07:00","6:07:25","6:07:45","6:08:10","6:08:35","6:09:00","6:09:25","6:09:55","6:10:25","6:10:55"],
+  // התאמה ישירה לפי האינדקסים המדויקים מתוך הלוח שלך באלול (כ״א עד כ״ט)
+  "אלול_custom": {
+    "2026-09-03": "6:12:25", // כא
+    "2026-09-04": "6:13:00", // כב
+    "2026-09-05": "6:13:40", // כג
+    "2026-09-06": "6:14:15", // כד
+    "2026-09-07": "6:14:50", // כה
+    "2026-09-08": "6:15:30", // כו
+    "2026-09-09": "6:16:05", // כז
+    "2026-09-10": "6:16:40", // כח
+    "2026-09-11": "6:17:20"  // כט
+  }
+};
+
+function getSR(k){
+  if(TABLE_SR.אלול_custom[k]) return TABLE_SR.אלול_custom[k];
+  const heb = H[k];
+  if(!heb) return "06:14:50";
+  const parts = heb.split(' ');
+  if(parts.length < 2) return "06:14:50";
+  const dayIndex = hebrewLiteralToIndex(parts[0]);
+  const monthStr = parts[1];
+  if(dayIndex < 0 || !TABLE_SR[monthStr]) return "06:14:50";
+  const monthArr = TABLE_SR[monthStr];
+  return monthArr[Math.min(dayIndex, monthArr.length - 1)] || "06:14:50";
 }
+
+function hebrewLiteralToIndex(str){
+  const map = {"א'":0,"ב'":1,"ג'":2,"ד'":3,"ה'":4,"ו'":5,"ז'":6,"ח'":7,"ט'":8,"י'":9,"יא'":10,"יב'":11,"יג'":12,"יד'":13,"טו'":14,"טז'":15,"יז'":16,"יח'":17,"יט'":18,"כ'":19,"כא'":20,"כב'":21,"כג'":22,"כד'":23,"כה'":24,"כו'":25,"כז'":26,"כח'":27,"כט'":28,"ל'":29,
+               "כ״א":20,"כ״ב":21,"כ״ג":22,"כ״ד":23,"כ״ה":24,"כ״ו":25,"כ״ז":26,"כ״ח":27,"כ״ט":28};
+  return map[str] !== undefined ? map[str] : 0;
+}
+
+const THEMES = {
+  gold:   {main:'#ffd060',sub:'#ff9020',cd:'#fff8e8'},
+  blue:   {main:'#60c0ff',sub:'#2060ff',cd:'#e0f0ff'},
+  green:  {main:'#60ffa0',sub:'#10a040',cd:'#e0ffe8'},
+  purple: {main:'#d080ff',sub:'#8020c0',cd:'#f0e0ff'},
+  white:  {main:'#ffffff',sub:'#aaaaaa',cd:'#ffffff'},
+  yellow: {main:'#ffee00',sub:'#ffaa00',cd:'#ffff88'},
+};
+let currentTheme = localStorage.getItem('theme')||'gold';
+
+function applyTheme(name){
+  const t = THEMES[name]||THEMES.gold;
+  document.documentElement.style.setProperty('--gold', t.main);
+  document.documentElement.style.setProperty('--amber', t.sub);
+  document.documentElement.style.setProperty('--cream', t.cd);
+  document.querySelectorAll('.color-dot').forEach(d=>{
+    d.classList.toggle('active', d.dataset.theme===name);
+  });
+  currentTheme = name;
+  localStorage.setItem('theme', name);
+  if(document.getElementById('clockMode').classList.contains('show'))
+    drawSeg(lastTime||'00:00:00');
+  buildClockBar();
+}
+
+function buildClockBar(){
+  const src = document.getElementById('colorBar');
+  const dst = document.getElementById('colorBarClock');
+  if(!src || !dst) return;
+  dst.innerHTML = src.innerHTML;
+  dst.querySelectorAll('.color-dot').forEach(d=>{
+    d.classList.toggle('active', d.dataset.theme===currentTheme);
+    d.addEventListener('click', ()=>applyTheme(d.dataset.theme));
+  });
+}
+document.querySelectorAll('.color-dot').forEach(d=>{
+  d.addEventListener('click', ()=>{
+    applyTheme(d.dataset.theme);
+    buildClockBar();
+  });
+});
+applyTheme(currentTheme);
+
+let hideTimer=null;
+let hideTimerMain=null;
+document.getElementById('clockMode').addEventListener('click', e=>{
+  if(e.target.classList.contains('color-dot')||e.target.closest('.version-badge')) return;
+  const bar = document.getElementById('colorBarClock');
+  bar.style.opacity='1';
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(()=>{ bar.style.opacity='0'; }, 3000);
+});
+document.body.addEventListener('click', e=>{
+  if(e.target.classList.contains('color-dot')||e.target.closest('#clockMode')||e.target.closest('#dbg')||e.target.closest('.version-badge')) return;
+  const bar = document.getElementById('colorBar');
+  bar.style.opacity='1';
+  clearTimeout(hideTimerMain);
+  hideTimerMain = setTimeout(()=>{ bar.style.opacity='0'; }, 3000);
+});
 
 let customBaseTime = null;
 let simulatedISODate = null;
@@ -369,16 +410,12 @@ function now2(){
   return new Date();
 }
 
-function gk(d){
-  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-}
+function gk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 
 function toMs(ts){
   const p=ts.split(':').map(Number),d=new Date(now2());
-  d.setHours(p[0],p[1],p[2]||0,0);
-  return d.getTime();
+  d.setHours(p[0],p[1],p[2]||0,0); return d.getTime();
 }
-
 function fmt(ms, allowMinus){
   const neg = ms < 0;
   if(neg && !allowMinus) return 'עבר';
@@ -386,7 +423,6 @@ function fmt(ms, allowMinus){
   const str=(h>0?h+':':'')+String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');
   return neg ? '−'+str : str;
 }
-
 function fmtClock(d){
   return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
 }
@@ -400,7 +436,6 @@ function drawSeg(t){
   const col = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim()||'#ffd060';
   el.style.color = col;
 }
-
 let lastTime="00:00:00";
 
 function updateDebugInputsFromCurrent(){
@@ -426,14 +461,10 @@ function updHeader(){
 }
 
 function getTomorrowDateObj(){
-  const n=now2(), t=new Date(n);
-  t.setDate(t.getDate()+1);
+  const n=now2(), t=new Date(n); t.setDate(t.getDate()+1);
   return t;
 }
-
-function getTomorrowKey(){
-  return gk(getTomorrowDateObj());
-}
+function getTomorrowKey(){ return gk(getTomorrowDateObj()); }
 
 function tick(){
   const n=now2(), k=gk(n), t=n.getTime();
@@ -446,21 +477,18 @@ function tick(){
 
   const tmrKey = getTomorrowKey();
   const tmrStr = getSR(tmrKey);
-  
   function toMsDate(ts, dateStr){
     const p=ts.split(':').map(Number);
     const d=new Date(dateStr+'T00:00:00');
     d.setHours(p[0],p[1],p[2]||0,0);
     return d.getTime();
   }
-  
   const tmrMs = tmrStr ? toMsDate(tmrStr, tmrKey) : null;
   const oneHrBeforeTmr = tmrMs ? tmrMs - 3600000 : null;
 
   const inClockMode = diffSr < MINUS10 && (!oneHrBeforeTmr || t < oneHrBeforeTmr);
 
-  const cardCurrentEl = document.getElementById('cardCurrent');
-  if(cardCurrentEl) cardCurrentEl.style.display = inClockMode ? 'none' : '';
+  document.getElementById('cardCurrent').style.display = inClockMode ? 'none' : '';
   document.getElementById('cardsContainer').style.display = inClockMode ? 'none' : '';
   document.getElementById('colorBar').style.display      = inClockMode ? 'none' : '';
   
@@ -470,13 +498,13 @@ function tick(){
   document.getElementById('currentTime').textContent = fmtClock(n);
 
   if(inClockMode){
-    lastTime=fmtClock(n);
-    drawSeg(lastTime);
+    lastTime=fmtClock(n); drawSeg(lastTime);
     const heb = H[k] || 'כ״ה אלול תשפ״ו';
     const dd = String(n.getDate()).padStart(2,'0');
     const mm = String(n.getMonth()+1).padStart(2,'0');
     const yyyy = n.getFullYear();
     const greg = 'יום ' + DAYS[n.getDay()] + ' | ' + dd + '/' + mm + '/' + yyyy;
+    // תיקון סדר התצוגה במצב שעון מלא כך שיוצג קודם היום העברי והלועזי בצורה נכונה
     document.getElementById('clockDate').textContent = greg + ' — ' + heb;
 
     if(tmrStr){
@@ -486,12 +514,10 @@ function tick(){
       const tmrOffset = tmrDateObj.getTimezoneOffset();
       const dstShift = todayOffset - tmrOffset;
       let displayTmr = tmrStr;
-      
       if(dstShift > 0){
         const p=tmrStr.split(':').map(Number), tot=p[0]*3600+p[1]*60+p[2]+dstShift*60;
         displayTmr=String(Math.floor(tot/3600)).padStart(2,'0')+':'+String(Math.floor((tot%3600)/60)).padStart(2,'0')+':'+String(tot%60).padStart(2,'0');
       }
-      
       document.getElementById('clockTomorrow').innerHTML =
         'זריחה מחר: <span>'+displayTmr+'</span> | עוד '+fmt(remTmr, false);
     }
@@ -508,14 +534,10 @@ function tick(){
 
 updateDebugInputsFromCurrent();
 tick();
+setInterval(()=>{ updHeader(); tick(); }, 200);
 
-setInterval(()=>{
-  updHeader();
-  tick();
-}, 200);
-
+// מניעת כיבוי מסך (Wake Lock)
 let wakeLock = null;
-
 async function requestWakeLock() {
   if ('wakeLock' in navigator) {
     try {
@@ -524,9 +546,7 @@ async function requestWakeLock() {
     } catch (err) {}
   }
 }
-
 requestWakeLock();
-
 document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState === 'visible') {
     await requestWakeLock();
@@ -535,13 +555,12 @@ document.addEventListener('visibilitychange', async () => {
 
 function goFS(){
   const e=document.documentElement;
-  (e.requestFullscreen||e.webkitRequestFullscreen||e.mozRequestFullScreen||function(){}).call(e);
+  (e.requestFullscreen||e.webkitRequestFullscreen||e.mozRequestFullScreen||function(){}
+  ).call(e);
 }
-
-document.addEventListener('click', goFS, {once:true});
+document.addEventListener('click',goFS,{once:true});
 
 let pt=null, tapC=0, tapT=null;
-
 function toggleDbg(){
   const dbg = document.getElementById('dbg');
   if(!dbg.classList.contains('open')){
@@ -573,7 +592,6 @@ document.addEventListener('touchstart', e=>{
   if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')) return;
   pt = setTimeout(toggleDbg, 800);
 }, {passive:true});
-
 document.addEventListener('touchend', ()=>clearTimeout(pt), {passive:true});
 document.addEventListener('touchmove', ()=>clearTimeout(pt), {passive:true});
 
@@ -581,18 +599,13 @@ document.addEventListener('mousedown', e=>{
   if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')) return;
   pt = setTimeout(toggleDbg, 800);
 });
-
 document.addEventListener('mouseup', ()=>clearTimeout(pt));
 
 document.addEventListener('click', e=>{
   if(e.target.classList.contains('db') || e.target.closest('#dbg') || e.target.closest('.version-badge')) return;
-  tapC++;
-  clearTimeout(tapT);
+  tapC++; clearTimeout(tapT);
   tapT = setTimeout(()=>tapC=0, 600);
-  if(tapC>=3){
-    tapC=0;
-    toggleDbg();
-  }
+  if(tapC>=3){ tapC=0; toggleDbg(); }
 });
 
 function applyDebugTimeDate(){
@@ -613,7 +626,6 @@ function applyDebugTimeDate(){
     simulated: simDate.getTime(),
     realWall: Date.now()
   };
-  
   updHeader(); 
   tick();
   wireDbgButtons();
@@ -638,30 +650,28 @@ document.getElementById('dtTime').addEventListener('input', applyDebugTimeDate);
 document.getElementById('dtDate').addEventListener('change', applyDebugTimeDate);
 document.getElementById('dtTime').addEventListener('change', applyDebugTimeDate);
 
+function exitFS(){
+  (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen||function(){}).call(document);
+}
+
 function wireDbgButtons(){
   const k = gk(now2());
   const sr = getSR(k);
   if(!sr) return;
   const [h,m,s] = sr.split(':').map(Number);
   const srSec = h*3600+m*60+s;
-  
-  function secToTime(sec){
-    return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0');
-  }
-  
+  function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(sr);
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }
-
 wireDbgButtons();
 </script>
-
 <script>
 if('serviceWorker' in navigator){
   const swCode = `
-    const CACHE_NAME = 'hanetz-cache-v80';
+    const CACHE_NAME = 'hanetz-cache-v77.01';
     self.addEventListener('install', e => { self.skipWaiting(); });
     self.addEventListener('activate', e => {
       e.waitUntil(

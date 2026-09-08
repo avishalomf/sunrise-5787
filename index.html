@@ -5,7 +5,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>זריחה תשפ״ז</title>
-<link rel="manifest" href="./manifest%20Sun.json">
 <meta name="theme-color" content="#07080f">
 <link rel="icon" href="./iconSun87.svg" type="image/svg+xml">
 <style>
@@ -35,19 +34,16 @@ body{
 }
 .greg-date{font-size:8px;color:#998;margin-top:0px;}
 
-/* Top Row for Landscape / General info */
 .top-info-row{
   display:flex;align-items:center;justify-content:center;width:100%;gap:15px;margin-top:2px;
 }
 
-/* Labels */
 .sec-label{
   font-size:min(2.5vw,10px);color:var(--gold);opacity:.9;
   letter-spacing:1px;font-weight:800;
   text-align:center;line-height:1;margin-bottom:1px;
 }
 
-/* ── CURRENT CLOCK BOX ── */
 .card-current{
   text-align:center;flex-shrink:0;margin:0;
 }
@@ -64,7 +60,6 @@ body{
   font-size:8px;font-family:monospace;cursor:pointer;
 }
 
-/* ── HANETZ CARDS ── */
 .cards-container{
   width:100%;flex-grow:1;
   display:flex;flex-direction:column;gap:2px;
@@ -109,7 +104,6 @@ body{
 }
 .attr{font-size:7px;color:#3a2815;position:absolute;bottom:0px;right:6px;}
 
-/* Inline Hanetz display for Landscape top row */
 .inline-hanetz{
   display:none;text-align:center;
 }
@@ -120,7 +114,6 @@ body{
   text-shadow:0 0 20px rgba(255,208,96,.4);
 }
 
-/* ── CLOCK MODE (MAX SCREEN) ── */
 .clock-mode{
   display:none;position:fixed;inset:0;
   flex-direction:column;align-items:center;justify-content:center;
@@ -139,7 +132,6 @@ body{
 .clock-tomorrow{font-size:min(7vw,28px);color:#999;text-align:center;}
 .clock-tomorrow span{color:var(--gold);}
 
-/* ── COLOR PICKER ── */
 .color-bar{
   display:flex;gap:6px;justify-content:center;
   flex-shrink:0;padding:1px 0;
@@ -151,7 +143,6 @@ body{
 }
 .color-dot.active{border-color:#fff;transform:scale(1.2);}
 
-/* ── DEBUG ── */
 .dbg{
   display:none;position:fixed;bottom:0;left:0;right:0;
   background:#0f0a00;border-top:2px solid #aa6600;
@@ -173,14 +164,13 @@ body{
 }
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 
-/* Landscape Adjustments */
 @media(orientation:landscape){
   body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:1px;}
   .header,.color-bar,.dbg{width:100%;}
   .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 35px);}
-  .card-hanetz{height:100%;} /* החזרת כרטיס הנץ המלא כולל הטיימר גם באופקי */
-  .card-hanetz .hanetz-time{display:none;} /* הסתרת כפילות שעת הנץ בתוך הכרטיס באופקי היות והיא למעלה */
-  .inline-hanetz{display:block;} /* הצגת שעת הנץ בשורה העליונה */
+  .card-hanetz{height:100%;}
+  .card-hanetz .hanetz-time{display:none;}
+  .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2vw,11px);}
   .current-time,.inline-hanetz-time{font-size:min(9vw, 16vh);}
@@ -199,7 +189,6 @@ body{
       <div class="sec-label">שעון</div>
       <div class="current-time" id="currentTime">--:--:--</div>
     </div>
-    <!-- שעת הנץ מוצגת במקביל באופקי עם כותרת ברורה -->
     <div class="inline-hanetz" id="inlineHanetz">
       <div class="sec-label">הנץ החמה</div>
       <div class="inline-hanetz-time" id="inlineHanetzTime">--:--:--</div>
@@ -218,7 +207,6 @@ body{
   </div>
 </div>
 
-<!-- Clock mode (Max Screen) -->
 <div class="clock-mode" id="clockMode">
   <div class="clock-live-time" id="segCanvas">--:--:--</div>
   <div class="clock-date" id="clockDate"></div>
@@ -227,7 +215,6 @@ body{
   <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.03 🔧</div></div>
 </div>
 
-<!-- Color theme picker -->
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
   <div class="color-dot active" data-theme="gold"    style="background:linear-gradient(135deg,#ffd060,#ff9020)" title="זהב"></div>
   <div class="color-dot"        data-theme="blue"    style="background:linear-gradient(135deg,#60c0ff,#2060ff)" title="כחול"></div>
@@ -662,7 +649,6 @@ function wireDbgButtons(){
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(sr);
-  document.getElementById('btnPlus5ക്കാരി'].onclick = ()=>sdTime(secToTime(srSec+300)); // Fixed inline button id below
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }
@@ -670,7 +656,6 @@ wireDbgButtons();
 </script>
 <script>
 if('serviceWorker' in navigator){
-  // ניקוי וביטול ה-Service Worker בזמן פיתוח כדי למנוע שמירת מטמון ישנה
   navigator.serviceWorker.getRegistrations().then(function(registrations) {
     for(let registration of registrations) {
       registration.unregister();

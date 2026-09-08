@@ -1,14 +1,13 @@
-<!-- גרסת אפליקציה: v77.01 (710 שורות, עודכן מ-v77: 700 שורות) -->
+<!-- גרסת אפליקציה: v78.00 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>זריחה תשפ״ז</title>
-<!-- Dynamic Android Manifest -->
-<link rel="manifest" id="dynamicManifest">
+<link rel="manifest" href="./manifest%20Sun.json">
 <meta name="theme-color" content="#07080f">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="./iconSun87.svg" type="image/svg+xml">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -169,24 +168,8 @@ body{
   .hanetz-cd{font-size:min(24vw, 62vh);}
 }
 </style>
-<script>
-window.addEventListener('DOMContentLoaded', () => {
-  const svgIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2307080f' stroke='%23ffd060' stroke-width='8'/%3E%3Ctext x='50' y='42' fill='%23ffd060' font-size='22' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eזריחה%3C/text%3E%3Ctext x='50' y='72' fill='%23ffd060' font-size='18' font-weight='bold' text-anchor='middle' font-family='Arial'%3Eתשפ״ז%3C/text%3E%3C/svg%3E";
-  const manifestData = {
-    "name": "זריחה תשפ״ז",
-    "short_name": "זריחה תשפ״ז",
-    "start_url": ".",
-    "display": "standalone",
-    "orientation": "any",
-    "background_color": "#07080f",
-    "theme_color": "#07080f",
-    "icons": [{"src": svgIcon, "sizes": "192x192 512x512", "type": "image/svg+xml"}]
-  };
-  const stringManifest = JSON.stringify(manifestData);
-  const blob = new Blob([stringManifest], {type: 'application/json'});
-  document.getElementById('dynamicManifest').href = URL.createObjectURL(blob);
-});
-</script>
+
+<meta name="NetsparkQuiltingResult" total-length="42700" removed="0" rules-found="w3390,w6223,w6224,w2655,w10679,w1696,w2577,w9641,w3012,w30244,w73,w30581,w30580,w2952,w6565" />
 </head>
 <body>
 
@@ -198,7 +181,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <div class="current-time" id="currentTime">--:--:--</div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v77.01 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.00 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -216,7 +199,7 @@ window.addEventListener('DOMContentLoaded', () => {
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v77.01 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.00 🔧</div></div>
 </div>
 
 <!-- Color theme picker -->
@@ -322,21 +305,19 @@ const TABLE_SR = {
 
 function getSR(k){
   if(TABLE_SR.אלול_custom[k]) return TABLE_SR.אלול_custom[k];
-  const heb = H[k];
-  if(!heb) return "06:14:50";
-  const parts = heb.split(' ');
-  if(parts.length < 2) return "06:14:50";
-  const dayIndex = hebrewLiteralToIndex(parts[0]);
-  const monthStr = parts[1];
-  if(dayIndex < 0 || !TABLE_SR[monthStr]) return "06:14:50";
-  const monthArr = TABLE_SR[monthStr];
-  return monthArr[Math.min(dayIndex, monthArr.length - 1)] || "06:14:50";
+  const heb=H[k];
+  if(!heb) return null;
+  const [dayStr, monthStr] = heb.split(/\s+/);
+  const dayIndex=hebrewLiteralToIndex(dayStr);
+  const monthArr=TABLE_SR[monthStr];
+  if(dayIndex<0 || !monthArr) return null;
+  return monthArr[Math.min(dayIndex, monthArr.length-1)] || null;
 }
 
 function hebrewLiteralToIndex(str){
-  const map = {"א'":0,"ב'":1,"ג'":2,"ד'":3,"ה'":4,"ו'":5,"ז'":6,"ח'":7,"ט'":8,"י'":9,"יא'":10,"יב'":11,"יג'":12,"יד'":13,"טו'":14,"טז'":15,"יז'":16,"יח'":17,"יט'":18,"כ'":19,"כא'":20,"כב'":21,"כג'":22,"כד'":23,"כה'":24,"כו'":25,"כז'":26,"כח'":27,"כט'":28,"ל'":29,
-               "כ״א":20,"כ״ב":21,"כ״ג":22,"כ״ד":23,"כ״ה":24,"כ״ו":25,"כ״ז":26,"כ״ח":27,"כ״ט":28};
-  return map[str] !== undefined ? map[str] : 0;
+  const map={"א'":0,"ב'":1,"ג'":2,"ד'":3,"ה'":4,"ו'":5,"ז'":6,"ח'":7,"ט'":8,"י'":9,"יא'":10,"יב'":11,"יג'":12,"יד'":13,"טו'":14,"טז'":15,"יז'":16,"יח'":17,"יט'":18,"כ'":19,"כא'":20,"כב'":21,"כג'":22,"כד'":23,"כה'":24,"כו'":25,"כז'":26,"כח'":27,"כט'":28,"ל'":29,"כ״א":20,"כ״ב":21,"כ״ג":22,"כ״ד":23,"כ״ה":24,"כ״ו":25,"כ״ז":26,"כ״ח":27,"כ״ט":28,"חי'":17};
+  const normalized=String(str).replace(/׳/g,"'").replace(/״/g,'"');
+  return Object.prototype.hasOwnProperty.call(map,normalized) ? map[normalized] : -1;
 }
 
 const THEMES = {
@@ -347,7 +328,8 @@ const THEMES = {
   white:  {main:'#ffffff',sub:'#aaaaaa',cd:'#ffffff'},
   yellow: {main:'#ffee00',sub:'#ffaa00',cd:'#ffff88'},
 };
-let currentTheme = localStorage.getItem('theme')||'gold';
+const savedTheme=localStorage.getItem('theme');
+let currentTheme=THEMES[savedTheme] ? savedTheme : 'gold';
 
 function applyTheme(name){
   const t = THEMES[name]||THEMES.gold;
@@ -412,14 +394,19 @@ function now2(){
 
 function gk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 
-function toMs(ts){
-  const p=ts.split(':').map(Number),d=new Date(now2());
-  d.setHours(p[0],p[1],p[2]||0,0); return d.getTime();
+function timeToMs(ts, baseDate){
+  if(!ts || !baseDate) return null;
+  const p=ts.split(':').map(Number);
+  if(p.length<2 || p.some(n=>!Number.isFinite(n))) return null;
+  const d=new Date(baseDate);
+  d.setHours(p[0],p[1],p[2]||0,0);
+  return d.getTime();
 }
 function fmt(ms, allowMinus){
-  const neg = ms < 0;
+  if(ms===null || !Number.isFinite(ms)) return '--:--:--';
+  const neg=ms<0;
   if(neg && !allowMinus) return 'עבר';
-  const s=Math.floor(Math.abs(ms)/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;
+  const sec=Math.floor(Math.abs(ms)/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),sc=sec%60;
   const str=(h>0?h+':':'')+String(m).padStart(2,'0')+':'+String(sc).padStart(2,'0');
   return neg ? '−'+str : str;
 }
@@ -469,72 +456,56 @@ function getTomorrowKey(){ return gk(getTomorrowDateObj()); }
 function tick(){
   const n=now2(), k=gk(n), t=n.getTime();
   const srStr=getSR(k);
-  if(!srStr) return;
+  const tmrKey=getTomorrowKey();
+  const tmrStr=getSR(tmrKey);
+  const tmrDate=getTomorrowDateObj();
+  const srMs=srStr ? timeToMs(srStr,n) : null;
+  const tmrMs=tmrStr ? timeToMs(tmrStr,tmrDate) : null;
+  const diffSr=srMs===null ? null : srMs-t;
+  const MINUS10=-600000;
+  const oneHrBeforeTmr=tmrMs===null ? null : tmrMs-3600000;
+  const inClockMode=diffSr!==null && diffSr<MINUS10 && (!oneHrBeforeTmr || t<oneHrBeforeTmr);
 
-  const srMs = toMs(srStr);
-  const diffSr = srMs - t;
-  const MINUS10 = -600000;
-
-  const tmrKey = getTomorrowKey();
-  const tmrStr = getSR(tmrKey);
-  function toMsDate(ts, dateStr){
-    const p=ts.split(':').map(Number);
-    const d=new Date(dateStr+'T00:00:00');
-    d.setHours(p[0],p[1],p[2]||0,0);
-    return d.getTime();
-  }
-  const tmrMs = tmrStr ? toMsDate(tmrStr, tmrKey) : null;
-  const oneHrBeforeTmr = tmrMs ? tmrMs - 3600000 : null;
-
-  const inClockMode = diffSr < MINUS10 && (!oneHrBeforeTmr || t < oneHrBeforeTmr);
-
-  document.getElementById('cardCurrent').style.display = inClockMode ? 'none' : '';
-  document.getElementById('cardsContainer').style.display = inClockMode ? 'none' : '';
-  document.getElementById('colorBar').style.display      = inClockMode ? 'none' : '';
-  
-  const clockEl = document.getElementById('clockMode');
-  clockEl.classList.toggle('show', inClockMode);
-
-  document.getElementById('currentTime').textContent = fmtClock(n);
+  const currentEl=document.getElementById('currentTime');
+  const cardCurrent=document.getElementById('cardCurrent');
+  const cardsContainer=document.getElementById('cardsContainer');
+  const colorBar=document.getElementById('colorBar');
+  const clockEl=document.getElementById('clockMode');
+  cardCurrent.style.display=inClockMode?'none':'';
+  cardsContainer.style.display=inClockMode?'none':'';
+  colorBar.style.display=inClockMode?'none':'';
+  clockEl.classList.toggle('show',inClockMode);
+  currentEl.textContent=fmtClock(n);
 
   if(inClockMode){
     lastTime=fmtClock(n); drawSeg(lastTime);
-    const heb = H[k] || 'כ״ה אלול תשפ״ו';
-    const dd = String(n.getDate()).padStart(2,'0');
-    const mm = String(n.getMonth()+1).padStart(2,'0');
-    const yyyy = n.getFullYear();
-    const greg = 'יום ' + DAYS[n.getDay()] + ' | ' + dd + '/' + mm + '/' + yyyy;
-    // תיקון סדר התצוגה במצב שעון מלא כך שיוצג קודם היום העברי והלועזי בצורה נכונה
-    document.getElementById('clockDate').textContent = greg + ' — ' + heb;
-
-    if(tmrStr){
-      const remTmr = tmrMs - t;
-      const todayOffset = new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTimezoneOffset();
-      const tmrDateObj = getTomorrowDateObj();
-      const tmrOffset = tmrDateObj.getTimezoneOffset();
-      const dstShift = todayOffset - tmrOffset;
-      let displayTmr = tmrStr;
-      if(dstShift > 0){
-        const p=tmrStr.split(':').map(Number), tot=p[0]*3600+p[1]*60+p[2]+dstShift*60;
-        displayTmr=String(Math.floor(tot/3600)).padStart(2,'0')+':'+String(Math.floor((tot%3600)/60)).padStart(2,'0')+':'+String(tot%60).padStart(2,'0');
-      }
-      document.getElementById('clockTomorrow').innerHTML =
-        'זריחה מחר: <span>'+displayTmr+'</span> | עוד '+fmt(remTmr, false);
+    const heb=H[k] || 'תאריך עברי לא נמצא';
+    const dd=String(n.getDate()).padStart(2,'0');
+    const mm=String(n.getMonth()+1).padStart(2,'0');
+    const yyyy=n.getFullYear();
+    document.getElementById('clockDate').textContent='יום '+DAYS[n.getDay()]+' | '+dd+'/'+mm+'/'+yyyy+' — '+heb;
+    const tomorrowEl=document.getElementById('clockTomorrow');
+    tomorrowEl.textContent='';
+    if(tmrMs!==null){
+      const label=document.createElement('span');
+      label.textContent=tmrStr;
+      tomorrowEl.append('זריחה מחר: ',label,' | עוד ',fmt(tmrMs-t,false));
+    } else {
+      tomorrowEl.textContent='אין נתוני זריחה למחר';
     }
     return;
   }
 
-  document.getElementById('hanetzTime').textContent = srStr;
-  const cdEl = document.getElementById('hanetzCd');
-  cdEl.textContent = fmt(diffSr, true);
-  cdEl.classList.toggle('minus', diffSr < 0);
-
-  document.getElementById('cardHanetz').classList.toggle('lit', diffSr < 3600000 && diffSr > MINUS10);
+  document.getElementById('hanetzTime').textContent=srStr || '--:--:--';
+  const cdEl=document.getElementById('hanetzCd');
+  cdEl.textContent=fmt(diffSr,true);
+  cdEl.classList.toggle('minus',diffSr!==null && diffSr<0);
+  document.getElementById('cardHanetz').classList.toggle('lit',diffSr!==null && diffSr<3600000 && diffSr>MINUS10);
 }
 
 updateDebugInputsFromCurrent();
 tick();
-setInterval(()=>{ updHeader(); tick(); }, 200);
+setInterval(()=>{ updHeader(); tick(); }, 1000);
 
 // מניעת כיבוי מסך (Wake Lock)
 let wakeLock = null;
@@ -572,20 +543,21 @@ function toggleDbg(){
   }
 }
 
-function resetAppCompletely(){
-  if(confirm('האם אתה בטוח שברצונך לאפס לחלוטין את האפליקציה ולנקות את כל הנתונים השמורים?')) {
-    localStorage.clear();
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        for(let registration of registrations) { registration.unregister(); }
-      });
+async function resetAppCompletely(){
+  if(!confirm('האם אתה בטוח שברצונך לאפס לחלוטין את האפליקציה ולנקות את כל הנתונים השמורים?')) return;
+  localStorage.clear();
+  try{
+    if('serviceWorker' in navigator){
+      const registrations=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(r=>r.unregister()));
     }
-    caches.keys().then(names => {
-      for (let name of names) { caches.delete(name); }
-    });
-    alert('האפליקציה אופסה בהצלחה. הדפדפן יתרענן כעת.');
-    window.location.reload();
-  }
+    if('caches' in window){
+      const names=await caches.keys();
+      await Promise.all(names.map(name=>caches.delete(name)));
+    }
+  }catch(err){}
+  alert('האפליקציה אופסה בהצלחה. הדפדפן יתרענן כעת.');
+  location.reload();
 }
 
 document.addEventListener('touchstart', e=>{
@@ -670,32 +642,8 @@ wireDbgButtons();
 </script>
 <script>
 if('serviceWorker' in navigator){
-  const swCode = `
-    const CACHE_NAME = 'hanetz-cache-v77.01';
-    self.addEventListener('install', e => { self.skipWaiting(); });
-    self.addEventListener('activate', e => {
-      e.waitUntil(
-        caches.keys().then(keys => Promise.all(
-          keys.map(key => { if(key !== CACHE_NAME) return caches.delete(key); })
-        ))
-      );
-      self.clients.claim();
-    });
-    self.addEventListener('fetch', e => {
-      e.respondWith(
-        fetch(e.request).catch(() => caches.match(e.request))
-      );
-    });
-  `;
-  const blob = new Blob([swCode], {type: 'application/javascript'});
-  const swUrl = URL.createObjectURL(blob);
-  
-  window.addEventListener('load', async ()=>{
-    const reg = await navigator.serviceWorker.register(swUrl).catch(()=>null);
-    if(!reg) return;
-    reg.update();
-  });
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./swSun.js',{scope:'./'}).catch(()=>{}));
 }
 </script>
-</body>
+<input type='hidden' name='ntsp_block_page' value='https://safepage.neto.net.il/?a=block/block1&level=-15&url=http%3A%2F%2Fchatgpt.com%2Fbackend-api%2Festuary%2Fcontent%3Fid%3Dfile_00000000746c8210b8f08e9262900bd9%26fn%3Dindex.html%26cd%3Dattachment%26ts%3D496911%26p%3Dfs%26cid%3D1%26sig%3D4272119cc8f14bc48034d1dbc6d35d828e56d39630c3f339a17db909dc7eb2ac%26v%3D0&user_id=556562&sigid=1e42dd8876b202d028740e7f08ac0fa852cb076fe2d506dd638a10487afedb42&startm=202201&keyword=&referer=https%3A%2F%2Fchatgpt.com%2Fc%2F6aa02501-2ef8-83ed-8f8f-9954b9b5dd61&category=24&cause=Quiltingjs'/><input type='hidden' name='ntsp_is_etrog' value='0'/><input type='hidden' name='ntsp_url_category' value='24'/><input type='hidden' name='ntsp_quilting' value='3'/><input type='hidden' name='ntsp_media_level' value='-15'/><input type='hidden' name='ntsp_user_level' value='-15'/><input type='hidden' name='ntsp_url_level' value='20'/><input type='hidden' name='ntsp_block_wa_status' value='0'/><script src='/jsQuilting/server/jsDict_utf8.js?v=1&k=23898278c1850f536d688db3614128a0' type='text/javascript' defer></script></body>
 </html>

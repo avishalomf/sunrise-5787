@@ -1,10 +1,11 @@
-<!-- גרסת אפליקציה: v78.03 -->
+<!-- גרסת אפליקציה: v78.04 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>זריחה תשפ״ז</title>
+<link rel="manifest" href="./manifest%20Sun.json">
 <meta name="theme-color" content="#07080f">
 <link rel="icon" href="./iconSun87.svg" type="image/svg+xml">
 <style>
@@ -34,9 +35,8 @@ body{
 }
 .greg-date{font-size:8px;color:#998;margin-top:0px;}
 
-/* Top Row for Landscape / General info */
 .top-info-row{
-  display:flex;align-items:center;justify-content:center;width:100%;gap:30px;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;width:100%;gap:40px;margin-top:2px;
 }
 
 .sec-label{
@@ -45,12 +45,11 @@ body{
   text-align:center;line-height:1;margin-bottom:1px;
 }
 
-/* ── CURRENT CLOCK BOX ── */
 .card-current{
-  width:100%;text-align:center;flex-shrink:0;margin:0;
+  text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(18vw, 16vh);font-weight:900; /* התאמת גודל בטוחה למצב אנכי כך שלא תיחתך */
+  font-size:min(18vw, 16vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,248,232,.2);
@@ -110,7 +109,7 @@ body{
   display:none;text-align:center;
 }
 .inline-hanetz-time{
-  font-size:min(11vw, 20vh);font-weight:900;
+  font-size:min(10vw, 18vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,208,96,.4);
@@ -169,15 +168,15 @@ body{
 @media(orientation:landscape){
   body{flex-direction:row;flex-wrap:wrap;align-items:flex-start;padding:1px;}
   .header,.color-bar,.dbg{width:100%;}
+  .top-info-row{justify-content:center;gap:50px;}
   .cards-container{flex-direction:row;gap:4px;height:calc(100dvh - 35px);}
   .card-hanetz{height:100%;}
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2vw,11px);}
-  .current-time,.inline-hanetz-time{font-size:min(10vw, 18vh);}
+  .current-time,.inline-hanetz-time{font-size:min(9vw, 17vh);}
   .hanetz-cd{font-size:min(28vw, 62vh);}
-  .top-info-row{gap:40px;} /* מרחק מבוקר ומושלם בין השעון לשעת הנץ */
 }
 </style>
 </head>
@@ -198,7 +197,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.03 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.04 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -215,7 +214,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.03 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.04 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -650,9 +649,8 @@ function wireDbgButtons(){
   const [h,m,s] = sr.split(':').map(Number);
   const srSec = h*3600+m*60+(s||0);
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
-  
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
-  document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec)); // תיקון כאן שישתמש בפורמט תקין עם אפס מוביל
+  document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec)); // תוקן עם אפס מוביל
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }
@@ -660,10 +658,18 @@ wireDbgButtons();
 </script>
 <script>
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.getRegistrations().then(function(registrations) {
-    for(let registration of registrations) {
-      registration.unregister();
-    }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./swSun.js', {scope: './'}).then(reg => {
+      reg.update();
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            window.location.reload();
+          }
+        });
+      });
+    }).catch(()=>{});
   });
 }
 </script>

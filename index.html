@@ -1,10 +1,10 @@
-<!-- גרסת אפליקציה: v78.08 -->
+<!-- גרסת אפליקציה: v78.09 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>זריחה תשפ״ז - v78.08</title>
+<title>זריחה תשפ״ז - v78.09</title>
 <link rel="manifest" href="./manifest%20Sun.json">
 <meta name="theme-color" content="#07080f">
 <link rel="icon" href="./iconSun87.svg" type="image/svg+xml">
@@ -215,7 +215,7 @@ body{
   </div>
 
   <div style="margin-top:2px;">
-    <div class="version-badge" onclick="toggleDbg()">גרסה v78.08 🔧</div>
+    <div class="version-badge" onclick="toggleDbg()">גרסה v78.09 🔧</div>
     <div class="giant-btn" onclick="toggleForcedGiantMode()">🔍 תצוגת ענק</div>
   </div>
 </div>
@@ -235,7 +235,7 @@ body{
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
   <div style="position:absolute;bottom:2px;left:8px;display:flex;gap:6px;align-items:center;">
-    <div class="version-badge" onclick="toggleDbg()">גרסה v78.08 🔧</div>
+    <div class="version-badge" onclick="toggleDbg()">גרסה v78.09 🔧</div>
     <div class="giant-btn" onclick="toggleForcedGiantMode()">צא מתצוגת ענק ✕</div>
   </div>
 </div>
@@ -250,7 +250,7 @@ body{
 </div>
 
 <div class="dbg" id="dbg">
-  <div style="font-size:10px;color:var(--gold);font-weight:bold;margin-bottom:4px;">🔧 מצב דיבוג — גרסה v78.08</div>
+  <div style="font-size:10px;color:var(--gold);font-weight:bold;margin-bottom:4px;">🔧 מצב דיבוג — גרסה v78.09</div>
   <div style="font-size:9px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת תאריך (DD/MM/YYYY):</div>
   <input type="text" id="dtDate" placeholder="DD/MM/YYYY" maxlength="10">
   <div style="font-size:9px;color:var(--dim);margin-bottom:1px;text-align:right;">בדיקת שעה:</div>
@@ -504,8 +504,9 @@ function tick(){
   const tmrMs=tmrStr ? timeToMs(tmrStr,tmrDate) : null;
   const diffSr=srMs===null ? null : srMs-t;
   const MINUS10=-600000;
-  const oneHrBeforeTmr=tmrMs===null ? null : tmrMs-3600000;
-  const inClockMode = forcedGiantMode || (diffSr!==null && diffSr<MINUS10 && (!oneHrBeforeTmr || t<oneHrBeforeTmr));
+  
+  // כאן תוקן הבאג: מצב תצוגת שעון מופעל אצלך רק אם לחצת ידנית על הכפתור, או בשעות הלילה המאוחרות (אחרי שעברו 10 דקות מהזריחה ועד שעה לפני למחרת). בשעות היום הרגילות הכל מוצג כרגיל!
+  const inClockMode = forcedGiantMode || (diffSr!==null && diffSr<MINUS10 && (!tmrMs || t < tmrMs - 3600000));
 
   const currentEl=document.getElementById('currentTime');
   const inlineHanetzEl=document.getElementById('inlineHanetzTime');
@@ -608,14 +609,14 @@ async function resetAppCompletely(){
 }
 
 document.addEventListener('touchstart', e=>{
-  if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')||e.target.classList.contains('giant-btn')) return;
+  if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')||e.target.classList.contains('giant-btn')||e.target.closest('#dbg')) return;
   pt = setTimeout(toggleDbg, 800);
 }, {passive:true});
 document.addEventListener('touchend', ()=>clearTimeout(pt), {passive:true});
 document.addEventListener('touchmove', ()=>clearTimeout(pt), {passive:true});
 
 document.addEventListener('mousedown', e=>{
-  if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')||e.target.classList.contains('giant-btn')) return;
+  if(e.target.classList.contains('color-dot')||e.target.classList.contains('db')||e.target.closest('.version-badge')||e.target.classList.contains('giant-btn')||e.target.closest('#dbg')) return;
   pt = setTimeout(toggleDbg, 800);
 });
 document.addEventListener('mouseup', ()=>clearTimeout(pt));

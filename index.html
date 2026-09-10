@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.13 -->
+<!-- גרסת אפליקציה: v78.14 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -48,9 +48,9 @@ body{
 .card-current{
   text-align:center;flex-shrink:0;margin:0;
 }
-/* מצב אנכי: מוקטן למניעת חיתוך הספרות */
+/* מצב אנכי: הקטנה משמעותית למניעת חיתוך הספרות */
 .current-time{
-  font-size:min(7vw, 7.5vh);font-weight:900;
+  font-size:min(5.5vw, 6vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,248,232,.2);
@@ -89,12 +89,12 @@ body{
   text-align:center;line-height:1;margin-bottom:0;
 }
 .hanetz-time{
-  font-size:min(7vw, 7.5vh);font-weight:900;
+  font-size:min(5.5vw, 6vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
 }
 .hanetz-cd{
-  font-size:min(15vw, 22vh);font-weight:900;
+  font-size:min(14vw, 20vh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -110,7 +110,7 @@ body{
   display:none;text-align:center;
 }
 .inline-hanetz-time{
-  font-size:min(9vw, 15vh);font-weight:900;
+  font-size:min(8vw, 13vh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,208,96,.4);
@@ -166,7 +166,7 @@ body{
 }
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 
-/* מצב אופקי: מניעת חיתוך המסגרת והגדלה קלה של הטיימר הפנימי */
+/* מצב אופקי: התאמת גובה המכולה והמסגרת כך שתיכנס בשלמותה ללא חיתוך בתחתית */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -176,23 +176,23 @@ body{
   .top-info-row{justify-content:center;gap:60px;margin-top:0;}
   .cards-container{
     flex-direction:row;gap:6px;
-    height:calc(100dvh - 38px);width:100%;padding:4px 8px;
+    height:calc(100dvh - 42px);width:100%;padding:2px 8px;
   }
   .card-hanetz{
     height:100%;flex:1;
     justify-content:flex-start;
-    padding-top:4px;
+    padding-top:2px;
     margin:0 2px;
   }
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2.2vw,12px);}
-  .current-time,.inline-hanetz-time{font-size:min(9vw, 15vh);}
+  .current-time,.inline-hanetz-time{font-size:min(8vw, 13vh);}
   .hanetz-cd{
-    font-size:min(28vw, 64vh);
+    font-size:min(25vw, 55vh);
     line-height:0.85;
-    margin-top:2px;
+    margin-top:1px;
   }
 }
 </style>
@@ -214,7 +214,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.13 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.14 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -231,7 +231,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.13 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.14 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">

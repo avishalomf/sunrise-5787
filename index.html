@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.18 (655 שורות, עודכן מ-v78.17: 650 שורות) -->
+<!-- גרסת אפליקציה: v78.19 (660 שורות, עודכן מ-v78.18: 655 שורות) -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -44,11 +44,11 @@ body{
 .card-current{
   text-align:center;flex-shrink:0;margin:0;
 }
-/* שעון אנכי קטן ומרווח בטוח */
+/* שעון אנכי - גדול ונראה בבירור */
 .current-time{
-  font-size:min(5vw, 5.5vh);font-weight:900;
+  font-size:min(7vw, 8.5vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
-  line-height:1;letter-spacing:-1px;
+  line-height:1.1;letter-spacing:-1px;
   text-shadow:0 0 15px rgba(255,248,232,.2);
 }
 .version-badge{
@@ -70,7 +70,7 @@ body{
   display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   transition:border-color .5s,box-shadow .5s;
-  position:relative;overflow:hidden;
+  position:relative;overflow:visible;
   min-height:0;
 }
 .card-hanetz.lit{
@@ -87,13 +87,15 @@ body{
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
 }
-/* מצב אנכי: הקטנה נוספת של ספרות הטיימר כדי שכל השעה תוצג */
+/* מצב אנכי: טיימר בדיוק - ללא חיתוך */
 .hanetz-cd{
   font-size:min(9vw, 12.5vh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  line-height:0.88;letter-spacing:-2px;
+  line-height:0.95;letter-spacing:-2px;
+  overflow:visible;
+  max-height:none;
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -174,7 +176,7 @@ body{
     padding:4px 4px 2px;
     margin:0;
     border-radius:8px;
-    overflow:hidden;
+    overflow:visible;
   }
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
@@ -188,11 +190,12 @@ body{
   }
   .hanetz-cd{
     font-size:min(20vw, 42vh);
-    line-height:0.82;
+    line-height:0.95;
     margin-top:0;
     margin-bottom:0;
     flex-shrink:0;
     align-self:center;
+    overflow:visible;
   }
 }
 </style>
@@ -212,7 +215,7 @@ body{
       <div class="inline-hanetz-time" id="inlineHanetzTime">--:--:--</div>
     </div>
   </div>
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.18 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.19 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 <div class="cards-container" id="cardsContainer">
   <div class="card-hanetz" id="cardHanetz">
@@ -227,7 +230,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.18 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.19 🔧</div></div>
 </div>
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
   <div class="color-dot active" data-theme="gold"    style="background:linear-gradient(135deg,#ffd060,#ff9020)" title="זהב"></div>

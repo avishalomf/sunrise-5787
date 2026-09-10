@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.10 -->
+<!-- גרסת אפליקציה: v78.11 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -48,7 +48,7 @@ body{
 .card-current{
   text-align:center;flex-shrink:0;margin:0;
 }
-/* מצב אנכי: מוקטן בבטחה כדי שכל הספרות ייכנסו בשלמותן */
+/* מצב אנכי: מוקטן בבטחה כדי שכל הספרות ייכנסו בשלמותן בלי חיתוך */
 .current-time{
   font-size:min(8.5vw, 9.5vh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
@@ -180,8 +180,8 @@ body{
   }
   .card-hanetz{
     height:100%;flex:1;
-    justify-content:flex-start; /* הצמדה למעלה */
-    padding-top:4px;            /* רווח עליון מינימלי */
+    justify-content:flex-start; /* הצמדה למעלה למניעת חיתוך בתחתית */
+    padding-top:2px;
   }
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
@@ -189,7 +189,7 @@ body{
   .heb-date{font-size:min(2.2vw,12px);}
   .current-time,.inline-hanetz-time{font-size:min(10vw, 17vh);}
   .hanetz-cd{
-    font-size:min(30vw, 70vh);
+    font-size:min(29vw, 68vh);
     line-height:0.85;
     margin-top:0;
   }
@@ -213,7 +213,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.10 🔧 (לחץ לפתיחת דיבוג)</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.11 🔧 (לחץ לפתיחת דיבוג)</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -230,7 +230,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.10 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.11 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -667,7 +667,6 @@ function wireDbgButtons(){
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec));
-  document.getElementById('btnPlus5ക്കാരി').onclick = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }

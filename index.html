@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.49 -->
+<!-- גרסת אפליקציה: v78.51 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -186,7 +186,7 @@ body.simulate-mobile{
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 .db.sim-btn{background:#00203a;border-color:#005a90;color:#90d0ff;font-weight:bold;}
 
-/* מצב אופקי — הרמת המסגרת פי שניים כלפי מעלה */
+/* מצב אופקי — הרמת המסגרת גבוה יותר במרכז האנכי */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -198,9 +198,9 @@ body.simulate-mobile{
   .current-time{transform:scaleX(0.82) !important;}
   .cards-container{
     flex-direction:row;gap:6px;
-    height:calc(100dvh - 12px);width:100%;padding:0 6px;
+    height:calc(100dvh - 8px);width:100%;padding:0 6px;
     align-items:center;
-    margin-top:-28px;
+    margin-top:-42px;
   }
   .card-hanetz{
     flex:1;
@@ -209,7 +209,7 @@ body.simulate-mobile{
     padding:2px 6px;
     margin:0;
     height:auto;
-    max-height:85%;
+    max-height:80%;
   }
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
@@ -242,7 +242,7 @@ body.simulate-mobile{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.49 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.51 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -259,7 +259,7 @@ body.simulate-mobile{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.49 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.51 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -719,7 +719,6 @@ function wireDbgButtons(){
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec));
-  document.getElementById('btnPlus5 कल्चर').onclick = ()=>sdTime(secToTime(srSec+300)); // safe
   document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }

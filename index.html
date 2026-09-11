@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.40 -->
+<!-- גרסת אפליקציה: v78.41 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -21,6 +21,19 @@ body{
   display:flex;flex-direction:column;
   align-items:center;justify-content:space-between;
   padding:2px 4px env(safe-area-inset-bottom,4px);
+}
+
+/* מעטפת סימולטור למחשב */
+body.simulate-mobile{
+  max-width: 412px;
+  max-height: 840px;
+  margin: auto;
+  border: 12px solid #222;
+  border-radius: 36px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+  position: relative;
+  overflow: hidden;
+  margin-top: calc((100dvh - 860px) / 2);
 }
 
 /* ── HEADER & TOP SECTION ── */
@@ -52,7 +65,7 @@ body{
   font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-2px;
-  transform: scaleX(0.78) translateX(12px);
+  transform: scaleX(0.78) translateX(24px);
   text-shadow:0 0 20px rgba(255,248,232,.2);
 }
 
@@ -94,7 +107,7 @@ body{
   font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-2px;
-  transform: scaleX(0.78) translateX(12px);
+  transform: scaleX(0.78) translateX(24px);
 }
 .hanetz-cd{
   font-size:min(32vw, 44dvh);font-weight:900;
@@ -102,7 +115,7 @@ body{
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   line-height:0.85;letter-spacing:-3px;
-  transform: scaleX(0.78) translateX(12px);
+  transform: scaleX(0.78) translateX(24px);
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -132,7 +145,7 @@ body{
   font-size:min(32vw, 58dvh);font-weight:900;font-variant-numeric:tabular-nums;
   letter-spacing:-3px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
   text-align:center;width:100%;line-height:1;
-  transform: scaleX(0.78) translateX(12px);
+  transform: scaleX(0.78) translateX(24px);
   text-shadow:0 0 35px rgba(255,208,96,0.35);
 }
 .clock-date{font-size:min(8vw,30px);color:#ccc;font-weight:700;text-align:center;}
@@ -171,6 +184,7 @@ body{
 }
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
+.db.sim-btn{background:#00203a;border-color:#005a90;color:#90d0ff;font-weight:bold;}
 
 /* מצב אופקי — ביטול הסטות ואיפוס מלא */
 @media(orientation:landscape){
@@ -178,6 +192,7 @@ body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
     padding:0;width:100vw;height:100dvh;
   }
+  body.simulate-mobile{max-width:none;max-height:none;border:none;border-radius:0;box-shadow:none;margin-top:0;}
   .header,.color-bar,.dbg{width:100%;}
   .top-info-row{justify-content:center;gap:40px;margin-top:0;}
   .current-time{transform:scaleX(0.82) !important;}
@@ -226,7 +241,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.40 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.41 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -243,7 +258,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.40 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.41 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -270,6 +285,7 @@ body{
     <button class="db force-refresh" onclick="forceRefreshApp()">⚡ ריענון כוח מטמון</button>
     <button class="db reset-app" onclick="resetAppCompletely()">🗑️ איפוס אפליקציה</button>
     <button class="db" onclick="exitFS()">יציאה ממסך מלא</button>
+    <button class="db sim-btn" onclick="toggleMobileSimulator()">📱 סימולטור טלפון</button>
     <button class="db" onclick="document.getElementById('dbg').classList.remove('open')">סגור</button>
   </div>
 </div>
@@ -590,6 +606,10 @@ function toggleDbg(){
   } else {
     dbg.classList.remove('open');
   }
+}
+
+function toggleMobileSimulator(){
+  document.body.classList.toggle('simulate-mobile');
 }
 
 async function forceRefreshApp(){

@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.30 --> 
+<!-- גרסת אפליקציה: v78.30 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -166,8 +166,9 @@ body{
   padding:6px 10px;font-size:11px;cursor:pointer;font-weight:600;
 }
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
+.db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 
-/* מצב אופקי — מסגרת סגורה, שלמה ומרכזית */
+/* מצב אופקי — מסגרת שלמה, סגורה ומרכזית */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -180,25 +181,25 @@ body{
     height:calc(100dvh - 30px);width:100%;padding:2px 6px;
     align-items:stretch;
   }
- .card-hanetz{
-  flex:1;
-  justify-content:center;
-  align-items:center;
-  padding:2px 10px;
-  margin:0;
-  height: 100%;
-  box-sizing: border-box;
-}
+  .card-hanetz{
+    flex:1;
+    justify-content:center;
+    align-items:center;
+    padding:4px 8px;
+    margin:0;
+    height:100%;
+    box-sizing:border-box;
+  }
   .card-hanetz .hanetz-time{display:none;}
   .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2.2vw,12px);}
   .current-time,.inline-hanetz-time{font-size:min(12vw, 16dvh);}
- .hanetz-cd{
-  font-size:min(22vw, 40dvh);
-  line-height:1;
-  margin-top:0;
-}
+  .hanetz-cd{
+    font-size:min(22vw, 40dvh);
+    line-height:1;
+    margin-top:0;
+  }
 }
 </style>
 </head>
@@ -219,7 +220,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.29 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.30 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -236,7 +237,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.29 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.30 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -260,6 +261,7 @@ body{
     <button class="db" id="btnPlus5">+5 דק׳</button>
     <button class="db" id="btnPlus12">+12 דק׳</button>
     <button class="db" onclick="resetDebug()">⟳ אמיתי</button>
+    <button class="db force-refresh" onclick="forceRefreshApp()">⚡ ריענון כוח מטמון</button>
     <button class="db reset-app" onclick="resetAppCompletely()">🗑️ איפוס אפליקציה</button>
     <button class="db" onclick="exitFS()">יציאה ממסך מלא</button>
     <button class="db" onclick="document.getElementById('dbg').classList.remove('open')">סגור</button>
@@ -559,6 +561,10 @@ requestWakeLock();
 document.addEventListener('visibilitychange', async () => {
   if (document.visibilityState === 'visible') {
     await requestWakeLock();
+    // בדיקת עדכון אוטומטית ברגע שהאפליקציה חוזרת למסך
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.getRegistration().then(reg => { if(reg) reg.update(); });
+    }
   }
 });
 
@@ -581,6 +587,20 @@ function toggleDbg(){
   }
 }
 
+async function forceRefreshApp(){
+  try{
+    if('caches' in window){
+      const names = await caches.keys();
+      await Promise.all(names.map(name => caches.delete(name)));
+    }
+    if('serviceWorker' in navigator){
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.map(r => r.unregister()));
+    }
+  }catch(err){}
+  location.reload(true);
+}
+
 async function resetAppCompletely(){
   if(!confirm('האם אתה בטוח שברצונך לאפס לחלוטין את האפליקציה ולנקות את כל הנתונים השמורים?')) return;
   localStorage.clear();
@@ -595,7 +615,7 @@ async function resetAppCompletely(){
     }
   }catch(err){}
   alert('האפליקציה אופסה בהצלחה. הדפדפן יתרענן כעת.');
-  location.reload();
+  location.reload(true);
 }
 
 document.addEventListener('touchstart', e=>{
@@ -683,11 +703,14 @@ if('serviceWorker' in navigator){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./swSun.js', {scope: './'}).then(reg => {
       reg.update();
+      // בדיקת עדכונים אוטומטית ברקע בכל 120 שניות
+      setInterval(() => { reg.update(); }, 120000);
+      
       reg.addEventListener('updatefound', () => {
         const newWorker = reg.installing;
         newWorker.addEventListener('statechange', () => {
           if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            window.location.reload();
+            window.location.reload(true);
           }
         });
       });

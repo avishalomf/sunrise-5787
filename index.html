@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.42 -->
+<!-- גרסת אפליקציה: v78.44 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -186,7 +186,7 @@ body.simulate-mobile{
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 .db.sim-btn{background:#00203a;border-color:#005a90;color:#90d0ff;font-weight:bold;}
 
-/* מצב אופקי — ביטול הסטות ואיפוס מלא */
+/* מצב אופקי — הגדלה פי 2 למילוי רוחב המסך */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -214,9 +214,9 @@ body.simulate-mobile{
   .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2.2vw,12px);}
-  .current-time,.inline-hanetz-time{font-size:min(12vw, 16dvh);}
+  .current-time,.inline-hanetz-time{font-size:min(24vw, 32dvh) !important;}
   .hanetz-cd{
-    font-size:min(22vw, 40dvh);
+    font-size:min(44vw, 80dvh) !important;
     line-height:0.9;
     margin-top:0;
     transform:scaleX(0.82) !important;
@@ -241,7 +241,7 @@ body.simulate-mobile{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.42 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.44 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -258,7 +258,7 @@ body.simulate-mobile{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.42 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.44 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -705,6 +705,7 @@ document.getElementById('dtTime').addEventListener('input', applyDebugTimeDate);
 document.getElementById('dtDate').addEventListener('change', applyDebugTimeDate);
 document.getElementById('dtTime').addEventListener('change', applyDebugTimeDate);
 
+Function.prototype.originalExit = document.exitFullscreen;
 function exitFS(){
   (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen||function(){}).call(document);
 }

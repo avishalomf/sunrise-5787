@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.53 -->
+<!-- גרסת אפליקציה: v78.54 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -39,7 +39,7 @@ body.simulate-mobile{
 /* ── HEADER & TOP SECTION ── */
 .header{
   width:100%;text-align:center;
-  user-select:none;flex-shrink:0;
+  user-select:none;flex-shrink:0;position:relative;
 }
 .heb-date{
   font-size:min(3.5vw,13px);font-weight:900;letter-spacing:1px;
@@ -70,10 +70,11 @@ body.simulate-mobile{
 }
 
 .version-badge{
-  display:inline-block;background:#1a1200;border:1px solid #5a4000;
-  color:var(--gold);padding:2px 10px;border-radius:6px;
-  font-size:14px;font-family:monospace;cursor:pointer;
-  margin-top:2px;font-weight:bold;
+  position:absolute;top:0;left:4px;
+  background:#1a1200;border:1px solid #5a4000;
+  color:var(--gold);padding:1px 6px;border-radius:4px;
+  font-size:10px;font-family:monospace;cursor:pointer;
+  font-weight:bold;z-index:10;
 }
 
 .cards-container{
@@ -186,7 +187,7 @@ body.simulate-mobile{
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 .db.sim-btn{background:#00203a;border-color:#005a90;color:#90d0ff;font-weight:bold;}
 
-/* מצב אופקי — הרמת המסגרת מעט גבוה יותר */
+/* מצב אופקי — התאמת גובה ומיקום מדויק */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -228,6 +229,7 @@ body.simulate-mobile{
 <body>
 
 <div class="header" id="hdrEl">
+  <div class="version-badge" onclick="toggleDbg()">v78.54 🔧</div>
   <div class="heb-date" id="hebDate">טוען...</div>
   <div class="greg-date" id="gregDate"></div>
   
@@ -241,8 +243,6 @@ body.simulate-mobile{
       <div class="inline-hanetz-time" id="inlineHanetzTime">--:--:--</div>
     </div>
   </div>
-
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.53 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -255,11 +255,11 @@ body.simulate-mobile{
 </div>
 
 <div class="clock-mode" id="clockMode">
+  <div class="version-badge" style="position:absolute;top:4px;left:4px;" onclick="toggleDbg()">v78.54 🔧</div>
   <div class="clock-live-time" id="segCanvas">--:--:--</div>
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.53 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">

@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.44 -->
+<!-- גרסת אפליקציה: v78.45 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -65,7 +65,7 @@ body.simulate-mobile{
   font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-2px;
-  transform: scaleX(0.78) translateX(48px);
+  transform: scaleX(0.78) translateX(24px);
   text-shadow:0 0 20px rgba(255,248,232,.2);
 }
 
@@ -107,7 +107,7 @@ body.simulate-mobile{
   font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-2px;
-  transform: scaleX(0.78) translateX(48px);
+  transform: scaleX(0.78) translateX(24px);
 }
 .hanetz-cd{
   font-size:min(32vw, 44dvh);font-weight:900;
@@ -115,7 +115,7 @@ body.simulate-mobile{
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   line-height:0.85;letter-spacing:-3px;
-  transform: scaleX(0.78) translateX(48px);
+  transform: scaleX(0.78) translateX(24px);
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -145,7 +145,7 @@ body.simulate-mobile{
   font-size:min(32vw, 58dvh);font-weight:900;font-variant-numeric:tabular-nums;
   letter-spacing:-3px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
   text-align:center;width:100%;line-height:1;
-  transform: scaleX(0.78) translateX(48px);
+  transform: scaleX(0.78) translateX(24px);
   text-shadow:0 0 35px rgba(255,208,96,0.35);
 }
 .clock-date{font-size:min(8vw,30px);color:#ccc;font-weight:700;text-align:center;}
@@ -186,7 +186,7 @@ body.simulate-mobile{
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 .db.sim-btn{background:#00203a;border-color:#005a90;color:#90d0ff;font-weight:bold;}
 
-/* מצב אופקי — הגדלה פי 2 למילוי רוחב המסך */
+/* מצב אופקי — הגדלה של 50% מהמקור למניעת גלישה */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -214,9 +214,9 @@ body.simulate-mobile{
   .inline-hanetz{display:block;}
   .clock-mode{width:100vw;height:100dvh;}
   .heb-date{font-size:min(2.2vw,12px);}
-  .current-time,.inline-hanetz-time{font-size:min(24vw, 32dvh) !important;}
+  .current-time,.inline-hanetz-time{font-size:min(18vw, 24dvh) !important;}
   .hanetz-cd{
-    font-size:min(44vw, 80dvh) !important;
+    font-size:min(33vw, 60dvh) !important;
     line-height:0.9;
     margin-top:0;
     transform:scaleX(0.82) !important;
@@ -241,7 +241,7 @@ body.simulate-mobile{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.44 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.45 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -258,7 +258,7 @@ body.simulate-mobile{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.44 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.45 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -705,7 +705,6 @@ document.getElementById('dtTime').addEventListener('input', applyDebugTimeDate);
 document.getElementById('dtDate').addEventListener('change', applyDebugTimeDate);
 document.getElementById('dtTime').addEventListener('change', applyDebugTimeDate);
 
-Function.prototype.originalExit = document.exitFullscreen;
 function exitFS(){
   (document.exitFullscreen||document.webkitExitFullscreen||document.mozCancelFullScreen||function(){}).call(document);
 }

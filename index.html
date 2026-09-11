@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.33 -->
+<!-- גרסת אפליקציה: v78.34 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -49,7 +49,7 @@ body{
   text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(16vw, 20dvh);font-weight:900;
+  font-size:min(13vw, 16dvh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-1px;
   text-shadow:0 0 20px rgba(255,248,232,.2);
@@ -90,12 +90,12 @@ body{
   text-align:center;line-height:1;margin-bottom:1px;
 }
 .hanetz-time{
-  font-size:min(16vw, 20dvh);font-weight:900;
+  font-size:min(14vw, 18dvh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-1px;
 }
 .hanetz-cd{
-  font-size:min(34vw, 46dvh);font-weight:900;
+  font-size:min(30vw, 40dvh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
@@ -168,7 +168,7 @@ body{
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 
-/* מצב אופקי — מניעת גלישת המסגרת כלפי מטה ודיוק בגודל */
+/* מצב אופקי */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -220,7 +220,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.33 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.34 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -237,7 +237,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.33 🔧</div></div>
+  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.34 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">
@@ -692,7 +692,7 @@ function wireDbgButtons(){
   function secToTime(sec){ return String(Math.floor(sec/3600)).padStart(2,'0')+':'+String(Math.floor((sec%3600)/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0'); }
   document.getElementById('btnHrBefore').onclick = ()=>sdTime(secToTime(srSec-3600));
   document.getElementById('btnSR').onclick        = ()=>sdTime(secToTime(srSec));
-  document.getElementById('btnPlus5ക്കാരിים')?.onclick || (document.getElementById('btnPlus5').onclick = ()=>sdTime(secToTime(srSec+300)));
+  document.getElementById('btnPlus5').onclick    = ()=>sdTime(secToTime(srSec+300));
   document.getElementById('btnPlus12').onclick   = ()=>sdTime(secToTime(srSec+720));
 }
 wireDbgButtons();

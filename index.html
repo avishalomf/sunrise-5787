@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.36 -->
+<!-- גרסת אפליקציה: v78.38 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -47,12 +47,13 @@ body{
 
 .card-current{
   text-align:center;flex-shrink:0;margin:0;
+  transform: translateX(12px);
 }
 .current-time{
-  font-size:min(16vw, 20dvh);font-weight:900;
+  font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
   line-height:1;letter-spacing:-2px;
-  transform:scaleX(0.82);
+  transform:scaleX(0.78);
   text-shadow:0 0 20px rgba(255,248,232,.2);
 }
 
@@ -91,18 +92,18 @@ body{
   text-align:center;line-height:1;margin-bottom:1px;
 }
 .hanetz-time{
-  font-size:min(16vw, 20dvh);font-weight:900;
+  font-size:min(15vw, 19dvh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
   line-height:1;margin-bottom:0;letter-spacing:-2px;
-  transform:scaleX(0.82);
+  transform:scaleX(0.78);
 }
 .hanetz-cd{
-  font-size:min(34vw, 46dvh);font-weight:900;
+  font-size:min(32vw, 44dvh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   line-height:0.85;letter-spacing:-3px;
-  transform:scaleX(0.82);
+  transform:scaleX(0.78);
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -132,7 +133,7 @@ body{
   font-size:min(32vw, 58dvh);font-weight:900;font-variant-numeric:tabular-nums;
   letter-spacing:-3px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
   text-align:center;width:100%;line-height:1;
-  transform:scaleX(0.82);
+  transform:scaleX(0.78);
   text-shadow:0 0 35px rgba(255,208,96,0.35);
 }
 .clock-date{font-size:min(8vw,30px);color:#ccc;font-weight:700;text-align:center;}
@@ -172,7 +173,7 @@ body{
 .db.reset-app{background:#3a1010;border-color:#8a2020;color:#ff9090;font-weight:bold;}
 .db.force-refresh{background:#003a20;border-color:#008a40;color:#90ffc0;font-weight:bold;}
 
-/* מצב אופקי */
+/* מצב אופקי — ביטול הסטות ואיפוס מלא */
 @media(orientation:landscape){
   body{
     flex-direction:row;flex-wrap:wrap;align-items:flex-start;
@@ -180,6 +181,8 @@ body{
   }
   .header,.color-bar,.dbg{width:100%;}
   .top-info-row{justify-content:center;gap:40px;margin-top:0;}
+  .card-current{transform:none !important;}
+  .current-time{transform:scaleX(0.82) !important;}
   .cards-container{
     flex-direction:row;gap:6px;
     height:calc(100dvh - 28px);width:100%;padding:2px 6px;
@@ -203,6 +206,7 @@ body{
     font-size:min(22vw, 40dvh);
     line-height:0.9;
     margin-top:0;
+    transform:scaleX(0.82) !important;
   }
 }
 </style>
@@ -224,7 +228,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.36 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.38 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -241,7 +245,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.36 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.38 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">

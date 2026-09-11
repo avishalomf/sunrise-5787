@@ -1,4 +1,4 @@
-<!-- גרסת אפליקציה: v78.34 -->
+<!-- גרסת אפליקציה: v78.36 -->
 <!DOCTYPE html>
 <html dir="rtl" lang="he">
 <head>
@@ -49,17 +49,18 @@ body{
   text-align:center;flex-shrink:0;margin:0;
 }
 .current-time{
-  font-size:min(13vw, 16dvh);font-weight:900;
+  font-size:min(16vw, 20dvh);font-weight:900;
   color:var(--cream);font-variant-numeric:tabular-nums;
-  line-height:1;letter-spacing:-1px;
+  line-height:1;letter-spacing:-2px;
+  transform:scaleX(0.82);
   text-shadow:0 0 20px rgba(255,248,232,.2);
 }
 
 .version-badge{
   display:inline-block;background:#1a1200;border:1px solid #5a4000;
-  color:var(--gold);padding:1px 5px;border-radius:4px;
-  font-size:7px;font-family:monospace;cursor:pointer;
-  margin-top:1px;
+  color:var(--gold);padding:2px 10px;border-radius:6px;
+  font-size:14px;font-family:monospace;cursor:pointer;
+  margin-top:2px;font-weight:bold;
 }
 
 .cards-container{
@@ -90,16 +91,18 @@ body{
   text-align:center;line-height:1;margin-bottom:1px;
 }
 .hanetz-time{
-  font-size:min(14vw, 18dvh);font-weight:900;
+  font-size:min(16vw, 20dvh);font-weight:900;
   color:var(--gold);font-variant-numeric:tabular-nums;
-  line-height:1;margin-bottom:0;letter-spacing:-1px;
+  line-height:1;margin-bottom:0;letter-spacing:-2px;
+  transform:scaleX(0.82);
 }
 .hanetz-cd{
-  font-size:min(30vw, 40dvh);font-weight:900;
+  font-size:min(34vw, 46dvh);font-weight:900;
   font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,var(--cream),var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  line-height:0.85;letter-spacing:-2px;
+  line-height:0.85;letter-spacing:-3px;
+  transform:scaleX(0.82);
 }
 .hanetz-cd.minus{
   background:linear-gradient(135deg,#ff9090,#ff4040);
@@ -127,8 +130,9 @@ body{
 
 .clock-live-time{
   font-size:min(32vw, 58dvh);font-weight:900;font-variant-numeric:tabular-nums;
-  letter-spacing:-2px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
+  letter-spacing:-3px;color:var(--gold);font-family:'Segoe UI',Arial,sans-serif;
   text-align:center;width:100%;line-height:1;
+  transform:scaleX(0.82);
   text-shadow:0 0 35px rgba(255,208,96,0.35);
 }
 .clock-date{font-size:min(8vw,30px);color:#ccc;font-weight:700;text-align:center;}
@@ -220,7 +224,7 @@ body{
     </div>
   </div>
 
-  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.34 🔧</div></div>
+  <div><div class="version-badge" onclick="toggleDbg()">גרסה v78.36 🔧</div></div>
 </div>
 
 <div class="cards-container" id="cardsContainer">
@@ -237,7 +241,7 @@ body{
   <div class="clock-date" id="clockDate"></div>
   <div class="clock-tomorrow" id="clockTomorrow"></div>
   <div class="color-bar" id="colorBarClock" style="opacity:0;transition:opacity .3s;"></div>
-  <div style="position:absolute;bottom:2px;left:8px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.34 🔧</div></div>
+  <div style="position:absolute;bottom:4px;left:10px;"><div class="version-badge" onclick="toggleDbg()">גרסה v78.36 🔧</div></div>
 </div>
 
 <div class="color-bar" id="colorBar" style="opacity:0;transition:opacity .3s;">

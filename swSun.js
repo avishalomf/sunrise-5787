@@ -1,6 +1,11 @@
-const CACHE = 'sunrise-v33';
+const CACHE = 'sunrise-v78.54';
 const BASE = '/sunrise-5786';
-const FILES = [BASE+'/', BASE+'/index.html', BASE+'/manifest.json', BASE+'/icon.svg'];
+const FILES = [
+  BASE+'/', 
+  BASE+'/index.html', 
+  BASE+'/manifest Sun.json', 
+  BASE+'/iconSun87.svg'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(
